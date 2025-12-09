@@ -617,19 +617,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Our mission is to connect generous donors with causes that matter, empowering communities one donation at a time.';
 
   @override
-  String get settingsPrivacyComingSoon => 'Privacy Policy coming soon';
-
-  @override
-  String get settingsTermsComingSoon => 'Terms of Service coming soon';
-
-  @override
-  String get settingsHelpComingSoon => 'Help & FAQ coming soon';
-
-  @override
-  String get settingsContactComingSoon => 'Contact form coming soon';
-
-  @override
-  String get settingsRateComingSoon => 'App store rating coming soon';
+  String get settingsHelp => 'Help & FAQ';
 
   @override
   String get settingsLogout => 'Logout';
@@ -739,4 +727,322 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get timeFormat => 'h:mm a';
+
+  @override
+  String get privacyTitle => 'Privacy Policy';
+
+  @override
+  String get privacyLastUpdated => 'Last updated: January 2024';
+
+  @override
+  String get privacyIntroduction => 'Introduction';
+
+  @override
+  String get privacyIntroductionDesc =>
+      'At GiveHope, we are committed to protecting your privacy and personal information. This Privacy Policy explains how we collect, use, and safeguard your data when you use our donation and micro-payments mobile application.';
+
+  @override
+  String get privacyInformationWeCollect => 'Information We Collect';
+
+  @override
+  String get privacyInformationWeCollectDesc =>
+      'We collect information that you provide directly to us, including your name, email address, phone number, and payment information when you create an account, make donations, or create causes. We also collect usage data and device information to improve our services.';
+
+  @override
+  String get privacyHowWeUse => 'How We Use Your Information';
+
+  @override
+  String get privacyHowWeUseDesc =>
+      'We use your information to process donations, manage your account, communicate with you about your transactions, improve our services, and comply with legal obligations. We do not sell your personal information to third parties.';
+
+  @override
+  String get privacyDataSecurity => 'Data Security';
+
+  @override
+  String get privacyDataSecurityDesc =>
+      'We implement industry-standard security measures to protect your personal information, including encryption, secure authentication, and regular security audits. However, no method of transmission over the internet is 100% secure.';
+
+  @override
+  String get privacyThirdParty => 'Third-Party Services';
+
+  @override
+  String get privacyThirdPartyDesc =>
+      'We use MTN Mobile Money (MoMo) for payment processing. When you make a donation, your payment information is processed securely through MTN\'s payment gateway. Please review MTN\'s privacy policy for information about how they handle your data.';
+
+  @override
+  String get privacyYourRights => 'Your Rights';
+
+  @override
+  String get privacyYourRightsDesc =>
+      'You have the right to access, update, or delete your personal information at any time. You can also opt-out of certain communications. To exercise these rights, please contact us using the information provided below.';
+
+  @override
+  String get privacyChildren => 'Children\'s Privacy';
+
+  @override
+  String get privacyChildrenDesc =>
+      'Our services are not intended for children under the age of 18. We do not knowingly collect personal information from children. If you believe we have collected information from a child, please contact us immediately.';
+
+  @override
+  String get privacyChanges => 'Changes to Privacy Policy';
+
+  @override
+  String get privacyChangesDesc =>
+      'We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the \"Last updated\" date. You are advised to review this Privacy Policy periodically.';
+
+  @override
+  String get privacyContact => 'Contact Us';
+
+  @override
+  String get privacyContactDesc =>
+      'If you have any questions about this Privacy Policy, please contact us:';
+
+  @override
+  String get privacyContactEmail => 'fadwa.ali20@gmail.com';
+
+  @override
+  String get privacyContactUs => 'Contact Us';
+
+  @override
+  String get termsTitle => 'Terms of Service';
+
+  @override
+  String get termsLastUpdated => 'Last updated: January 2024';
+
+  @override
+  String get termsIntroduction => 'Introduction';
+
+  @override
+  String get termsIntroductionDesc =>
+      'Welcome to GiveHope. These Terms of Service govern your use of our donation and micro-payments mobile application. By using our app, you agree to be bound by these terms. Please read them carefully.';
+
+  @override
+  String get termsAcceptance => 'Acceptance of Terms';
+
+  @override
+  String get termsAcceptanceDesc =>
+      'By accessing or using GiveHope, you agree to comply with and be bound by these Terms of Service. If you do not agree with any part of these terms, you may not use our services.';
+
+  @override
+  String get termsUseOfService => 'Use of Service';
+
+  @override
+  String get termsUseOfServiceDesc =>
+      'You may use GiveHope to browse causes, make donations, and create causes. You agree to use the service only for lawful purposes and in accordance with these terms. You are responsible for maintaining the confidentiality of your account credentials.';
+
+  @override
+  String get termsUserAccounts => 'User Accounts';
+
+  @override
+  String get termsUserAccountsDesc =>
+      'To use certain features, you must create an account. You are responsible for providing accurate information and maintaining the security of your account. You must notify us immediately of any unauthorized use of your account.';
+
+  @override
+  String get termsDonations => 'Donations and Payments';
+
+  @override
+  String get termsDonationsDesc =>
+      'All donations are processed through MTN Mobile Money (MoMo). Donations are final and non-refundable unless required by law. We are not responsible for the actions of cause creators or the use of donated funds. Please verify cause information before donating.';
+
+  @override
+  String get termsProhibited => 'Prohibited Activities';
+
+  @override
+  String get termsProhibitedDesc =>
+      'You agree not to use GiveHope for any illegal activities, fraud, money laundering, or to create false causes. You may not interfere with the operation of the service or attempt to gain unauthorized access to our systems.';
+
+  @override
+  String get termsIntellectual => 'Intellectual Property';
+
+  @override
+  String get termsIntellectualDesc =>
+      'All content, features, and functionality of GiveHope are owned by us and are protected by copyright, trademark, and other intellectual property laws. You may not reproduce, distribute, or create derivative works without our permission.';
+
+  @override
+  String get termsLiability => 'Limitation of Liability';
+
+  @override
+  String get termsLiabilityDesc =>
+      'GiveHope is provided \"as is\" without warranties of any kind. We are not liable for any damages arising from your use of the service, including but not limited to donation disputes, payment processing issues, or cause-related matters.';
+
+  @override
+  String get termsTermination => 'Termination';
+
+  @override
+  String get termsTerminationDesc =>
+      'We reserve the right to suspend or terminate your account at any time for violation of these terms or for any other reason we deem necessary. You may also terminate your account at any time by contacting us.';
+
+  @override
+  String get termsChanges => 'Changes to Terms';
+
+  @override
+  String get termsChangesDesc =>
+      'We may modify these Terms of Service at any time. We will notify you of significant changes by posting the updated terms in the app. Your continued use of the service after changes constitutes acceptance of the new terms.';
+
+  @override
+  String get termsContact => 'Contact Us';
+
+  @override
+  String get termsContactDesc =>
+      'If you have any questions about these Terms of Service, please contact us:';
+
+  @override
+  String get termsContactEmail => 'fadwa.ali20@gmail.com';
+
+  @override
+  String get termsContactUs => 'Contact Us';
+
+  @override
+  String get faqTitle => 'Frequently Asked Questions';
+
+  @override
+  String get faqSubtitle => 'Find answers to common questions';
+
+  @override
+  String get faqQuestion1 => 'How do I make a donation?';
+
+  @override
+  String get faqAnswer1 =>
+      'To make a donation, browse the causes on the home screen, select a cause you\'d like to support, and tap the \"Donate\" button. Enter the amount and your MTN MoMo phone number. A payment request will be sent to your phone for approval.';
+
+  @override
+  String get faqQuestion2 => 'Is my payment secure?';
+
+  @override
+  String get faqAnswer2 =>
+      'Yes, all payments are processed securely through MTN Mobile Money (MoMo), a trusted payment gateway. We do not store your payment credentials, and all transactions are encrypted.';
+
+  @override
+  String get faqQuestion3 => 'Can I get a refund?';
+
+  @override
+  String get faqAnswer3 =>
+      'Donations are generally final and non-refundable. However, if you believe there has been an error or fraud, please contact us immediately at fadwa.ali20@gmail.com with details of your transaction.';
+
+  @override
+  String get faqQuestion4 => 'How do I create a cause?';
+
+  @override
+  String get faqAnswer4 =>
+      'To create a cause, you need to be logged in. Tap the \"Create Cause\" button, fill in the cause details including name, description, and your MTN MoMo phone number (where you\'ll receive payouts). Submit the form to create your cause.';
+
+  @override
+  String get faqQuestion5 => 'How do I receive payouts?';
+
+  @override
+  String get faqAnswer5 =>
+      'As a cause owner, you can request payouts from the Payout Management screen. Enter the amount you want to withdraw, and the funds will be transferred to your registered MTN MoMo account. Payouts may take a few minutes to process.';
+
+  @override
+  String get faqQuestion6 => 'What if my payment is pending?';
+
+  @override
+  String get faqAnswer6 =>
+      'If your payment is pending, check your phone for the MTN MoMo payment request and approve it. If you\'ve already approved but it\'s still pending, wait a few moments as processing can take time. You can also check the donation status in the app.';
+
+  @override
+  String get faqQuestion7 => 'How do I view my donation history?';
+
+  @override
+  String get faqAnswer7 =>
+      'Go to the History tab and enter your phone number. You\'ll see all your past donations, including the amount, cause, date, and status of each donation.';
+
+  @override
+  String get faqQuestion8 => 'Is my personal information safe?';
+
+  @override
+  String get faqAnswer8 =>
+      'Yes, we take your privacy seriously. We use industry-standard security measures to protect your data. We do not sell your personal information to third parties. For more details, please read our Privacy Policy.';
+
+  @override
+  String get faqStillHaveQuestions => 'Still have questions?';
+
+  @override
+  String get faqContactUs =>
+      'Feel free to reach out to us via email or use the contact form above.';
+
+  @override
+  String get contactTitle => 'Contact Us';
+
+  @override
+  String get contactSubtitle => 'We\'re here to help. Get in touch with us!';
+
+  @override
+  String get contactEmailLabel => 'Email Address';
+
+  @override
+  String get contactEmail => 'fadwa.ali20@gmail.com';
+
+  @override
+  String get contactCopyEmail => 'Copy email address';
+
+  @override
+  String get contactEmailCopied => 'Email address copied to clipboard';
+
+  @override
+  String get contactOpenEmail => 'Open Email App';
+
+  @override
+  String get contactFormTitle => 'Send us a Message';
+
+  @override
+  String get contactFormName => 'Your Name';
+
+  @override
+  String get contactFormNameHint => 'Enter your full name';
+
+  @override
+  String get contactFormNameRequired => 'Name is required';
+
+  @override
+  String get contactFormEmail => 'Your Email';
+
+  @override
+  String get contactFormEmailHint => 'Enter your email address';
+
+  @override
+  String get contactFormEmailRequired => 'Email is required';
+
+  @override
+  String get contactFormEmailInvalid => 'Please enter a valid email address';
+
+  @override
+  String get contactFormSubject => 'Subject';
+
+  @override
+  String get contactFormSubjectHint => 'What is this regarding?';
+
+  @override
+  String get contactFormSubjectRequired => 'Subject is required';
+
+  @override
+  String get contactFormMessage => 'Message';
+
+  @override
+  String get contactFormMessageHint => 'Tell us how we can help...';
+
+  @override
+  String get contactFormMessageRequired => 'Message is required';
+
+  @override
+  String get contactFormMessageMinLength =>
+      'Message must be at least 10 characters';
+
+  @override
+  String get contactFormSubmit => 'Send Message';
+
+  @override
+  String get contactFormSuccess =>
+      'Email app opened successfully! Please send your message.';
+
+  @override
+  String get contactFormError =>
+      'Could not open email app. Please try again or email us directly at fadwa.ali20@gmail.com';
+
+  @override
+  String get contactStillHaveQuestions => 'Still have questions?';
+
+  @override
+  String get contactContactUs =>
+      'Feel free to reach out to us via email or use the contact form above.';
 }

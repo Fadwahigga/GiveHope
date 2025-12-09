@@ -610,19 +610,7 @@ class AppLocalizationsAr extends AppLocalizations {
       'مهمتنا هي ربط المتبرعين الكرماء بالقضايا المهمة، وتمكين المجتمعات تبرعاً تلو الآخر.';
 
   @override
-  String get settingsPrivacyComingSoon => 'سياسة الخصوصية قريباً';
-
-  @override
-  String get settingsTermsComingSoon => 'شروط الخدمة قريباً';
-
-  @override
-  String get settingsHelpComingSoon => 'المساعدة والأسئلة الشائعة قريباً';
-
-  @override
-  String get settingsContactComingSoon => 'نموذج الاتصال قريباً';
-
-  @override
-  String get settingsRateComingSoon => 'تقييم المتجر قريباً';
+  String get settingsHelp => 'المساعدة والأسئلة الشائعة';
 
   @override
   String get settingsLogout => 'تسجيل الخروج';
@@ -732,4 +720,322 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get timeFormat => 'h:mm a';
+
+  @override
+  String get privacyTitle => 'سياسة الخصوصية';
+
+  @override
+  String get privacyLastUpdated => 'آخر تحديث: يناير 2024';
+
+  @override
+  String get privacyIntroduction => 'مقدمة';
+
+  @override
+  String get privacyIntroductionDesc =>
+      'في أعطِ أملاً، نحن ملتزمون بحماية خصوصيتك ومعلوماتك الشخصية. توضح سياسة الخصوصية هذه كيفية جمع واستخدام وحماية بياناتك عند استخدام تطبيق التبرعات والمدفوعات الصغيرة الخاص بنا.';
+
+  @override
+  String get privacyInformationWeCollect => 'المعلومات التي نجمعها';
+
+  @override
+  String get privacyInformationWeCollectDesc =>
+      'نجمع المعلومات التي تقدمها لنا مباشرة، بما في ذلك اسمك وعنوان بريدك الإلكتروني ورقم هاتفك ومعلومات الدفع عند إنشاء حساب أو إجراء تبرعات أو إنشاء قضايا. كما نجمع بيانات الاستخدام ومعلومات الجهاز لتحسين خدماتنا.';
+
+  @override
+  String get privacyHowWeUse => 'كيف نستخدم معلوماتك';
+
+  @override
+  String get privacyHowWeUseDesc =>
+      'نستخدم معلوماتك لمعالجة التبرعات وإدارة حسابك والتواصل معك حول معاملاتك وتحسين خدماتنا والامتثال للالتزامات القانونية. لا نبيع معلوماتك الشخصية لأطراف ثالثة.';
+
+  @override
+  String get privacyDataSecurity => 'أمان البيانات';
+
+  @override
+  String get privacyDataSecurityDesc =>
+      'نطبق تدابير أمنية معيارية في الصناعة لحماية معلوماتك الشخصية، بما في ذلك التشفير والمصادقة الآمنة والتدقيق الأمني المنتظم. ومع ذلك، لا توجد طريقة نقل عبر الإنترنت آمنة بنسبة 100٪.';
+
+  @override
+  String get privacyThirdParty => 'خدمات الطرف الثالث';
+
+  @override
+  String get privacyThirdPartyDesc =>
+      'نستخدم MTN Mobile Money (MoMo) لمعالجة المدفوعات. عند إجراء تبرع، تتم معالجة معلومات الدفع الخاصة بك بأمان من خلال بوابة الدفع الخاصة بـ MTN. يرجى مراجعة سياسة الخصوصية الخاصة بـ MTN للحصول على معلومات حول كيفية تعاملهم مع بياناتك.';
+
+  @override
+  String get privacyYourRights => 'حقوقك';
+
+  @override
+  String get privacyYourRightsDesc =>
+      'لديك الحق في الوصول إلى معلوماتك الشخصية أو تحديثها أو حذفها في أي وقت. يمكنك أيضاً إلغاء الاشتراك في بعض الاتصالات. لممارسة هذه الحقوق، يرجى الاتصال بنا باستخدام المعلومات المقدمة أدناه.';
+
+  @override
+  String get privacyChildren => 'خصوصية الأطفال';
+
+  @override
+  String get privacyChildrenDesc =>
+      'خدماتنا غير مخصصة للأطفال دون سن 18 عاماً. لا نجمع معلومات شخصية من الأطفال عن علم. إذا كنت تعتقد أننا جمعنا معلومات من طفل، يرجى الاتصال بنا على الفور.';
+
+  @override
+  String get privacyChanges => 'تغييرات سياسة الخصوصية';
+
+  @override
+  String get privacyChangesDesc =>
+      'قد نحدث سياسة الخصوصية هذه من وقت لآخر. سنخطرك بأي تغييرات عن طريق نشر سياسة الخصوصية الجديدة على هذه الصفحة وتحديث تاريخ \"آخر تحديث\". يُنصح بمراجعة سياسة الخصوصية هذه بشكل دوري.';
+
+  @override
+  String get privacyContact => 'تواصل معنا';
+
+  @override
+  String get privacyContactDesc =>
+      'إذا كان لديك أي أسئلة حول سياسة الخصوصية هذه، يرجى الاتصال بنا:';
+
+  @override
+  String get privacyContactEmail => 'fadwa.ali20@gmail.com';
+
+  @override
+  String get privacyContactUs => 'تواصل معنا';
+
+  @override
+  String get termsTitle => 'شروط الخدمة';
+
+  @override
+  String get termsLastUpdated => 'آخر تحديث: يناير 2024';
+
+  @override
+  String get termsIntroduction => 'مقدمة';
+
+  @override
+  String get termsIntroductionDesc =>
+      'مرحباً بك في أعطِ أملاً. تحكم شروط الخدمة هذه استخدامك لتطبيق التبرعات والمدفوعات الصغيرة الخاص بنا. باستخدام تطبيقنا، فإنك توافق على الالتزام بهذه الشروط. يرجى قراءتها بعناية.';
+
+  @override
+  String get termsAcceptance => 'قبول الشروط';
+
+  @override
+  String get termsAcceptanceDesc =>
+      'من خلال الوصول إلى أعطِ أملاً أو استخدامه، فإنك توافق على الامتثال والالتزام بشروط الخدمة هذه. إذا كنت لا توافق على أي جزء من هذه الشروط، فلا يجوز لك استخدام خدماتنا.';
+
+  @override
+  String get termsUseOfService => 'استخدام الخدمة';
+
+  @override
+  String get termsUseOfServiceDesc =>
+      'يمكنك استخدام أعطِ أملاً لتصفح القضايا وإجراء التبرعات وإنشاء القضايا. توافق على استخدام الخدمة فقط للأغراض القانونية ووفقاً لهذه الشروط. أنت مسؤول عن الحفاظ على سرية بيانات اعتماد حسابك.';
+
+  @override
+  String get termsUserAccounts => 'حسابات المستخدمين';
+
+  @override
+  String get termsUserAccountsDesc =>
+      'لاستخدام ميزات معينة، يجب عليك إنشاء حساب. أنت مسؤول عن تقديم معلومات دقيقة والحفاظ على أمان حسابك. يجب عليك إخطارنا فوراً بأي استخدام غير مصرح به لحسابك.';
+
+  @override
+  String get termsDonations => 'التبرعات والمدفوعات';
+
+  @override
+  String get termsDonationsDesc =>
+      'يتم معالجة جميع التبرعات من خلال MTN Mobile Money (MoMo). التبرعات نهائية وغير قابلة للاسترداد ما لم يقتض القانون ذلك. نحن لسنا مسؤولين عن أفعال منشئي القضايا أو استخدام الأموال المتبرع بها. يرجى التحقق من معلومات القضية قبل التبرع.';
+
+  @override
+  String get termsProhibited => 'الأنشطة المحظورة';
+
+  @override
+  String get termsProhibitedDesc =>
+      'توافق على عدم استخدام أعطِ أملاً لأي أنشطة غير قانونية أو احتيال أو غسيل أموال أو لإنشاء قضايا كاذبة. لا يجوز لك التدخل في تشغيل الخدمة أو محاولة الحصول على وصول غير مصرح به لأنظمتنا.';
+
+  @override
+  String get termsIntellectual => 'الملكية الفكرية';
+
+  @override
+  String get termsIntellectualDesc =>
+      'جميع المحتويات والميزات والوظائف الخاصة بأعطِ أملاً مملوكة لنا ومحمية بموجب قوانين حقوق النشر والعلامات التجارية وقوانين الملكية الفكرية الأخرى. لا يجوز لك نسخ أو توزيع أو إنشاء أعمال مشتقة دون إذننا.';
+
+  @override
+  String get termsLiability => 'تحديد المسؤولية';
+
+  @override
+  String get termsLiabilityDesc =>
+      'يتم توفير أعطِ أملاً \"كما هو\" دون ضمانات من أي نوع. نحن لسنا مسؤولين عن أي أضرار ناتجة عن استخدامك للخدمة، بما في ذلك على سبيل المثال لا الحصر نزاعات التبرعات أو مشاكل معالجة المدفوعات أو الأمور المتعلقة بالقضايا.';
+
+  @override
+  String get termsTermination => 'إنهاء الخدمة';
+
+  @override
+  String get termsTerminationDesc =>
+      'نحتفظ بالحق في تعليق أو إنهاء حسابك في أي وقت لانتهاك هذه الشروط أو لأي سبب آخر نراه ضرورياً. يمكنك أيضاً إنهاء حسابك في أي وقت عن طريق الاتصال بنا.';
+
+  @override
+  String get termsChanges => 'تغييرات الشروط';
+
+  @override
+  String get termsChangesDesc =>
+      'قد نعدل شروط الخدمة هذه في أي وقت. سنخطرك بالتغييرات المهمة عن طريق نشر الشروط المحدثة في التطبيق. استمرارك في استخدام الخدمة بعد التغييرات يشكل قبولاً للشروط الجديدة.';
+
+  @override
+  String get termsContact => 'تواصل معنا';
+
+  @override
+  String get termsContactDesc =>
+      'إذا كان لديك أي أسئلة حول شروط الخدمة هذه، يرجى الاتصال بنا:';
+
+  @override
+  String get termsContactEmail => 'fadwa.ali20@gmail.com';
+
+  @override
+  String get termsContactUs => 'تواصل معنا';
+
+  @override
+  String get faqTitle => 'الأسئلة الشائعة';
+
+  @override
+  String get faqSubtitle => 'ابحث عن إجابات للأسئلة الشائعة';
+
+  @override
+  String get faqQuestion1 => 'كيف أقوم بالتبرع؟';
+
+  @override
+  String get faqAnswer1 =>
+      'لإجراء تبرع، تصفح القضايا على الشاشة الرئيسية، واختر قضية ترغب في دعمها، واضغط على زر \"تبرع\". أدخل المبلغ ورقم هاتف MTN MoMo الخاص بك. سيتم إرسال طلب دفع إلى هاتفك للموافقة.';
+
+  @override
+  String get faqQuestion2 => 'هل دفعي آمن؟';
+
+  @override
+  String get faqAnswer2 =>
+      'نعم، يتم معالجة جميع المدفوعات بأمان من خلال MTN Mobile Money (MoMo)، وهي بوابة دفع موثوقة. لا نخزن بيانات اعتماد الدفع الخاصة بك، وجميع المعاملات مشفرة.';
+
+  @override
+  String get faqQuestion3 => 'هل يمكنني الحصول على استرداد؟';
+
+  @override
+  String get faqAnswer3 =>
+      'التبرعات نهائية بشكل عام وغير قابلة للاسترداد. ومع ذلك، إذا كنت تعتقد أن هناك خطأ أو احتيال، يرجى الاتصال بنا على الفور على fadwa.ali20@gmail.com مع تفاصيل معاملتك.';
+
+  @override
+  String get faqQuestion4 => 'كيف أنشئ قضية؟';
+
+  @override
+  String get faqAnswer4 =>
+      'لإنشاء قضية، يجب أن تكون مسجلاً الدخول. اضغط على زر \"إنشاء قضية\"، واملأ تفاصيل القضية بما في ذلك الاسم والوصف ورقم هاتف MTN MoMo الخاص بك (حيث ستستلم المدفوعات). أرسل النموذج لإنشاء قضيتك.';
+
+  @override
+  String get faqQuestion5 => 'كيف أستلم المدفوعات؟';
+
+  @override
+  String get faqAnswer5 =>
+      'كمالك قضية، يمكنك طلب المدفوعات من شاشة إدارة المدفوعات. أدخل المبلغ الذي تريد سحبه، وسيتم تحويل الأموال إلى حساب MTN MoMo المسجل لديك. قد تستغرق المدفوعات بضع دقائق للمعالجة.';
+
+  @override
+  String get faqQuestion6 => 'ماذا لو كان دفعي قيد الانتظار؟';
+
+  @override
+  String get faqAnswer6 =>
+      'إذا كان دفعتك قيد الانتظار، تحقق من هاتفك لطلب دفع MTN MoMo ووافق عليه. إذا كنت قد وافقت بالفعل لكنه لا يزال قيد الانتظار، انتظر لحظات حيث قد تستغرق المعالجة وقتاً. يمكنك أيضاً التحقق من حالة التبرع في التطبيق.';
+
+  @override
+  String get faqQuestion7 => 'كيف أعرض سجل تبرعاتي؟';
+
+  @override
+  String get faqAnswer7 =>
+      'انتقل إلى علامة تبويب السجل وأدخل رقم هاتفك. سترى جميع تبرعاتك السابقة، بما في ذلك المبلغ والقضية والتاريخ وحالة كل تبرع.';
+
+  @override
+  String get faqQuestion8 => 'هل معلوماتي الشخصية آمنة؟';
+
+  @override
+  String get faqAnswer8 =>
+      'نعم، نحن نأخذ خصوصيتك على محمل الجد. نستخدم تدابير أمنية معيارية في الصناعة لحماية بياناتك. لا نبيع معلوماتك الشخصية لأطراف ثالثة. لمزيد من التفاصيل، يرجى قراءة سياسة الخصوصية الخاصة بنا.';
+
+  @override
+  String get faqStillHaveQuestions => 'لا تزال لديك أسئلة؟';
+
+  @override
+  String get faqContactUs =>
+      'لا تتردد في التواصل معنا عبر البريد الإلكتروني أو استخدم نموذج الاتصال أعلاه.';
+
+  @override
+  String get contactTitle => 'تواصل معنا';
+
+  @override
+  String get contactSubtitle => 'نحن هنا للمساعدة. تواصل معنا!';
+
+  @override
+  String get contactEmailLabel => 'عنوان البريد الإلكتروني';
+
+  @override
+  String get contactEmail => 'fadwa.ali20@gmail.com';
+
+  @override
+  String get contactCopyEmail => 'نسخ عنوان البريد الإلكتروني';
+
+  @override
+  String get contactEmailCopied => 'تم نسخ عنوان البريد الإلكتروني إلى الحافظة';
+
+  @override
+  String get contactOpenEmail => 'فتح تطبيق البريد';
+
+  @override
+  String get contactFormTitle => 'أرسل لنا رسالة';
+
+  @override
+  String get contactFormName => 'اسمك';
+
+  @override
+  String get contactFormNameHint => 'أدخل اسمك الكامل';
+
+  @override
+  String get contactFormNameRequired => 'الاسم مطلوب';
+
+  @override
+  String get contactFormEmail => 'بريدك الإلكتروني';
+
+  @override
+  String get contactFormEmailHint => 'أدخل عنوان بريدك الإلكتروني';
+
+  @override
+  String get contactFormEmailRequired => 'البريد الإلكتروني مطلوب';
+
+  @override
+  String get contactFormEmailInvalid => 'الرجاء إدخال عنوان بريد إلكتروني صحيح';
+
+  @override
+  String get contactFormSubject => 'الموضوع';
+
+  @override
+  String get contactFormSubjectHint => 'بم يتعلق هذا؟';
+
+  @override
+  String get contactFormSubjectRequired => 'الموضوع مطلوب';
+
+  @override
+  String get contactFormMessage => 'الرسالة';
+
+  @override
+  String get contactFormMessageHint => 'أخبرنا كيف يمكننا المساعدة...';
+
+  @override
+  String get contactFormMessageRequired => 'الرسالة مطلوب';
+
+  @override
+  String get contactFormMessageMinLength =>
+      'يجب أن تكون الرسالة 10 أحرف على الأقل';
+
+  @override
+  String get contactFormSubmit => 'إرسال الرسالة';
+
+  @override
+  String get contactFormSuccess =>
+      'تم فتح تطبيق البريد بنجاح! يرجى إرسال رسالتك.';
+
+  @override
+  String get contactFormError =>
+      'تعذر فتح تطبيق البريد. يرجى المحاولة مرة أخرى أو مراسلتنا مباشرة على fadwa.ali20@gmail.com';
+
+  @override
+  String get contactStillHaveQuestions => 'لا تزال لديك أسئلة؟';
+
+  @override
+  String get contactContactUs =>
+      'لا تتردد في التواصل معنا عبر البريد الإلكتروني أو استخدم نموذج الاتصال أعلاه.';
 }
