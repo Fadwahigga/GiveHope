@@ -6,6 +6,7 @@ import '../services/settings_provider.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../utils/constants.dart';
+import '../utils/network_helper.dart';
 import '../utils/validators.dart';
 import '../widgets/widgets.dart';
 import 'main_screen.dart';
@@ -60,9 +61,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         (route) => false,
       );
     } else if (mounted && authService.error != null) {
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(authService.error!),
+          content: Text(NetworkHelper.getErrorMessage(authService.error!, l10n)),
           backgroundColor: AppColors.error,
         ),
       );
@@ -246,7 +248,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   prefixIcon: Icons.person_outlined,
                   textCapitalization: TextCapitalization.words,
                   textInputAction: TextInputAction.next,
-                  validator: (value) => Validators.validateName(value, required: false),
+                  validator: (value) => Validators.validateName(
+                    value,
+                    required: false,
+                    emptyMessage: l10n.validationNameRequired,
+                    invalidMessage: l10n.validationNameInvalid,
+                  ),
                 ),
 
                 const SizedBox(height: AppTheme.spaceMd),

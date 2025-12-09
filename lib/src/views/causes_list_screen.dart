@@ -60,8 +60,9 @@ class _CausesListScreenState extends State<CausesListScreen> {
     } catch (e) {
       // COMMENTED OUT: Internet connection check disabled
       // final isNoInternet = NetworkHelper.isNoInternetError(e);
+      final l10n = AppLocalizations.of(context)!;
       setState(() {
-        _error = NetworkHelper.getErrorMessage(e);
+        _error = NetworkHelper.getErrorMessage(e, l10n);
         _isLoading = false;
         _isNoInternet = false; // Always false - no internet check
       });

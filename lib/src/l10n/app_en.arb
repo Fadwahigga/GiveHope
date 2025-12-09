@@ -312,6 +312,54 @@
   "commonRaised": "raised",
   "commonDonations": "donations",
   "commonWelcome": "Welcome",
+  "errorConnectionFailed": "Unable to connect to server. Please check your connection and try again.",
+  "errorRequestTimeout": "Request timed out. Please try again.",
+  "errorNetworkError": "Network error. Please try again.",
+  "errorUnexpected": "An unexpected error occurred. Please try again.",
+  "errorAnErrorOccurred": "An error occurred",
+  "validationPhoneRequired": "Phone number is required",
+  "validationPhoneInvalid": "Please enter a valid phone number",
+  "validationPhoneTooLong": "Phone number is too long",
+  "validationAmountRequired": "Amount is required",
+  "validationAmountInvalid": "Please enter a valid amount",
+  "validationAmountMin": "Minimum amount is {symbol}{amount}",
+  "@validationAmountMin": {
+    "placeholders": {
+      "symbol": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "validationAmountMax": "Maximum amount is {symbol}{amount}",
+  "@validationAmountMax": {
+    "placeholders": {
+      "symbol": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "validationEmailRequired": "Email is required",
+  "validationEmailInvalid": "Please enter a valid email address",
+  "validationNameRequired": "Name is required",
+  "validationNameTooLong": "Name is too long",
+  "validationNameInvalid": "Please enter a valid name",
+  "validationMessageTooLong": "Message is too long (max {max} characters)",
+  "@validationMessageTooLong": {
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "validationFieldRequired": "This field is required",
+  "validationPositiveNumberRequired": "This field is required",
+  "validationPositiveNumberInvalid": "Please enter a valid positive number",
 
   "currencySymbol": "FCFA",
   "currencyCode": "XAF",

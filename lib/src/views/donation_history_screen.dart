@@ -37,7 +37,12 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
   }
 
   Future<void> _searchHistory() async {
-    final validation = Validators.validatePhone(_phoneController.text);
+    final l10n = AppLocalizations.of(context)!;
+    final validation = Validators.validatePhone(
+      _phoneController.text,
+      emptyMessage: l10n.validationPhoneRequired,
+      invalidMessage: l10n.validationPhoneInvalid,
+    );
     if (validation != null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(validation)),
@@ -64,8 +69,9 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
     } catch (e) {
       // COMMENTED OUT: Internet connection check disabled
       // final isNoInternet = NetworkHelper.isNoInternetError(e);
+      final l10n = AppLocalizations.of(context)!;
       setState(() {
-        _error = NetworkHelper.getErrorMessage(e);
+        _error = NetworkHelper.getErrorMessage(e, l10n);
         _isLoading = false;
         _isNoInternet = false; // Always false - no internet check
       });

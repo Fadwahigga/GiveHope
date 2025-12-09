@@ -717,6 +717,78 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonWelcome => 'Welcome';
 
   @override
+  String get errorConnectionFailed =>
+      'Unable to connect to server. Please check your connection and try again.';
+
+  @override
+  String get errorRequestTimeout => 'Request timed out. Please try again.';
+
+  @override
+  String get errorNetworkError => 'Network error. Please try again.';
+
+  @override
+  String get errorUnexpected =>
+      'An unexpected error occurred. Please try again.';
+
+  @override
+  String get errorAnErrorOccurred => 'An error occurred';
+
+  @override
+  String get validationPhoneRequired => 'Phone number is required';
+
+  @override
+  String get validationPhoneInvalid => 'Please enter a valid phone number';
+
+  @override
+  String get validationPhoneTooLong => 'Phone number is too long';
+
+  @override
+  String get validationAmountRequired => 'Amount is required';
+
+  @override
+  String get validationAmountInvalid => 'Please enter a valid amount';
+
+  @override
+  String validationAmountMin(String symbol, String amount) {
+    return 'Minimum amount is $symbol$amount';
+  }
+
+  @override
+  String validationAmountMax(String symbol, String amount) {
+    return 'Maximum amount is $symbol$amount';
+  }
+
+  @override
+  String get validationEmailRequired => 'Email is required';
+
+  @override
+  String get validationEmailInvalid => 'Please enter a valid email address';
+
+  @override
+  String get validationNameRequired => 'Name is required';
+
+  @override
+  String get validationNameTooLong => 'Name is too long';
+
+  @override
+  String get validationNameInvalid => 'Please enter a valid name';
+
+  @override
+  String validationMessageTooLong(int max) {
+    return 'Message is too long (max $max characters)';
+  }
+
+  @override
+  String get validationFieldRequired => 'This field is required';
+
+  @override
+  String get validationPositiveNumberRequired => 'This field is required';
+
+  @override
+  String get validationPositiveNumberInvalid =>
+      'Please enter a valid positive number';
+
+  @override
   String get currencySymbol => 'FCFA';
 
   @override

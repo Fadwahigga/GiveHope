@@ -5,6 +5,7 @@ import '../services/api_service.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../utils/constants.dart';
+import '../utils/network_helper.dart';
 import '../utils/validators.dart';
 import '../widgets/widgets.dart';
 
@@ -102,7 +103,7 @@ class _DonationScreenState extends State<DonationScreen> {
       }
     } on ApiException catch (e) {
       if (mounted) {
-        _showErrorDialog(e.message, l10n);
+        _showErrorDialog(NetworkHelper.getErrorMessage(e, l10n), l10n);
       }
     } catch (e) {
       if (mounted) {
@@ -478,7 +479,12 @@ class _DonationScreenState extends State<DonationScreen> {
                 validator: (value) => Validators.validateAmount(
                   value,
                   min: AppConstants.minDonationAmount,
-                  minMessage: l10n.donateAmountMin('${AppConstants.minDonationAmount.toStringAsFixed(0)} ${AppConstants.defaultCurrency}'),
+                  emptyMessage: l10n.validationAmountRequired,
+                  invalidMessage: l10n.validationAmountInvalid,
+                  minMessage: l10n.validationAmountMin(
+                    AppConstants.currencySymbol,
+                    AppConstants.minDonationAmount.toStringAsFixed(0),
+                  ),
                 ),
                 onChanged: _onAmountChanged,
               ),
@@ -490,7 +496,11 @@ class _DonationScreenState extends State<DonationScreen> {
                 controller: _phoneController,
                 label: l10n.donatePhone,
                 hint: l10n.donatePhoneHint,
-                validator: Validators.validatePhone,
+                validator: (value) => Validators.validatePhone(
+                  value,
+                  emptyMessage: l10n.validationPhoneRequired,
+                  invalidMessage: l10n.validationPhoneInvalid,
+                ),
               ),
 
               const SizedBox(height: AppTheme.spaceSm),

@@ -71,8 +71,9 @@ class _PayoutScreenState extends State<PayoutScreen> {
     } catch (e) {
       // COMMENTED OUT: Internet connection check disabled
       // final isNoInternet = NetworkHelper.isNoInternetError(e);
+      final l10n = AppLocalizations.of(context)!;
       setState(() {
-        _error = NetworkHelper.getErrorMessage(e);
+        _error = NetworkHelper.getErrorMessage(e, l10n);
         _isLoading = false;
         _isNoInternet = false; // Always false - no internet check
       });
@@ -155,8 +156,12 @@ class _PayoutScreenState extends State<PayoutScreen> {
       }
     } on ApiException catch (e) {
       if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.message), backgroundColor: AppColors.error),
+          SnackBar(
+            content: Text(NetworkHelper.getErrorMessage(e, l10n)),
+            backgroundColor: AppColors.error,
+          ),
         );
       }
     } catch (e) {
@@ -581,8 +586,13 @@ class _PayoutRequestBottomSheet extends StatelessWidget {
               keyboardType: TextInputType.number,
               validator: (value) => Validators.validateAmount(
                 value,
+                emptyMessage: l10n.validationAmountRequired,
+                invalidMessage: l10n.validationAmountInvalid,
                 max: summary.availableBalance,
-                maxMessage: l10n.payoutAmountError,
+                maxMessage: l10n.validationAmountMax(
+                  AppConstants.currencySymbol,
+                  summary.availableBalance.toStringAsFixed(0),
+                ),
               ),
             ),
 

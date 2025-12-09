@@ -4,6 +4,7 @@ import '../models/cause.dart';
 import '../services/api_service.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../utils/network_helper.dart';
 import '../utils/validators.dart';
 import '../widgets/widgets.dart';
 
@@ -63,9 +64,10 @@ class _CreateCauseScreenState extends State<CreateCauseScreen> {
       }
     } on ApiException catch (e) {
       if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(e.message),
+            content: Text(NetworkHelper.getErrorMessage(e, l10n)),
             backgroundColor: AppColors.error,
           ),
         );
@@ -184,7 +186,11 @@ class _CreateCauseScreenState extends State<CreateCauseScreen> {
                 controller: _phoneController,
                 label: l10n.causeCreateOwnerPhone,
                 hint: l10n.causeCreateOwnerPhoneHint,
-                validator: Validators.validatePhone,
+                validator: (value) => Validators.validatePhone(
+                  value,
+                  emptyMessage: l10n.validationPhoneRequired,
+                  invalidMessage: l10n.validationPhoneInvalid,
+                ),
               ),
 
               const SizedBox(height: AppTheme.spaceSm),

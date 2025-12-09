@@ -5,6 +5,7 @@ import '../services/auth_service.dart';
 import '../services/settings_provider.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
+import '../utils/network_helper.dart';
 import '../utils/validators.dart';
 import '../widgets/widgets.dart';
 import 'register_screen.dart';
@@ -46,9 +47,10 @@ class _LoginScreenState extends State<LoginScreen> {
         MaterialPageRoute(builder: (_) => const MainScreen()),
       );
     } else if (mounted && authService.error != null) {
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(authService.error!),
+          content: Text(NetworkHelper.getErrorMessage(authService.error!, l10n)),
           backgroundColor: AppColors.error,
         ),
       );

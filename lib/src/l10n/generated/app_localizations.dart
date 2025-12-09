@@ -1430,6 +1430,132 @@ abstract class AppLocalizations {
   /// **'Welcome'**
   String get commonWelcome;
 
+  /// No description provided for @errorConnectionFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to connect to server. Please check your connection and try again.'**
+  String get errorConnectionFailed;
+
+  /// No description provided for @errorRequestTimeout.
+  ///
+  /// In en, this message translates to:
+  /// **'Request timed out. Please try again.'**
+  String get errorRequestTimeout;
+
+  /// No description provided for @errorNetworkError.
+  ///
+  /// In en, this message translates to:
+  /// **'Network error. Please try again.'**
+  String get errorNetworkError;
+
+  /// No description provided for @errorUnexpected.
+  ///
+  /// In en, this message translates to:
+  /// **'An unexpected error occurred. Please try again.'**
+  String get errorUnexpected;
+
+  /// No description provided for @errorAnErrorOccurred.
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred'**
+  String get errorAnErrorOccurred;
+
+  /// No description provided for @validationPhoneRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number is required'**
+  String get validationPhoneRequired;
+
+  /// No description provided for @validationPhoneInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid phone number'**
+  String get validationPhoneInvalid;
+
+  /// No description provided for @validationPhoneTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number is too long'**
+  String get validationPhoneTooLong;
+
+  /// No description provided for @validationAmountRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount is required'**
+  String get validationAmountRequired;
+
+  /// No description provided for @validationAmountInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid amount'**
+  String get validationAmountInvalid;
+
+  /// No description provided for @validationAmountMin.
+  ///
+  /// In en, this message translates to:
+  /// **'Minimum amount is {symbol}{amount}'**
+  String validationAmountMin(String symbol, String amount);
+
+  /// No description provided for @validationAmountMax.
+  ///
+  /// In en, this message translates to:
+  /// **'Maximum amount is {symbol}{amount}'**
+  String validationAmountMax(String symbol, String amount);
+
+  /// No description provided for @validationEmailRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Email is required'**
+  String get validationEmailRequired;
+
+  /// No description provided for @validationEmailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address'**
+  String get validationEmailInvalid;
+
+  /// No description provided for @validationNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Name is required'**
+  String get validationNameRequired;
+
+  /// No description provided for @validationNameTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'Name is too long'**
+  String get validationNameTooLong;
+
+  /// No description provided for @validationNameInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid name'**
+  String get validationNameInvalid;
+
+  /// No description provided for @validationMessageTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'Message is too long (max {max} characters)'**
+  String validationMessageTooLong(int max);
+
+  /// No description provided for @validationFieldRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required'**
+  String get validationFieldRequired;
+
+  /// No description provided for @validationPositiveNumberRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required'**
+  String get validationPositiveNumberRequired;
+
+  /// No description provided for @validationPositiveNumberInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid positive number'**
+  String get validationPositiveNumberInvalid;
+
   /// No description provided for @currencySymbol.
   ///
   /// In en, this message translates to:

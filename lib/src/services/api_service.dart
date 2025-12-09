@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
@@ -22,11 +23,9 @@ class ApiService {
   final http.Client _client;
   String? _authToken;
 
-  ApiService({
-    String? baseUrl,
-    http.Client? client,
-  })  : baseUrl = baseUrl ?? AppConstants.apiUrl,
-        _client = client ?? http.Client();
+  ApiService({String? baseUrl, http.Client? client})
+    : baseUrl = baseUrl ?? AppConstants.apiUrl,
+      _client = client ?? http.Client();
 
   /// Set the authentication token
   void setAuthToken(String? token) {
@@ -65,7 +64,7 @@ class ApiService {
   Future<dynamic> _handleResponse(http.Response response) async {
     final statusCode = response.statusCode;
     dynamic body;
-    
+
     try {
       body = response.body.isNotEmpty ? json.decode(response.body) : null;
     } catch (_) {
@@ -75,15 +74,16 @@ class ApiService {
     // Check for success field in response
     if (body is Map) {
       final success = body['success'] as bool? ?? false;
-      
+
       if (success && statusCode >= 200 && statusCode < 300) {
         return body['data'];
       }
-      
+
       // Extract error message
-      final errorMessage = body['error'] as String? ?? 
-                          body['message'] as String? ?? 
-                          'An error occurred';
+      final errorMessage =
+          body['error'] as String? ??
+          body['message'] as String? ??
+          'An error occurred';
       throw ApiException(errorMessage, statusCode: statusCode, data: body);
     }
 
@@ -91,17 +91,26 @@ class ApiService {
       return body;
     }
 
+    // Use generic error message - will be localized in UI layer
     throw ApiException('An error occurred', statusCode: statusCode, data: body);
   }
 
-  Future<dynamic> _get(String endpoint, {Map<String, dynamic>? queryParams}) async {
+  Future<dynamic> _get(
+    String endpoint, {
+    Map<String, dynamic>? queryParams,
+  }) async {
     try {
       final response = await _client
           .get(_buildUri(endpoint, queryParams), headers: _headers)
           .timeout(AppConstants.apiTimeout);
       return _handleResponse(response);
     } on SocketException {
-      throw ApiException('No internet connection. Please check your network.');
+      // More generic error message for mobile networks
+      throw ApiException(
+        'Unable to connect to server. Please check your connection and try again.',
+      );
+    } on TimeoutException {
+      throw ApiException('Request timed out. Please try again.');
     } on http.ClientException {
       throw ApiException('Network error. Please try again.');
     }
@@ -118,7 +127,12 @@ class ApiService {
           .timeout(AppConstants.apiTimeout);
       return _handleResponse(response);
     } on SocketException {
-      throw ApiException('No internet connection. Please check your network.');
+      // More generic error message for mobile networks
+      throw ApiException(
+        'Unable to connect to server. Please check your connection and try again.',
+      );
+    } on TimeoutException {
+      throw ApiException('Request timed out. Please try again.');
     } on http.ClientException {
       throw ApiException('Network error. Please try again.');
     }
@@ -135,7 +149,12 @@ class ApiService {
           .timeout(AppConstants.apiTimeout);
       return _handleResponse(response);
     } on SocketException {
-      throw ApiException('No internet connection. Please check your network.');
+      // More generic error message for mobile networks
+      throw ApiException(
+        'Unable to connect to server. Please check your connection and try again.',
+      );
+    } on TimeoutException {
+      throw ApiException('Request timed out. Please try again.');
     } on http.ClientException {
       throw ApiException('Network error. Please try again.');
     }
@@ -148,7 +167,12 @@ class ApiService {
           .timeout(AppConstants.apiTimeout);
       return _handleResponse(response);
     } on SocketException {
-      throw ApiException('No internet connection. Please check your network.');
+      // More generic error message for mobile networks
+      throw ApiException(
+        'Unable to connect to server. Please check your connection and try again.',
+      );
+    } on TimeoutException {
+      throw ApiException('Request timed out. Please try again.');
     } on http.ClientException {
       throw ApiException('Network error. Please try again.');
     }
@@ -198,13 +222,13 @@ class ApiService {
   }
 
   /// Logout user (call API endpoint)
-  /// 
+  ///
   /// Note: JWT is stateless, so logout is primarily client-side.
   /// This endpoint validates the token and logs the action for auditing.
   /// The actual logout happens by removing the token from storage.
   Future<void> logout() async {
     if (_authToken == null) return;
-    
+
     try {
       // Call logout endpoint for validation/logging (JWT is stateless)
       await _post('/auth/logout');
@@ -230,11 +254,11 @@ class ApiService {
   /// Fetch all causes
   Future<List<Cause>> fetchCauses() async {
     final response = await _get('/causes');
-    
+
     if (response is List) {
       return response.map((json) => Cause.fromJson(json)).toList();
     }
-    
+
     return [];
   }
 
@@ -245,12 +269,17 @@ class ApiService {
   }
 
   /// Update a cause
-  Future<Cause> updateCause(String id, {String? name, String? description, String? ownerPhone}) async {
+  Future<Cause> updateCause(
+    String id, {
+    String? name,
+    String? description,
+    String? ownerPhone,
+  }) async {
     final body = <String, dynamic>{};
     if (name != null) body['name'] = name;
     if (description != null) body['description'] = description;
     if (ownerPhone != null) body['ownerPhone'] = ownerPhone;
-    
+
     final response = await _put('/causes/$id', body: body);
     return Cause.fromJson(response);
   }
@@ -285,13 +314,13 @@ class ApiService {
   /// Fetch donations for a specific cause
   Future<List<Donation>> fetchDonationsByCause(String causeId) async {
     final response = await _get('/causes/$causeId/donations');
-    
+
     if (response is Map && response.containsKey('donations')) {
       return (response['donations'] as List)
           .map((json) => Donation.fromJson(json))
           .toList();
     }
-    
+
     return [];
   }
 
@@ -300,13 +329,13 @@ class ApiService {
     // URL encode the phone number
     final encodedPhone = Uri.encodeComponent(phone);
     final response = await _get('/donor/$encodedPhone/donations');
-    
+
     if (response is Map && response.containsKey('donations')) {
       return (response['donations'] as List)
           .map((json) => Donation.fromJson(json))
           .toList();
     }
-    
+
     return [];
   }
 
@@ -323,13 +352,13 @@ class ApiService {
   /// Fetch payouts for a specific cause
   Future<List<Payout>> fetchPayoutsByCause(String causeId) async {
     final response = await _get('/payouts/$causeId');
-    
+
     if (response is Map && response.containsKey('payouts')) {
       return (response['payouts'] as List)
           .map((json) => Payout.fromJson(json))
           .toList();
     }
-    
+
     return [];
   }
 

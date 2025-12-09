@@ -710,6 +710,77 @@ class AppLocalizationsAr extends AppLocalizations {
   String get commonWelcome => 'مرحباً';
 
   @override
+  String get errorConnectionFailed =>
+      'تعذر الاتصال بالخادم. الرجاء التحقق من اتصالك والمحاولة مرة أخرى.';
+
+  @override
+  String get errorRequestTimeout =>
+      'انتهت مهلة الطلب. الرجاء المحاولة مرة أخرى.';
+
+  @override
+  String get errorNetworkError => 'خطأ في الشبكة. الرجاء المحاولة مرة أخرى.';
+
+  @override
+  String get errorUnexpected => 'حدث خطأ غير متوقع. الرجاء المحاولة مرة أخرى.';
+
+  @override
+  String get errorAnErrorOccurred => 'حدث خطأ';
+
+  @override
+  String get validationPhoneRequired => 'رقم الهاتف مطلوب';
+
+  @override
+  String get validationPhoneInvalid => 'الرجاء إدخال رقم هاتف صحيح';
+
+  @override
+  String get validationPhoneTooLong => 'رقم الهاتف طويل جداً';
+
+  @override
+  String get validationAmountRequired => 'المبلغ مطلوب';
+
+  @override
+  String get validationAmountInvalid => 'الرجاء إدخال مبلغ صحيح';
+
+  @override
+  String validationAmountMin(String symbol, String amount) {
+    return 'الحد الأدنى للمبلغ هو $symbol$amount';
+  }
+
+  @override
+  String validationAmountMax(String symbol, String amount) {
+    return 'الحد الأقصى للمبلغ هو $symbol$amount';
+  }
+
+  @override
+  String get validationEmailRequired => 'البريد الإلكتروني مطلوب';
+
+  @override
+  String get validationEmailInvalid => 'الرجاء إدخال بريد إلكتروني صحيح';
+
+  @override
+  String get validationNameRequired => 'الاسم مطلوب';
+
+  @override
+  String get validationNameTooLong => 'الاسم طويل جداً';
+
+  @override
+  String get validationNameInvalid => 'الرجاء إدخال اسم صحيح';
+
+  @override
+  String validationMessageTooLong(int max) {
+    return 'الرسالة طويلة جداً (الحد الأقصى $max حرف)';
+  }
+
+  @override
+  String get validationFieldRequired => 'هذا الحقل مطلوب';
+
+  @override
+  String get validationPositiveNumberRequired => 'هذا الحقل مطلوب';
+
+  @override
+  String get validationPositiveNumberInvalid => 'الرجاء إدخال رقم موجب صحيح';
+
+  @override
   String get currencySymbol => 'FCFA';
 
   @override

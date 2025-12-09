@@ -14,10 +14,7 @@ import 'payout_screen.dart';
 class CauseDetailScreen extends StatefulWidget {
   final String causeId;
 
-  const CauseDetailScreen({
-    super.key,
-    required this.causeId,
-  });
+  const CauseDetailScreen({super.key, required this.causeId});
 
   @override
   State<CauseDetailScreen> createState() => _CauseDetailScreenState();
@@ -54,7 +51,7 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
 
     try {
       final cause = await _apiService.getCauseById(widget.causeId);
-      
+
       // Load summary and donations in parallel
       CauseSummary? summary;
       try {
@@ -62,7 +59,7 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
       } catch (_) {
         // Summary may not be available
       }
-      
+
       final donations = await _apiService.fetchDonationsByCause(widget.causeId);
 
       setState(() {
@@ -75,8 +72,9 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
     } catch (e) {
       // COMMENTED OUT: Internet connection check disabled
       // final isNoInternet = NetworkHelper.isNoInternetError(e);
+      final l10n = AppLocalizations.of(context)!;
       setState(() {
-        _error = NetworkHelper.getErrorMessage(e);
+        _error = NetworkHelper.getErrorMessage(e, l10n);
         _isLoading = false;
         _isNoInternet = false; // Always false - no internet check
       });
@@ -86,24 +84,26 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
   void _navigateToDonate() {
     if (_cause == null) return;
 
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => DonationScreen(cause: _cause!),
-      ),
-    ).then((_) => _loadData());
+    Navigator.of(context)
+        .push(
+          MaterialPageRoute(
+            builder: (context) => DonationScreen(cause: _cause!),
+          ),
+        )
+        .then((_) => _loadData());
   }
 
   void _navigateToPayouts() {
     if (_cause == null) return;
 
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => PayoutScreen(
-          causeId: _cause!.id,
-          causeName: _cause!.name,
-        ),
-      ),
-    ).then((_) => _loadData());
+    Navigator.of(context)
+        .push(
+          MaterialPageRoute(
+            builder: (context) =>
+                PayoutScreen(causeId: _cause!.id, causeName: _cause!.name),
+          ),
+        )
+        .then((_) => _loadData());
   }
 
   @override
@@ -130,10 +130,7 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
     if (_error != null) {
       return Scaffold(
         appBar: AppBar(),
-        body: EmptyState.error(
-          description: _error,
-          onAction: _loadData,
-        ),
+        body: EmptyState.error(description: _error, onAction: _loadData),
       );
     }
 
@@ -192,7 +189,9 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
                           height: 56,
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.2),
-                            borderRadius: BorderRadius.circular(AppTheme.radiusSm),
+                            borderRadius: BorderRadius.circular(
+                              AppTheme.radiusSm,
+                            ),
                           ),
                           child: const Icon(
                             Icons.volunteer_activism,
@@ -237,7 +236,8 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
                     Expanded(
                       child: _StatCard(
                         label: l10n.causeTotalReceived,
-                        value: '${_summary!.totalDonations.toStringAsFixed(0)} ${_summary!.currency}',
+                        value:
+                            '${_summary!.totalDonations.toStringAsFixed(0)} ${_summary!.currency}',
                         icon: Icons.arrow_downward,
                         color: AppColors.success,
                       ),
@@ -246,7 +246,8 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
                     Expanded(
                       child: _StatCard(
                         label: l10n.causeAvailable,
-                        value: '${_summary!.availableBalance.toStringAsFixed(0)} ${_summary!.currency}',
+                        value:
+                            '${_summary!.availableBalance.toStringAsFixed(0)} ${_summary!.currency}',
                         icon: Icons.account_balance_wallet,
                         color: AppColors.primary,
                       ),
@@ -257,7 +258,8 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
               ],
 
               // Description
-              if (cause.description != null && cause.description!.isNotEmpty) ...[
+              if (cause.description != null &&
+                  cause.description!.isNotEmpty) ...[
                 Text(
                   l10n.causeAbout,
                   style: theme.textTheme.titleMedium?.copyWith(
@@ -300,7 +302,9 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
                 Container(
                   padding: const EdgeInsets.all(AppTheme.spaceLg),
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+                    color: theme.colorScheme.surfaceContainerHighest.withValues(
+                      alpha: 0.3,
+                    ),
                     borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                   ),
                   child: Column(
@@ -308,7 +312,9 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
                       Icon(
                         Icons.volunteer_activism_outlined,
                         size: 48,
-                        color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+                        color: theme.colorScheme.onSurfaceVariant.withValues(
+                          alpha: 0.5,
+                        ),
                       ),
                       const SizedBox(height: AppTheme.spaceSm),
                       Text(
@@ -403,9 +409,7 @@ class _StatCard extends StatelessWidget {
               const SizedBox(width: AppTheme.spaceXs),
               Text(
                 label,
-                style: theme.textTheme.labelMedium?.copyWith(
-                  color: color,
-                ),
+                style: theme.textTheme.labelMedium?.copyWith(color: color),
               ),
             ],
           ),
@@ -488,7 +492,9 @@ class _DonationItem extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         color: statusColor.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(AppTheme.radiusRound),
+                        borderRadius: BorderRadius.circular(
+                          AppTheme.radiusRound,
+                        ),
                       ),
                       child: Text(
                         _getStatusText(donation.status, l10n),
