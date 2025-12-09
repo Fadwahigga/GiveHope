@@ -7,6 +7,10 @@ import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../utils/constants.dart';
 import 'login_screen.dart';
+import 'privacy_policy_screen.dart';
+import 'terms_of_service_screen.dart';
+import 'faqs_screen.dart';
+import 'contact_screen.dart';
 
 /// Settings screen for app preferences
 class SettingsScreen extends StatelessWidget {
@@ -60,8 +64,9 @@ class SettingsScreen extends StatelessWidget {
             icon: Icons.privacy_tip_outlined,
             title: l10n.settingsPrivacy,
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(l10n.settingsPrivacyComingSoon)),
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const PrivacyPolicyScreen()),
               );
             },
           ),
@@ -70,8 +75,9 @@ class SettingsScreen extends StatelessWidget {
             icon: Icons.description_outlined,
             title: l10n.settingsTerms,
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(l10n.settingsTermsComingSoon)),
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const TermsOfServiceScreen()),
               );
             },
           ),
@@ -83,10 +89,11 @@ class SettingsScreen extends StatelessWidget {
 
           _SettingsTile(
             icon: Icons.help_outline,
-            title: l10n.settingsContact,
+            title: l10n.settingsHelp,
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(l10n.settingsHelpComingSoon)),
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const FAQsScreen()),
               );
             },
           ),
@@ -94,10 +101,11 @@ class SettingsScreen extends StatelessWidget {
           _SettingsTile(
             icon: Icons.email_outlined,
             title: l10n.settingsContact,
-            subtitle: 'support@givehope.example.com',
+            subtitle: 'fadwa.ali20@gmail.com',
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(l10n.settingsContactComingSoon)),
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const ContactScreen()),
               );
             },
           ),
@@ -108,7 +116,7 @@ class SettingsScreen extends StatelessWidget {
             subtitle: l10n.settingsAboutDesc,
             onTap: () {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(l10n.settingsRateComingSoon)),
+                const SnackBar(content: Text('App rating coming soon')),
               );
             },
           ),
