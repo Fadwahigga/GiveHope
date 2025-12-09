@@ -252,7 +252,7 @@ class AppTheme {
         elevation: elevationMd,
         backgroundColor: AppColors.lightSurface,
         surfaceTintColor: Colors.transparent,
-        indicatorColor: AppColors.primaryLight.withOpacity(0.3),
+        indicatorColor: AppColors.primaryLight.withValues(alpha: 0.3),
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
             return TextStyle(
@@ -294,7 +294,7 @@ class AppTheme {
       // Chip
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.lightSurfaceVariant,
-        selectedColor: AppColors.primaryLight.withOpacity(0.3),
+        selectedColor: AppColors.primaryLight.withValues(alpha: 0.3),
         labelStyle: TextStyle(
           fontFamily: fontFamily,
           fontSize: 14,
@@ -597,7 +597,7 @@ class AppTheme {
         elevation: elevationMd,
         backgroundColor: AppColors.darkSurface,
         surfaceTintColor: Colors.transparent,
-        indicatorColor: AppColors.primaryDark.withOpacity(0.5),
+        indicatorColor: AppColors.primaryDark.withValues(alpha: 0.5),
         labelTextStyle: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
             return TextStyle(
@@ -639,7 +639,7 @@ class AppTheme {
       // Chip
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.darkSurfaceVariant,
-        selectedColor: AppColors.primaryDark.withOpacity(0.5),
+        selectedColor: AppColors.primaryDark.withValues(alpha: 0.5),
         labelStyle: TextStyle(
           fontFamily: fontFamily,
           fontSize: 14,

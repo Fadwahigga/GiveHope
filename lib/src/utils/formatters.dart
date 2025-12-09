@@ -10,7 +10,11 @@ class Formatters {
   // ═══════════════════════════════════════════════════════════════
 
   /// Formats a number as currency
-  static String formatCurrency(double amount, {String? symbol, int decimalDigits = 2}) {
+  static String formatCurrency(
+    double amount, {
+    String? symbol,
+    int decimalDigits = 2,
+  }) {
     final currencySymbol = symbol ?? AppConstants.currencySymbol;
     final formatter = NumberFormat.currency(
       symbol: currencySymbol,
@@ -40,7 +44,9 @@ class Formatters {
 
   /// Formats a number with thousand separators
   static String formatNumber(num number, {int decimalDigits = 0}) {
-    final formatter = NumberFormat('#,##0' + (decimalDigits > 0 ? '.${'0' * decimalDigits}' : ''));
+    final formatter = NumberFormat(
+      '#,##0${decimalDigits > 0 ? '.${'0' * decimalDigits}' : ''}',
+    );
     return formatter.format(number);
   }
 
@@ -139,7 +145,7 @@ class Formatters {
   static String formatPhone(String phone) {
     // Remove all non-digit characters except +
     final cleaned = phone.replaceAll(RegExp(r'[^\d+]'), '');
-    
+
     // If it starts with +, keep it
     if (cleaned.startsWith('+')) {
       final digits = cleaned.substring(1);
@@ -149,12 +155,12 @@ class Formatters {
       }
       return cleaned;
     }
-    
+
     // US format: (XXX) XXX-XXXX
     if (cleaned.length == 10) {
       return '(${cleaned.substring(0, 3)}) ${cleaned.substring(3, 6)}-${cleaned.substring(6)}';
     }
-    
+
     return phone;
   }
 
@@ -174,7 +180,11 @@ class Formatters {
   // ═══════════════════════════════════════════════════════════════
 
   /// Truncates text with ellipsis
-  static String truncate(String text, int maxLength, {String ellipsis = '...'}) {
+  static String truncate(
+    String text,
+    int maxLength, {
+    String ellipsis = '...',
+  }) {
     if (text.length <= maxLength) {
       return text;
     }
@@ -184,10 +194,13 @@ class Formatters {
   /// Capitalizes the first letter of each word
   static String titleCase(String text) {
     if (text.isEmpty) return text;
-    return text.split(' ').map((word) {
-      if (word.isEmpty) return word;
-      return word[0].toUpperCase() + word.substring(1).toLowerCase();
-    }).join(' ');
+    return text
+        .split(' ')
+        .map((word) {
+          if (word.isEmpty) return word;
+          return word[0].toUpperCase() + word.substring(1).toLowerCase();
+        })
+        .join(' ');
   }
 
   /// Capitalizes only the first letter
@@ -196,4 +209,3 @@ class Formatters {
     return text[0].toUpperCase() + text.substring(1);
   }
 }
-

@@ -7,8 +7,7 @@ class AppConstants {
   // ═══════════════════════════════════════════════════════════════
   
   /// Base URL for the backend API
-  /// TODO: Replace with your actual backend URL
-  static const String apiBaseUrl = 'https://your-app.railway.app';
+  static const String apiBaseUrl = 'https://donation-api-production-5b2a.up.railway.app';
   
   /// API version prefix
   static const String apiVersion = '/api/v1';
