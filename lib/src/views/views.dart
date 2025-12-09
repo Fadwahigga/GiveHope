@@ -11,3 +11,7 @@ export 'donation_screen.dart';
 export 'donation_history_screen.dart';
 export 'payout_screen.dart';
 export 'settings_screen.dart';
+export 'privacy_policy_screen.dart';
+export 'terms_of_service_screen.dart';
+export 'faqs_screen.dart';
+export 'contact_screen.dart';
