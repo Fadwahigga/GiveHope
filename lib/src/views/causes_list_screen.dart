@@ -76,9 +76,7 @@ class _CausesListScreenState extends State<CausesListScreen> {
 
   Future<void> _createCause() async {
     final result = await Navigator.of(context).push<Cause>(
-      MaterialPageRoute(
-        builder: (context) => const CreateCauseScreen(),
-      ),
+      MaterialPageRoute(builder: (context) => const CreateCauseScreen()),
     );
 
     if (result != null) {
@@ -228,7 +226,9 @@ class _CausesListScreenState extends State<CausesListScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // User greeting (if logged in)
-                      if (currentUser != null && currentUser.name != null && currentUser.name!.isNotEmpty) ...[
+                      if (currentUser != null &&
+                          currentUser.name != null &&
+                          currentUser.name!.isNotEmpty) ...[
                         Row(
                           children: [
                             Container(
@@ -251,10 +251,11 @@ class _CausesListScreenState extends State<CausesListScreen> {
                                 children: [
                                   Text(
                                     '${l10n.commonWelcome}, ${currentUser.name}!',
-                                    style: theme.textTheme.titleMedium?.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.primary,
-                                    ),
+                                    style: theme.textTheme.titleMedium
+                                        ?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          color: AppColors.primary,
+                                        ),
                                   ),
                                   Text(
                                     l10n.homeSubtitle,
@@ -273,31 +274,38 @@ class _CausesListScreenState extends State<CausesListScreen> {
                       // Title
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
                               children: [
                                 Text(
-                                  currentUser != null && currentUser.name != null && currentUser.name!.isNotEmpty
-                                      ? l10n.homeTitle
-                                      : l10n.homeTitle,
-                                  style: theme.textTheme.headlineMedium?.copyWith(
+                                  l10n.homeTitle,
+                                  style: theme.textTheme.titleLarge?.copyWith(
                                     fontWeight: FontWeight.w700,
                                   ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                if (currentUser == null || currentUser.name == null || currentUser.name!.isEmpty) ...[
+                                if (currentUser == null ||
+                                    currentUser.name == null ||
+                                    currentUser.name!.isEmpty) ...[
                                   const SizedBox(height: AppTheme.spaceXs),
                                   Text(
                                     l10n.homeSubtitle,
                                     style: theme.textTheme.bodyLarge?.copyWith(
                                       color: theme.colorScheme.onSurfaceVariant,
                                     ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ],
                               ],
                             ),
                           ),
+                          const SizedBox(width: AppTheme.spaceSm),
                           Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -305,6 +313,8 @@ class _CausesListScreenState extends State<CausesListScreen> {
                                 onPressed: _showLanguageDialog,
                                 icon: const Icon(Icons.language),
                                 tooltip: l10n.settingsLanguage,
+                                padding: EdgeInsets.zero,
+                                constraints: const BoxConstraints(),
                               ),
                               IconButton(
                                 onPressed: _showThemeDialog,
@@ -314,6 +324,8 @@ class _CausesListScreenState extends State<CausesListScreen> {
                                       : Icons.dark_mode,
                                 ),
                                 tooltip: l10n.settingsTheme,
+                                padding: EdgeInsets.zero,
+                                constraints: const BoxConstraints(),
                               ),
                               IconButton.filled(
                                 onPressed: _createCause,
@@ -321,6 +333,8 @@ class _CausesListScreenState extends State<CausesListScreen> {
                                 style: IconButton.styleFrom(
                                   backgroundColor: AppColors.primary,
                                   foregroundColor: Colors.white,
+                                  padding: const EdgeInsets.all(8),
+                                  minimumSize: const Size(40, 40),
                                 ),
                               ),
                             ],
@@ -336,9 +350,7 @@ class _CausesListScreenState extends State<CausesListScreen> {
               const SliverToBoxAdapter(
                 child: SizedBox(height: AppTheme.spaceMd),
               ),
-              const SliverToBoxAdapter(
-                child: AppBanner(),
-              ),
+              const SliverToBoxAdapter(child: AppBanner()),
               const SliverToBoxAdapter(
                 child: SizedBox(height: AppTheme.spaceLg),
               ),
@@ -375,21 +387,18 @@ class _CausesListScreenState extends State<CausesListScreen> {
                     horizontal: AppTheme.spaceMd,
                   ),
                   sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        final cause = _causes[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(
-                            bottom: AppTheme.spaceMd,
-                          ),
-                          child: _CauseListItem(
-                            cause: cause,
-                            onTap: () => _navigateToCause(cause),
-                          ),
-                        );
-                      },
-                      childCount: _causes.length,
-                    ),
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      final cause = _causes[index];
+                      return Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: AppTheme.spaceMd,
+                        ),
+                        child: _CauseListItem(
+                          cause: cause,
+                          onTap: () => _navigateToCause(cause),
+                        ),
+                      );
+                    }, childCount: _causes.length),
                   ),
                 ),
 
@@ -410,10 +419,7 @@ class _CauseListItem extends StatelessWidget {
   final Cause cause;
   final VoidCallback? onTap;
 
-  const _CauseListItem({
-    required this.cause,
-    this.onTap,
-  });
+  const _CauseListItem({required this.cause, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -492,7 +498,8 @@ class _CauseListItem extends StatelessWidget {
               ),
 
               // Description
-              if (cause.description != null && cause.description!.isNotEmpty) ...[
+              if (cause.description != null &&
+                  cause.description!.isNotEmpty) ...[
                 const SizedBox(height: AppTheme.spaceSm),
                 Text(
                   cause.description!,
