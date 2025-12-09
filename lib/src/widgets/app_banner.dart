@@ -203,11 +203,10 @@ class _BannerCard extends StatelessWidget {
                     ),
                   ),
 
-                  // Decorative arrow - points in scroll direction based on locale
-                  // In RTL: arrow points left (back) since content flows right-to-left
-                  // In LTR: arrow points right (forward) since content flows left-to-right
+                  // Decorative arrow - points right to indicate "more content available"
+                  // In both LTR and RTL, pointing right indicates forward/next content
                   Icon(
-                    isRTL ? Icons.arrow_back_ios : Icons.arrow_forward_ios,
+                    Icons.arrow_forward_ios,
                     color: Colors.white.withValues(alpha: 0.3),
                     size: 20,
                   ),
