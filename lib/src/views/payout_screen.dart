@@ -98,18 +98,22 @@ class _PayoutScreenState extends State<PayoutScreen> {
     final l10n = AppLocalizations.of(context)!;
     final amountStr = _amountController.text.trim();
     final amount = double.tryParse(amountStr);
-    
+
     if (amount == null || amount <= 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.payoutAmountError)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.payoutAmountError)));
       return;
     }
 
     if (_summary != null && amount > _summary!.availableBalance) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(l10n.payoutAmountMax('${_summary!.availableBalance.toStringAsFixed(0)} ${_summary!.currency}')),
+          content: Text(
+            l10n.payoutAmountMax(
+              '${_summary!.availableBalance.toStringAsFixed(0)} ${_summary!.currency}',
+            ),
+          ),
         ),
       );
       return;
@@ -130,7 +134,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
 
       if (mounted) {
         Navigator.of(context).pop(); // Close bottom sheet
-        
+
         if (response.transferInitiated) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -151,10 +155,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
     } on ApiException catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(e.message),
-            backgroundColor: AppColors.error,
-          ),
+          SnackBar(content: Text(e.message), backgroundColor: AppColors.error),
         );
       }
     } catch (e) {
@@ -187,20 +188,22 @@ class _PayoutScreenState extends State<PayoutScreen> {
       );
     }
 
+    if (_isNoInternet) {
+      return Scaffold(
+        appBar: AppBar(title: Text(l10n.payoutTitle)),
+        body: NoInternetScreen(onRetry: _loadData),
+      );
+    }
+
     if (_error != null) {
       return Scaffold(
         appBar: AppBar(title: Text(l10n.payoutTitle)),
-        body: EmptyState.error(
-          description: _error,
-          onAction: _loadData,
-        ),
+        body: EmptyState.error(description: _error, onAction: _loadData),
       );
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.payoutTitle),
-      ),
+      appBar: AppBar(title: Text(l10n.payoutTitle)),
       body: RefreshIndicator(
         onRefresh: _loadData,
         child: SingleChildScrollView(
@@ -257,7 +260,8 @@ class _PayoutScreenState extends State<PayoutScreen> {
                   Container(
                     padding: const EdgeInsets.all(AppTheme.spaceMd),
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.5),
+                      color: theme.colorScheme.surfaceContainerHighest
+                          .withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                     ),
                     child: Row(
@@ -297,7 +301,9 @@ class _PayoutScreenState extends State<PayoutScreen> {
                 Container(
                   padding: const EdgeInsets.all(AppTheme.spaceLg),
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.surfaceContainerHighest.withValues(alpha: 0.3),
+                    color: theme.colorScheme.surfaceContainerHighest.withValues(
+                      alpha: 0.3,
+                    ),
                     borderRadius: BorderRadius.circular(AppTheme.radiusMd),
                   ),
                   child: Center(
@@ -306,7 +312,9 @@ class _PayoutScreenState extends State<PayoutScreen> {
                         Icon(
                           Icons.payments_outlined,
                           size: 48,
-                          color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
+                          color: theme.colorScheme.onSurfaceVariant.withValues(
+                            alpha: 0.5,
+                          ),
                         ),
                         const SizedBox(height: AppTheme.spaceSm),
                         Text(
@@ -320,13 +328,10 @@ class _PayoutScreenState extends State<PayoutScreen> {
                   ),
                 )
               else
-                ...List.generate(
-                  _payouts.length,
-                  (index) {
-                    final payout = _payouts[index];
-                    return _PayoutListItem(payout: payout);
-                  },
-                ),
+                ...List.generate(_payouts.length, (index) {
+                  final payout = _payouts[index];
+                  return _PayoutListItem(payout: payout);
+                }),
 
               const SizedBox(height: AppTheme.spaceXxl),
             ],
@@ -372,9 +377,7 @@ class _BalanceCard extends StatelessWidget {
               const SizedBox(width: AppTheme.spaceXs),
               Text(
                 title,
-                style: theme.textTheme.labelMedium?.copyWith(
-                  color: color,
-                ),
+                style: theme.textTheme.labelMedium?.copyWith(color: color),
               ),
             ],
           ),
@@ -536,7 +539,9 @@ class _PayoutRequestBottomSheet extends StatelessWidget {
                 width: 40,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.3),
+                  color: theme.colorScheme.onSurfaceVariant.withValues(
+                    alpha: 0.3,
+                  ),
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -555,7 +560,9 @@ class _PayoutRequestBottomSheet extends StatelessWidget {
             const SizedBox(height: AppTheme.spaceSm),
 
             Text(
-              l10n.payoutAmountMax('${summary.availableBalance.toStringAsFixed(0)} ${summary.currency}'),
+              l10n.payoutAmountMax(
+                '${summary.availableBalance.toStringAsFixed(0)} ${summary.currency}',
+              ),
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),

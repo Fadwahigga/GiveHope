@@ -108,7 +108,7 @@ class EmptyState extends StatelessWidget {
     final theme = Theme.of(context);
     final iconColor = isError 
         ? theme.colorScheme.error 
-        : theme.colorScheme.primary.withOpacity(0.5);
+        : theme.colorScheme.primary.withValues(alpha: 0.5);
     
     return Center(
       child: Padding(
@@ -122,7 +122,7 @@ class EmptyState extends StatelessWidget {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: iconColor.withOpacity(0.1),
+                color: iconColor.withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(
