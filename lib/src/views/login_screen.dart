@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../l10n/generated/app_localizations.dart';
 import '../services/auth_service.dart';
+import '../services/settings_provider.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../utils/validators.dart';
@@ -65,13 +67,64 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  void _showLanguageDialog() {
+    final l10n = AppLocalizations.of(context)!;
+    final settingsProvider = context.read<SettingsProvider>();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.settingsChooseLanguage),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              title: Text(l10n.settingsLanguageEn),
+              leading: const Icon(Icons.language),
+              selected: settingsProvider.locale.languageCode == 'en',
+              trailing: settingsProvider.locale.languageCode == 'en'
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                settingsProvider.setLocale(const Locale('en'));
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(l10n.settingsLanguageAr),
+              leading: const Icon(Icons.language),
+              selected: settingsProvider.locale.languageCode == 'ar',
+              trailing: settingsProvider.locale.languageCode == 'ar'
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                settingsProvider.setLocale(const Locale('ar'));
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final authService = context.watch<AuthService>();
     final mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.language),
+            onPressed: _showLanguageDialog,
+            tooltip: l10n.settingsLanguage,
+          ),
+        ],
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(AppTheme.spaceLg),
@@ -101,7 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 // Title
                 Text(
-                  'Welcome Back',
+                  l10n.authLoginTitle,
                   style: theme.textTheme.headlineMedium?.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
@@ -111,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(height: AppTheme.spaceSm),
 
                 Text(
-                  'Sign in to continue making a difference',
+                  l10n.authLoginSubtitle,
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
@@ -123,12 +176,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Email field
                 CustomInputField(
                   controller: _emailController,
-                  label: 'Email',
-                  hint: 'Enter your email',
+                  label: l10n.authEmail,
+                  hint: l10n.authEmailHint,
                   prefixIcon: Icons.email_outlined,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
-                  validator: Validators.validateEmail,
+                  validator: (value) => Validators.validateEmail(
+                    value,
+                    emptyMessage: l10n.authRequired,
+                    invalidMessage: l10n.authInvalidEmail,
+                  ),
                 ),
 
                 const SizedBox(height: AppTheme.spaceMd),
@@ -136,8 +193,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Password field
                 CustomInputField(
                   controller: _passwordController,
-                  label: 'Password',
-                  hint: 'Enter your password',
+                  label: l10n.authPassword,
+                  hint: l10n.authPasswordHint,
                   prefixIcon: Icons.lock_outlined,
                   obscureText: _obscurePassword,
                   suffixIcon: _obscurePassword 
@@ -151,7 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   textInputAction: TextInputAction.done,
                   validator: (value) => Validators.validateRequired(
                     value, 
-                    message: 'Password is required',
+                    message: l10n.authRequired,
                   ),
                 ),
 
@@ -159,7 +216,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 // Login button
                 PrimaryButton(
-                  text: 'Sign In',
+                  text: l10n.authLogin,
                   isLoading: authService.isLoading,
                   onPressed: _login,
                 ),
@@ -171,12 +228,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Don't have an account? ",
+                      l10n.authNoAccount,
                       style: theme.textTheme.bodyMedium,
                     ),
                     TextButton(
                       onPressed: _navigateToRegister,
-                      child: const Text('Sign Up'),
+                      child: Text(l10n.authSignUp),
                     ),
                   ],
                 ),
@@ -192,7 +249,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         horizontal: AppTheme.spaceMd,
                       ),
                       child: Text(
-                        'OR',
+                        l10n.authOr,
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.onSurfaceVariant,
                         ),
@@ -206,7 +263,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 // Continue as guest
                 PrimaryButton(
-                  text: 'Continue as Guest',
+                  text: l10n.authContinueGuest,
                   isOutlined: true,
                   onPressed: _continueAsGuest,
                 ),
@@ -220,4 +277,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-

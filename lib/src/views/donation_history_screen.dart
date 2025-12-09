@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import '../l10n/generated/app_localizations.dart';
 import '../models/donation.dart';
 import '../services/api_service.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../utils/formatters.dart';
+import '../utils/network_helper.dart';
 import '../utils/validators.dart';
 import '../widgets/widgets.dart';
 
@@ -24,6 +26,7 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
   bool _isLoading = false;
   bool _hasSearched = false;
   String? _error;
+  bool _isNoInternet = false;
 
   @override
   void dispose() {
@@ -46,6 +49,7 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
       _isLoading = true;
       _error = null;
       _hasSearched = true;
+      _isNoInternet = false;
     });
 
     try {
@@ -55,11 +59,14 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
       setState(() {
         _donations = donations;
         _isLoading = false;
+        _isNoInternet = false;
       });
     } catch (e) {
+      final isNoInternet = NetworkHelper.isNoInternetError(e);
       setState(() {
-        _error = e.toString();
+        _error = NetworkHelper.getErrorMessage(e);
         _isLoading = false;
+        _isNoInternet = isNoInternet;
       });
     }
   }
@@ -77,10 +84,11 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Donation History'),
+        title: Text(l10n.historyTitle),
       ),
       body: Column(
         children: [
@@ -101,7 +109,7 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Enter your phone number to view your donation history',
+                  l10n.historyEnterPhone,
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
@@ -112,12 +120,12 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
                     Expanded(
                       child: PhoneInputField(
                         controller: _phoneController,
-                        hint: 'e.g., +237670000001',
+                        hint: l10n.historyPhoneHint,
                       ),
                     ),
                     const SizedBox(width: AppTheme.spaceMd),
                     PrimaryButton(
-                      text: 'Search',
+                      text: l10n.historySearch,
                       isFullWidth: false,
                       isLoading: _isLoading,
                       onPressed: _searchHistory,
@@ -130,14 +138,14 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
 
           // Results
           Expanded(
-            child: _buildContent(theme),
+            child: _buildContent(theme, l10n),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildContent(ThemeData theme) {
+  Widget _buildContent(ThemeData theme, AppLocalizations l10n) {
     if (!_hasSearched) {
       return Center(
         child: Column(
@@ -150,14 +158,14 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
             ),
             const SizedBox(height: AppTheme.spaceMd),
             Text(
-              'View your donation history',
+              l10n.historyGetStarted,
               style: theme.textTheme.titleMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),
             ),
             const SizedBox(height: AppTheme.spaceSm),
             Text(
-              'Enter your phone number above to get started',
+              l10n.historyGetStartedDesc,
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),
@@ -168,7 +176,11 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
     }
 
     if (_isLoading) {
-      return const LoadingState(message: 'Loading history...');
+      return LoadingState(message: l10n.historyLoading);
+    }
+
+    if (_isNoInternet) {
+      return NoInternetScreen(onRetry: _searchHistory);
     }
 
     if (_error != null) {
@@ -180,8 +192,8 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
 
     if (_donations.isEmpty) {
       return EmptyState.noDonations(
-        title: 'No donations found',
-        description: 'You haven\'t made any donations yet. Start giving today!',
+        title: l10n.historyNoResults,
+        description: l10n.historyNoResultsDesc,
       );
     }
 
@@ -211,15 +223,15 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Total Donated',
-                            style: theme.textTheme.labelMedium?.copyWith(
+                            l10n.historyTotal,
+                            style: Theme.of(context).textTheme.labelMedium?.copyWith(
                               color: Colors.white.withValues(alpha: 0.8),
                             ),
                           ),
                           const SizedBox(height: AppTheme.spaceXs),
                           Text(
                             '${_totalDonated.toStringAsFixed(0)} XAF',
-                            style: theme.textTheme.headlineMedium?.copyWith(
+                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
                             ),
@@ -238,8 +250,8 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
                             BorderRadius.circular(AppTheme.radiusRound),
                       ),
                       child: Text(
-                        '${_donations.length} donations',
-                        style: theme.textTheme.labelLarge?.copyWith(
+                        l10n.historyCount(_donations.length),
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
                         ),
@@ -286,6 +298,7 @@ class _DonationHistoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final statusColor = _getStatusColor(donation.status);
 
     return Card(
@@ -322,7 +335,7 @@ class _DonationHistoryItem extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        donation.cause?.name ?? 'Unknown Cause',
+                        donation.cause?.name ?? l10n.commonError,
                         style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -359,7 +372,7 @@ class _DonationHistoryItem extends StatelessWidget {
                         borderRadius: BorderRadius.circular(AppTheme.radiusRound),
                       ),
                       child: Text(
-                        _getStatusText(donation.status),
+                        _getStatusText(donation.status, l10n),
                         style: theme.textTheme.labelSmall?.copyWith(
                           color: statusColor,
                           fontWeight: FontWeight.w600,
@@ -401,14 +414,14 @@ class _DonationHistoryItem extends StatelessWidget {
     }
   }
 
-  String _getStatusText(DonationStatus status) {
+  String _getStatusText(DonationStatus status, AppLocalizations l10n) {
     switch (status) {
       case DonationStatus.success:
-        return 'Success';
+        return l10n.historyStatusSuccess;
       case DonationStatus.pending:
-        return 'Pending';
+        return l10n.historyStatusPending;
       case DonationStatus.failed:
-        return 'Failed';
+        return l10n.historyStatusFailed;
     }
   }
 }
