@@ -28,6 +28,7 @@ class PayoutScreen extends StatefulWidget {
 class _PayoutScreenState extends State<PayoutScreen> {
   final ApiService _apiService = ApiService();
   final TextEditingController _amountController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
 
   CauseSummary? _summary;
   List<Payout> _payouts = [];
@@ -45,6 +46,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
   @override
   void dispose() {
     _amountController.dispose();
+    _descriptionController.dispose();
     _apiService.dispose();
     super.dispose();
   }
@@ -142,6 +144,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
 
   void _showRequestPayoutDialog() {
     _amountController.clear();
+    _descriptionController.clear();
 
     showModalBottomSheet(
       context: context,
@@ -150,6 +153,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
       builder: (context) => _PayoutRequestBottomSheet(
         summary: _summary!,
         amountController: _amountController,
+        descriptionController: _descriptionController,
         isSubmitting: _isSubmitting,
         onSubmit: _submitPayoutRequest,
       ),
@@ -173,7 +177,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
         SnackBar(
           content: Text(
             l10n.payoutAmountMax(
-              '${_summary!.availableBalance.toStringAsFixed(0)} ${_summary!.currency}',
+              '${_summary!.availableBalance.toStringAsFixed(0)} EUR',
             ),
           ),
         ),
@@ -204,7 +208,10 @@ class _PayoutScreenState extends State<PayoutScreen> {
       final request = PayoutRequest(
         causeId: widget.causeId,
         amount: cleanAmount,
-        currency: _summary?.currency ?? AppConstants.defaultCurrency,
+        currency: 'EUR', // Sandbox only supports EUR
+        description: _descriptionController.text.trim().isEmpty
+            ? null
+            : _descriptionController.text.trim(),
       );
 
       final response = await _apiService.requestPayout(request);
@@ -344,7 +351,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
                       child: _BalanceCard(
                         title: l10n.causeTotalReceived,
                         amount: _summary!.totalDonations,
-                        currency: _summary!.currency,
+                        currency: 'EUR',
                         color: AppColors.success,
                         icon: Icons.arrow_downward,
                       ),
@@ -354,7 +361,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
                       child: _BalanceCard(
                         title: l10n.causeAvailable,
                         amount: _summary!.availableBalance,
-                        currency: _summary!.currency,
+                        currency: 'EUR',
                         color: AppColors.primary,
                         icon: Icons.account_balance_wallet,
                       ),
@@ -551,7 +558,7 @@ class _PayoutListItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${payout.amount} ${payout.currency}',
+                    '${payout.amount} EUR',
                     style: theme.textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -614,12 +621,14 @@ class _PayoutListItem extends StatelessWidget {
 class _PayoutRequestBottomSheet extends StatelessWidget {
   final CauseSummary summary;
   final TextEditingController amountController;
+  final TextEditingController descriptionController;
   final bool isSubmitting;
   final VoidCallback onSubmit;
 
   const _PayoutRequestBottomSheet({
     required this.summary,
     required this.amountController,
+    required this.descriptionController,
     required this.isSubmitting,
     required this.onSubmit,
   });
@@ -676,7 +685,7 @@ class _PayoutRequestBottomSheet extends StatelessWidget {
 
             Text(
               l10n.payoutAmountMax(
-                '${summary.availableBalance.toStringAsFixed(0)} ${summary.currency}',
+                '${summary.availableBalance.toStringAsFixed(0)} EUR',
               ),
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
@@ -688,7 +697,7 @@ class _PayoutRequestBottomSheet extends StatelessWidget {
             // Amount field
             CustomInputField(
               controller: amountController,
-              label: '${l10n.payoutAmount} (${summary.currency})',
+              label: '${l10n.payoutAmount} (EUR)',
               hint: l10n.payoutAmountHint,
               prefixIcon: Icons.monetization_on_outlined,
               keyboardType: TextInputType.number,
@@ -702,6 +711,18 @@ class _PayoutRequestBottomSheet extends StatelessWidget {
                   summary.availableBalance.toStringAsFixed(0),
                 ),
               ),
+            ),
+
+            const SizedBox(height: AppTheme.spaceMd),
+
+            // Description field (optional)
+            CustomInputField(
+              controller: descriptionController,
+              label: l10n.payoutNotes,
+              hint: l10n.payoutNotesHint,
+              prefixIcon: Icons.description_outlined,
+              maxLines: 3,
+              textInputAction: TextInputAction.done,
             ),
 
             const SizedBox(height: AppTheme.spaceSm),

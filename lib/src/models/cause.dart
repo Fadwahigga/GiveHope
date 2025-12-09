@@ -156,7 +156,7 @@ class CauseSummary {
       totalDonations: (json['totalDonations'] as num?)?.toDouble() ?? 0.0,
       totalPayouts: (json['totalPayouts'] as num?)?.toDouble() ?? 0.0,
       availableBalance: (json['availableBalance'] as num?)?.toDouble() ?? 0.0,
-      currency: json['currency']?.toString() ?? 'XAF',
+      currency: json['currency']?.toString() ?? 'EUR',
     );
   }
 }

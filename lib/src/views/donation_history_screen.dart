@@ -69,9 +69,9 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
       invalidMessage: l10n.validationPhoneInvalid,
     );
     if (validation != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(validation)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(validation)));
       return;
     }
 
@@ -83,8 +83,9 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
     });
 
     try {
-      final donations =
-          await _apiService.fetchDonorHistory(_phoneController.text.trim());
+      final donations = await _apiService.fetchDonorHistory(
+        _phoneController.text.trim(),
+      );
 
       setState(() {
         _donations = donations;
@@ -117,9 +118,7 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.historyTitle),
-      ),
+      appBar: AppBar(title: Text(l10n.historyTitle)),
       body: Column(
         children: [
           // Search section
@@ -167,9 +166,7 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
           ),
 
           // Results
-          Expanded(
-            child: _buildContent(theme, l10n),
-          ),
+          Expanded(child: _buildContent(theme, l10n)),
         ],
       ),
     );
@@ -215,10 +212,7 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
     // }
 
     if (_error != null) {
-      return EmptyState.error(
-        description: _error,
-        onAction: _searchHistory,
-      );
+      return EmptyState.error(description: _error, onAction: _searchHistory);
     }
 
     if (_donations.isEmpty) {
@@ -255,17 +249,19 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
                         children: [
                           Text(
                             l10n.historyTotal,
-                            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                              color: Colors.white.withValues(alpha: 0.8),
-                            ),
+                            style: Theme.of(context).textTheme.labelMedium
+                                ?.copyWith(
+                                  color: Colors.white.withValues(alpha: 0.8),
+                                ),
                           ),
                           const SizedBox(height: AppTheme.spaceXs),
                           Text(
                             '${_totalDonated.toStringAsFixed(0)} XAF',
-                            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w700,
-                            ),
+                            style: Theme.of(context).textTheme.headlineMedium
+                                ?.copyWith(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                ),
                           ),
                         ],
                       ),
@@ -277,8 +273,9 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
                       ),
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.2),
-                        borderRadius:
-                            BorderRadius.circular(AppTheme.radiusRound),
+                        borderRadius: BorderRadius.circular(
+                          AppTheme.radiusRound,
+                        ),
                       ),
                       child: Text(
                         l10n.historyCount(_donations.length),
@@ -298,23 +295,18 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: AppTheme.spaceMd),
             sliver: SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  final donation = _donations[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: AppTheme.spaceMd),
-                    child: _DonationHistoryItem(donation: donation),
-                  );
-                },
-                childCount: _donations.length,
-              ),
+              delegate: SliverChildBuilderDelegate((context, index) {
+                final donation = _donations[index];
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: AppTheme.spaceMd),
+                  child: _DonationHistoryItem(donation: donation),
+                );
+              }, childCount: _donations.length),
             ),
           ),
 
           // Bottom padding
-          const SliverToBoxAdapter(
-            child: SizedBox(height: AppTheme.spaceXxl),
-          ),
+          const SliverToBoxAdapter(child: SizedBox(height: AppTheme.spaceXxl)),
         ],
       ),
     );
@@ -386,7 +378,7 @@ class _DonationHistoryItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      '${donation.amount} ${donation.currency}',
+                      '${donation.amount} EUR',
                       style: theme.textTheme.titleSmall?.copyWith(
                         color: AppColors.primary,
                         fontWeight: FontWeight.w700,
@@ -400,7 +392,9 @@ class _DonationHistoryItem extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         color: statusColor.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(AppTheme.radiusRound),
+                        borderRadius: BorderRadius.circular(
+                          AppTheme.radiusRound,
+                        ),
                       ),
                       child: Text(
                         _getStatusText(donation.status, l10n),
@@ -416,7 +410,8 @@ class _DonationHistoryItem extends StatelessWidget {
             ),
 
             // Message
-            if (donation.payerMessage != null && donation.payerMessage!.isNotEmpty) ...[
+            if (donation.payerMessage != null &&
+                donation.payerMessage!.isNotEmpty) ...[
               const SizedBox(height: AppTheme.spaceSm),
               Text(
                 '"${donation.payerMessage}"',

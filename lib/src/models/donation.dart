@@ -64,7 +64,7 @@ class Donation {
       causeId: json['causeId']?.toString() ?? '',
       donorPhone: json['donorPhone']?.toString() ?? '',
       amount: json['amount']?.toString() ?? '0',
-      currency: json['currency']?.toString() ?? 'XAF',
+      currency: json['currency']?.toString() ?? 'EUR',
       status: DonationStatus.fromString(json['status']?.toString() ?? 'pending'),
       externalId: json['externalId']?.toString(),
       momoRefId: json['momoRefId']?.toString(),
@@ -159,7 +159,7 @@ class DonationRequest {
   DonationRequest({
     required this.causeId,
     required this.amount,
-    this.currency = 'XAF',
+    this.currency = 'EUR',
     required this.donorPhone,
     this.payerMessage,
   });
@@ -205,7 +205,7 @@ class DonationResponse {
       momoRefId: json['momoRefId']?.toString(),
       paymentInitiated: json['paymentInitiated'] == true,
       amount: json['amount']?.toString() ?? '0',
-      currency: json['currency']?.toString() ?? 'XAF',
+      currency: json['currency']?.toString() ?? 'EUR',
       paymentError: json['paymentError']?.toString(),
     );
   }

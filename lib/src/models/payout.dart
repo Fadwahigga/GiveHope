@@ -29,6 +29,7 @@ class Payout {
   final PayoutStatus status;
   final String? externalId;
   final String? momoRefId;
+  final String? description; // User info/description
   final DateTime createdAt;
   final DateTime updatedAt;
   final PayoutCause? cause;
@@ -41,6 +42,7 @@ class Payout {
     this.status = PayoutStatus.pending,
     this.externalId,
     this.momoRefId,
+    this.description,
     required this.createdAt,
     required this.updatedAt,
     this.cause,
@@ -55,18 +57,19 @@ class Payout {
       id: json['id']?.toString() ?? '',
       causeId: json['causeId']?.toString() ?? '',
       amount: json['amount']?.toString() ?? '0',
-      currency: json['currency']?.toString() ?? 'XAF',
+      currency: json['currency']?.toString() ?? 'EUR',
       status: PayoutStatus.fromString(json['status']?.toString() ?? 'pending'),
       externalId: json['externalId']?.toString(),
       momoRefId: json['momoRefId']?.toString(),
+      description: json['description']?.toString(),
       createdAt: json['createdAt'] != null
           ? DateTime.parse(json['createdAt'].toString())
           : DateTime.now(),
       updatedAt: json['updatedAt'] != null
           ? DateTime.parse(json['updatedAt'].toString())
           : DateTime.now(),
-      cause: json['cause'] != null 
-          ? PayoutCause.fromJson(json['cause'] as Map<String, dynamic>) 
+      cause: json['cause'] != null
+          ? PayoutCause.fromJson(json['cause'] as Map<String, dynamic>)
           : null,
     );
   }
@@ -81,6 +84,7 @@ class Payout {
       'status': status.toJson(),
       'externalId': externalId,
       'momoRefId': momoRefId,
+      'description': description,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
     };
@@ -95,6 +99,7 @@ class Payout {
     PayoutStatus? status,
     String? externalId,
     String? momoRefId,
+    String? description,
     DateTime? createdAt,
     DateTime? updatedAt,
     PayoutCause? cause,
@@ -107,6 +112,7 @@ class Payout {
       status: status ?? this.status,
       externalId: externalId ?? this.externalId,
       momoRefId: momoRefId ?? this.momoRefId,
+      description: description ?? this.description,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       cause: cause ?? this.cause,
@@ -167,11 +173,13 @@ class PayoutRequest {
   final String causeId;
   final String amount;
   final String currency;
+  final String? description; // User info/description
 
   PayoutRequest({
     required this.causeId,
     required this.amount,
-    this.currency = 'XAF',
+    this.currency = 'EUR',
+    this.description,
   });
 
   Map<String, dynamic> toJson() {
@@ -179,6 +187,8 @@ class PayoutRequest {
       'causeId': causeId,
       'amount': amount,
       'currency': currency,
+      if (description != null && description!.isNotEmpty)
+        'description': description,
     };
   }
 }
@@ -215,8 +225,8 @@ class PayoutResponse {
       momoRefId: json['momoRefId']?.toString(),
       transferInitiated: json['transferInitiated'] == true,
       amount: json['amount']?.toString() ?? '0',
-      currency: json['currency']?.toString() ?? 'XAF',
-      availableBalanceAfter: json['availableBalanceAfter'] != null 
+      currency: json['currency']?.toString() ?? 'EUR',
+      availableBalanceAfter: json['availableBalanceAfter'] != null
           ? (json['availableBalanceAfter'] as num?)?.toDouble()
           : null,
       transferError: json['transferError']?.toString(),

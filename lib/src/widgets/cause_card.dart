@@ -107,7 +107,7 @@ class CauseCard extends StatelessWidget {
                   children: [
                     // Raised amount
                     Text(
-                      '${cause.totalDonations!.toStringAsFixed(0)} ${cause.currency ?? 'XAF'}',
+                      '${cause.totalDonations!.toStringAsFixed(0)} EUR',
                       style: theme.textTheme.titleSmall?.copyWith(
                         color: AppColors.primary,
                         fontWeight: FontWeight.w700,

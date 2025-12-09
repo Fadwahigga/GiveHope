@@ -278,7 +278,7 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
                       child: _StatCard(
                         label: l10n.causeTotalReceived,
                         value:
-                            '${_summary!.totalDonations.toStringAsFixed(0)} ${_summary!.currency}',
+                            '${_summary!.totalDonations.toStringAsFixed(0)} EUR',
                         icon: Icons.arrow_downward,
                         color: AppColors.success,
                       ),
@@ -288,7 +288,7 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
                       child: _StatCard(
                         label: l10n.causeAvailable,
                         value:
-                            '${_summary!.availableBalance.toStringAsFixed(0)} ${_summary!.currency}',
+                            '${_summary!.availableBalance.toStringAsFixed(0)} EUR',
                         icon: Icons.account_balance_wallet,
                         color: AppColors.primary,
                       ),
@@ -512,7 +512,7 @@ class _DonationItem extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '${donation.amount} ${donation.currency}',
+                      '${donation.amount} EUR',
                       style: theme.textTheme.titleSmall?.copyWith(
                         color: AppColors.primary,
                         fontWeight: FontWeight.w600,

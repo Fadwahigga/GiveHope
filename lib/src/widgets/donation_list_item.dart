@@ -75,7 +75,7 @@ class DonationListItem extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${donation.amount} ${donation.currency}',
+                          '${donation.amount} EUR',
                           style: theme.textTheme.titleSmall?.copyWith(
                             color: AppColors.primary,
                             fontWeight: FontWeight.w700,

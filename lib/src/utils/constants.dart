@@ -59,11 +59,11 @@ class AppConstants {
     25000,
   ];
 
-  /// Default currency
-  static const String defaultCurrency = 'XAF';
+  /// Default currency (Sandbox only supports EUR)
+  static const String defaultCurrency = 'EUR';
 
   /// Currency symbol
-  static const String currencySymbol = 'FCFA';
+  static const String currencySymbol = '€';
 
   /// Supported currencies by MTN MoMo API
   static const List<String> supportedCurrencies = [
