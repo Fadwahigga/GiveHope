@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../l10n/generated/app_localizations.dart';
 import '../models/cause.dart';
 import '../services/api_service.dart';
+import '../services/auth_service.dart';
+import '../services/settings_provider.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../utils/formatters.dart';
+import '../utils/network_helper.dart';
 import '../widgets/widgets.dart';
 import 'cause_detail_screen.dart';
 import 'create_cause_screen.dart';
@@ -23,6 +28,7 @@ class _CausesListScreenState extends State<CausesListScreen> {
   List<Cause> _causes = [];
   bool _isLoading = true;
   String? _error;
+  bool _isNoInternet = false;
 
   @override
   void initState() {
@@ -41,6 +47,7 @@ class _CausesListScreenState extends State<CausesListScreen> {
     setState(() {
       _isLoading = true;
       _error = null;
+      _isNoInternet = false;
     });
 
     try {
@@ -48,11 +55,14 @@ class _CausesListScreenState extends State<CausesListScreen> {
       setState(() {
         _causes = causes;
         _isLoading = false;
+        _isNoInternet = false;
       });
     } catch (e) {
+      final isNoInternet = NetworkHelper.isNoInternetError(e);
       setState(() {
-        _error = e.toString();
+        _error = NetworkHelper.getErrorMessage(e);
         _isLoading = false;
+        _isNoInternet = isNoInternet;
       });
     }
   }
@@ -77,9 +87,53 @@ class _CausesListScreenState extends State<CausesListScreen> {
     }
   }
 
+  void _showLanguageDialog() {
+    final l10n = AppLocalizations.of(context)!;
+    final settingsProvider = context.read<SettingsProvider>();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.settingsChooseLanguage),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              title: Text(l10n.settingsLanguageEn),
+              leading: const Icon(Icons.language),
+              selected: settingsProvider.locale.languageCode == 'en',
+              trailing: settingsProvider.locale.languageCode == 'en'
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                settingsProvider.setLocale(const Locale('en'));
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(l10n.settingsLanguageAr),
+              leading: const Icon(Icons.language),
+              selected: settingsProvider.locale.languageCode == 'ar',
+              trailing: settingsProvider.locale.languageCode == 'ar'
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                settingsProvider.setLocale(const Locale('ar'));
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
+    final authService = context.watch<AuthService>();
+    final currentUser = authService.currentUser;
 
     return Scaffold(
       body: SafeArea(
@@ -95,6 +149,49 @@ class _CausesListScreenState extends State<CausesListScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // User greeting (if logged in)
+                      if (currentUser != null && currentUser.name != null && currentUser.name!.isNotEmpty) ...[
+                        Row(
+                          children: [
+                            Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: AppColors.primary.withValues(alpha: 0.1),
+                                shape: BoxShape.circle,
+                              ),
+                              child: Icon(
+                                Icons.person,
+                                color: AppColors.primary,
+                                size: 20,
+                              ),
+                            ),
+                            const SizedBox(width: AppTheme.spaceSm),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '${l10n.commonWelcome}, ${currentUser.name}!',
+                                    style: theme.textTheme.titleMedium?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.primary,
+                                    ),
+                                  ),
+                                  Text(
+                                    l10n.homeSubtitle,
+                                    style: theme.textTheme.bodySmall?.copyWith(
+                                      color: theme.colorScheme.onSurfaceVariant,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: AppTheme.spaceMd),
+                      ],
+
                       // Title
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -104,28 +201,42 @@ class _CausesListScreenState extends State<CausesListScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Discover Causes',
+                                  currentUser != null && currentUser.name != null && currentUser.name!.isNotEmpty
+                                      ? l10n.homeTitle
+                                      : l10n.homeTitle,
                                   style: theme.textTheme.headlineMedium?.copyWith(
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
-                                const SizedBox(height: AppTheme.spaceXs),
-                                Text(
-                                  'Support causes that matter',
-                                  style: theme.textTheme.bodyLarge?.copyWith(
-                                    color: theme.colorScheme.onSurfaceVariant,
+                                if (currentUser == null || currentUser.name == null || currentUser.name!.isEmpty) ...[
+                                  const SizedBox(height: AppTheme.spaceXs),
+                                  Text(
+                                    l10n.homeSubtitle,
+                                    style: theme.textTheme.bodyLarge?.copyWith(
+                                      color: theme.colorScheme.onSurfaceVariant,
+                                    ),
                                   ),
-                                ),
+                                ],
                               ],
                             ),
                           ),
-                          IconButton.filled(
-                            onPressed: _createCause,
-                            icon: const Icon(Icons.add),
-                            style: IconButton.styleFrom(
-                              backgroundColor: AppColors.primary,
-                              foregroundColor: Colors.white,
-                            ),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                onPressed: _showLanguageDialog,
+                                icon: const Icon(Icons.language),
+                                tooltip: l10n.settingsLanguage,
+                              ),
+                              IconButton.filled(
+                                onPressed: _createCause,
+                                icon: const Icon(Icons.add),
+                                style: IconButton.styleFrom(
+                                  backgroundColor: AppColors.primary,
+                                  foregroundColor: Colors.white,
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -134,10 +245,25 @@ class _CausesListScreenState extends State<CausesListScreen> {
                 ),
               ),
 
+              // App Banner
+              const SliverToBoxAdapter(
+                child: SizedBox(height: AppTheme.spaceMd),
+              ),
+              const SliverToBoxAdapter(
+                child: AppBanner(),
+              ),
+              const SliverToBoxAdapter(
+                child: SizedBox(height: AppTheme.spaceLg),
+              ),
+
               // Content
               if (_isLoading)
-                const SliverFillRemaining(
-                  child: LoadingState(message: 'Loading causes...'),
+                SliverFillRemaining(
+                  child: LoadingState(message: l10n.homeLoading),
+                )
+              else if (_isNoInternet)
+                SliverFillRemaining(
+                  child: NoInternetScreen(onRetry: _loadCauses),
                 )
               else if (_error != null)
                 SliverFillRemaining(
@@ -149,9 +275,9 @@ class _CausesListScreenState extends State<CausesListScreen> {
               else if (_causes.isEmpty)
                 SliverFillRemaining(
                   child: EmptyState.noCauses(
-                    title: 'No causes yet',
-                    description: 'Be the first to create a cause!',
-                    actionText: 'Create Cause',
+                    title: l10n.homeNoCausesYet,
+                    description: l10n.homeNoCausesYetDesc,
+                    actionText: l10n.homeCreateCause,
                     onAction: _createCause,
                   ),
                 )
@@ -204,6 +330,7 @@ class _CauseListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Card(
       elevation: AppTheme.elevationSm,
@@ -251,7 +378,7 @@ class _CauseListItem extends StatelessWidget {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          'by ${Formatters.maskPhone(cause.ownerPhone)}',
+                          '${l10n.causeBy} ${Formatters.maskPhone(cause.ownerPhone)}',
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,
                           ),
@@ -288,7 +415,7 @@ class _CauseListItem extends StatelessWidget {
                   ),
                   const SizedBox(width: AppTheme.spaceXs),
                   Text(
-                    'Created ${Formatters.formatRelativeTime(cause.createdAt)}',
+                    '${l10n.commonCreated} ${Formatters.formatRelativeTime(cause.createdAt)}',
                     style: theme.textTheme.labelSmall?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
                     ),

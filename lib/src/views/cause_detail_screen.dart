@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import '../l10n/generated/app_localizations.dart';
 import '../models/models.dart';
 import '../services/api_service.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../utils/formatters.dart';
+import '../utils/network_helper.dart';
 import '../widgets/widgets.dart';
 import 'donation_screen.dart';
 import 'payout_screen.dart';
@@ -29,6 +31,7 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
   List<Donation> _recentDonations = [];
   bool _isLoading = true;
   String? _error;
+  bool _isNoInternet = false;
 
   @override
   void initState() {
@@ -46,6 +49,7 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
     setState(() {
       _isLoading = true;
       _error = null;
+      _isNoInternet = false;
     });
 
     try {
@@ -66,11 +70,14 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
         _summary = summary;
         _recentDonations = donations;
         _isLoading = false;
+        _isNoInternet = false;
       });
     } catch (e) {
+      final isNoInternet = NetworkHelper.isNoInternetError(e);
       setState(() {
-        _error = e.toString();
+        _error = NetworkHelper.getErrorMessage(e);
         _isLoading = false;
+        _isNoInternet = isNoInternet;
       });
     }
   }
@@ -101,12 +108,20 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final mediaQuery = MediaQuery.of(context);
 
     if (_isLoading) {
       return Scaffold(
         appBar: AppBar(),
-        body: const LoadingState(message: 'Loading cause details...'),
+        body: LoadingState(message: l10n.causeLoading),
+      );
+    }
+
+    if (_isNoInternet) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: NoInternetScreen(onRetry: _loadData),
       );
     }
 
@@ -125,9 +140,9 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
         appBar: AppBar(),
         body: EmptyState(
           icon: Icons.search_off,
-          title: 'Cause not found',
-          description: 'The cause you\'re looking for doesn\'t exist.',
-          actionText: 'Go Back',
+          title: l10n.causeNotFound,
+          description: l10n.causeNotFoundDesc,
+          actionText: l10n.causeGoBack,
           onAction: () => Navigator.of(context).pop(),
         ),
       );
@@ -137,13 +152,13 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cause Details'),
+        title: Text(l10n.causeDetailTitle),
         actions: [
           // Payout management button (for cause owner)
           IconButton(
             icon: const Icon(Icons.account_balance_wallet_outlined),
             onPressed: _navigateToPayouts,
-            tooltip: 'Manage Payouts',
+            tooltip: l10n.causeManagePayouts,
           ),
         ],
       ),
@@ -197,7 +212,7 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
                               ),
                               const SizedBox(height: AppTheme.spaceXs),
                               Text(
-                                'by ${Formatters.maskPhone(cause.ownerPhone)}',
+                                '${l10n.causeBy} ${Formatters.maskPhone(cause.ownerPhone)}',
                                 style: theme.textTheme.bodyMedium?.copyWith(
                                   color: Colors.white.withValues(alpha: 0.8),
                                 ),
@@ -219,7 +234,7 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
                   children: [
                     Expanded(
                       child: _StatCard(
-                        label: 'Total Donations',
+                        label: l10n.causeTotalReceived,
                         value: '${_summary!.totalDonations.toStringAsFixed(0)} ${_summary!.currency}',
                         icon: Icons.arrow_downward,
                         color: AppColors.success,
@@ -228,7 +243,7 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
                     const SizedBox(width: AppTheme.spaceMd),
                     Expanded(
                       child: _StatCard(
-                        label: 'Available',
+                        label: l10n.causeAvailable,
                         value: '${_summary!.availableBalance.toStringAsFixed(0)} ${_summary!.currency}',
                         icon: Icons.account_balance_wallet,
                         color: AppColors.primary,
@@ -242,7 +257,7 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
               // Description
               if (cause.description != null && cause.description!.isNotEmpty) ...[
                 Text(
-                  'About this cause',
+                  l10n.causeAbout,
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
@@ -263,13 +278,13 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Recent Donations',
+                    l10n.causeRecentDonations,
                     style: theme.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   Text(
-                    '${_recentDonations.length} donations',
+                    '${_recentDonations.length} ${l10n.commonDonations}',
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: theme.colorScheme.onSurfaceVariant,
                     ),
@@ -295,13 +310,13 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
                       ),
                       const SizedBox(height: AppTheme.spaceSm),
                       Text(
-                        'No donations yet',
+                        l10n.causeNoDonations,
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: theme.colorScheme.onSurfaceVariant,
                         ),
                       ),
                       Text(
-                        'Be the first to donate!',
+                        l10n.causeBeFirst,
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.onSurfaceVariant,
                         ),
@@ -344,7 +359,7 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
           ],
         ),
         child: PrimaryButton(
-          text: 'Donate Now',
+          text: l10n.donateTitle,
           icon: Icons.favorite,
           onPressed: _navigateToDonate,
         ),
@@ -414,6 +429,7 @@ class _DonationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final statusColor = _getStatusColor(donation.status);
 
     return Padding(
@@ -473,7 +489,7 @@ class _DonationItem extends StatelessWidget {
                         borderRadius: BorderRadius.circular(AppTheme.radiusRound),
                       ),
                       child: Text(
-                        donation.status.name,
+                        _getStatusText(donation.status, l10n),
                         style: theme.textTheme.labelSmall?.copyWith(
                           color: statusColor,
                           fontWeight: FontWeight.w600,
@@ -498,6 +514,17 @@ class _DonationItem extends StatelessWidget {
         return AppColors.warning;
       case DonationStatus.failed:
         return AppColors.error;
+    }
+  }
+
+  String _getStatusText(DonationStatus status, AppLocalizations l10n) {
+    switch (status) {
+      case DonationStatus.success:
+        return l10n.historyStatusSuccess;
+      case DonationStatus.pending:
+        return l10n.historyStatusPending;
+      case DonationStatus.failed:
+        return l10n.historyStatusFailed;
     }
   }
 }
