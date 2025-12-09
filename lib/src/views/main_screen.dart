@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../l10n/generated/app_localizations.dart';
 import '../services/auth_service.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
@@ -27,6 +28,8 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
@@ -41,21 +44,21 @@ class _MainScreenState extends State<MainScreen> {
         },
         height: 70,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-        destinations: const [
+        destinations: [
           NavigationDestination(
-            icon: Icon(Icons.explore_outlined),
-            selectedIcon: Icon(Icons.explore),
-            label: 'Explore',
+            icon: const Icon(Icons.explore_outlined),
+            selectedIcon: const Icon(Icons.explore),
+            label: l10n.navExplore,
           ),
           NavigationDestination(
-            icon: Icon(Icons.history_outlined),
-            selectedIcon: Icon(Icons.history),
-            label: 'History',
+            icon: const Icon(Icons.history_outlined),
+            selectedIcon: const Icon(Icons.history),
+            label: l10n.navHistory,
           ),
           NavigationDestination(
-            icon: Icon(Icons.settings_outlined),
-            selectedIcon: Icon(Icons.settings),
-            label: 'Settings',
+            icon: const Icon(Icons.settings_outlined),
+            selectedIcon: const Icon(Icons.settings),
+            label: l10n.navSettings,
           ),
         ],
       ),
@@ -141,6 +144,7 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       body: Container(
@@ -191,7 +195,7 @@ class _SplashScreenState extends State<SplashScreen>
 
                         // App name
                         Text(
-                          'GiveHope',
+                          l10n.appName,
                           style: theme.textTheme.displaySmall?.copyWith(
                             color: Colors.white,
                             fontWeight: FontWeight.w700,
@@ -203,7 +207,7 @@ class _SplashScreenState extends State<SplashScreen>
 
                         // Tagline
                         Text(
-                          'Making a difference, one donation at a time',
+                          l10n.appTagline,
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: Colors.white.withValues(alpha: 0.8),
                           ),
