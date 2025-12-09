@@ -65,6 +65,66 @@ class AppConstants {
   /// Currency symbol
   static const String currencySymbol = 'FCFA';
 
+  /// Supported currencies by MTN MoMo API
+  static const List<String> supportedCurrencies = [
+    'XAF', // Central African CFA Franc (Cameroon, Chad, Central African Republic, etc.)
+    'XOF', // West African CFA Franc (Côte d'Ivoire, Senegal, etc.)
+    'UGX', // Ugandan Shilling
+    'GHS', // Ghanaian Cedi
+    'ZAR', // South African Rand
+    'NGN', // Nigerian Naira
+    'ZMW', // Zambian Kwacha
+    'RWF', // Rwandan Franc
+    'TZS', // Tanzanian Shilling
+    'KES', // Kenyan Shilling
+    'ETB', // Ethiopian Birr
+    'MWK', // Malawian Kwacha
+    'MZN', // Mozambican Metical
+    'USD', // US Dollar (if supported in your region)
+    'EUR', // Euro (if supported in your region)
+    'GBP', // British Pound (if supported in your region)
+  ];
+
+  /// Get currency symbol for a given currency code
+  static String getCurrencySymbol(String currency) {
+    switch (currency) {
+      case 'XAF':
+        return 'FCFA';
+      case 'XOF':
+        return 'FCFA';
+      case 'UGX':
+        return 'USh';
+      case 'GHS':
+        return '₵';
+      case 'ZAR':
+        return 'R';
+      case 'NGN':
+        return '₦';
+      case 'ZMW':
+        return 'ZK';
+      case 'RWF':
+        return 'RF';
+      case 'TZS':
+        return 'TSh';
+      case 'KES':
+        return 'KSh';
+      case 'ETB':
+        return 'Br';
+      case 'MWK':
+        return 'MK';
+      case 'MZN':
+        return 'MT';
+      case 'USD':
+        return '\$';
+      case 'EUR':
+        return '€';
+      case 'GBP':
+        return '£';
+      default:
+        return currency;
+    }
+  }
+
   // ═══════════════════════════════════════════════════════════════
   // PAYMENT STATUS POLLING
   // ═══════════════════════════════════════════════════════════════

@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import '../models/models.dart';
 import '../utils/constants.dart';
@@ -118,13 +119,27 @@ class ApiService {
 
   Future<dynamic> _post(String endpoint, {Map<String, dynamic>? body}) async {
     try {
+      final uri = _buildUri(endpoint);
+      final requestBody = body != null ? json.encode(body) : null;
+
+      // Debug: Log raw HTTP request (for non-donation/payout endpoints)
+      if (!endpoint.contains('/donate') && !endpoint.contains('/payout')) {
+        debugPrint('🔵 POST $uri');
+        if (requestBody != null) {
+          debugPrint('Body: $requestBody');
+        }
+      }
+
       final response = await _client
-          .post(
-            _buildUri(endpoint),
-            headers: _headers,
-            body: body != null ? json.encode(body) : null,
-          )
+          .post(uri, headers: _headers, body: requestBody)
           .timeout(AppConstants.apiTimeout);
+
+      // Debug: Log raw HTTP response (for non-donation/payout endpoints)
+      if (!endpoint.contains('/donate') && !endpoint.contains('/payout')) {
+        debugPrint('🟢 Response Status: ${response.statusCode}');
+        debugPrint('Response Body: ${response.body}');
+      }
+
       return _handleResponse(response);
     } on SocketException {
       // More generic error message for mobile networks
@@ -295,8 +310,54 @@ class ApiService {
 
   /// Create a donation (initiates MoMo payment)
   Future<DonationResponse> makeDonation(DonationRequest request) async {
-    final response = await _post('/donate', body: request.toJson());
-    return DonationResponse.fromJson(response);
+    final requestBody = request.toJson();
+    final url = _buildUri('/donate');
+
+    // Debug: Log request
+    debugPrint('═══════════════════════════════════════════════════════════');
+    debugPrint('📤 DONATION REQUEST');
+    debugPrint('═══════════════════════════════════════════════════════════');
+    debugPrint('URL: $url');
+    debugPrint('Method: POST');
+    debugPrint('Headers: $_headers');
+    debugPrint('Request Body:');
+    debugPrint(const JsonEncoder.withIndent('  ').convert(requestBody));
+    debugPrint('═══════════════════════════════════════════════════════════');
+
+    try {
+      final response = await _post('/donate', body: requestBody);
+
+      // Debug: Log response
+      debugPrint('═══════════════════════════════════════════════════════════');
+      debugPrint('📥 DONATION RESPONSE');
+      debugPrint('═══════════════════════════════════════════════════════════');
+      debugPrint('Response Data:');
+      debugPrint(const JsonEncoder.withIndent('  ').convert(response));
+      debugPrint('═══════════════════════════════════════════════════════════');
+
+      final donationResponse = DonationResponse.fromJson(response);
+
+      // Debug: Log parsed response
+      debugPrint('Parsed DonationResponse:');
+      debugPrint('  - donationId: ${donationResponse.donationId}');
+      debugPrint('  - externalId: ${donationResponse.externalId}');
+      debugPrint('  - status: ${donationResponse.status}');
+      debugPrint('  - paymentInitiated: ${donationResponse.paymentInitiated}');
+      debugPrint('  - amount: ${donationResponse.amount}');
+      debugPrint('  - currency: ${donationResponse.currency}');
+      debugPrint('  - paymentError: ${donationResponse.paymentError}');
+      debugPrint('  - momoRefId: ${donationResponse.momoRefId}');
+      debugPrint('═══════════════════════════════════════════════════════════');
+
+      return donationResponse;
+    } catch (e) {
+      debugPrint('═══════════════════════════════════════════════════════════');
+      debugPrint('❌ DONATION ERROR');
+      debugPrint('═══════════════════════════════════════════════════════════');
+      debugPrint('Error: $e');
+      debugPrint('═══════════════════════════════════════════════════════════');
+      rethrow;
+    }
   }
 
   /// Get a single donation by ID
@@ -307,8 +368,47 @@ class ApiService {
 
   /// Check and sync donation status from MoMo
   Future<Donation> checkDonationStatus(String id) async {
-    final response = await _get('/donations/$id/status');
-    return Donation.fromJson(response);
+    final url = _buildUri('/donations/$id/status');
+
+    // Debug: Log request
+    debugPrint('═══════════════════════════════════════════════════════════');
+    debugPrint('📤 CHECK DONATION STATUS REQUEST');
+    debugPrint('═══════════════════════════════════════════════════════════');
+    debugPrint('URL: $url');
+    debugPrint('Method: GET');
+    debugPrint('Donation ID: $id');
+    debugPrint('═══════════════════════════════════════════════════════════');
+
+    try {
+      final response = await _get('/donations/$id/status');
+
+      // Debug: Log response
+      debugPrint('═══════════════════════════════════════════════════════════');
+      debugPrint('📥 CHECK DONATION STATUS RESPONSE');
+      debugPrint('═══════════════════════════════════════════════════════════');
+      debugPrint('Response Data:');
+      debugPrint(const JsonEncoder.withIndent('  ').convert(response));
+      debugPrint('═══════════════════════════════════════════════════════════');
+
+      final donation = Donation.fromJson(response);
+
+      // Debug: Log parsed donation
+      debugPrint('Parsed Donation Status:');
+      debugPrint('  - id: ${donation.id}');
+      debugPrint('  - status: ${donation.status}');
+      debugPrint('  - momoRefId: ${donation.momoRefId}');
+      debugPrint('  - updatedAt: ${donation.updatedAt}');
+      debugPrint('═══════════════════════════════════════════════════════════');
+
+      return donation;
+    } catch (e) {
+      debugPrint('═══════════════════════════════════════════════════════════');
+      debugPrint('❌ CHECK DONATION STATUS ERROR');
+      debugPrint('═══════════════════════════════════════════════════════════');
+      debugPrint('Error: $e');
+      debugPrint('═══════════════════════════════════════════════════════════');
+      rethrow;
+    }
   }
 
   /// Fetch donations for a specific cause
@@ -345,8 +445,56 @@ class ApiService {
 
   /// Create a payout (initiates MoMo transfer)
   Future<PayoutResponse> requestPayout(PayoutRequest request) async {
-    final response = await _post('/payout', body: request.toJson());
-    return PayoutResponse.fromJson(response);
+    final requestBody = request.toJson();
+    final url = _buildUri('/payout');
+
+    // Debug: Log request
+    debugPrint('═══════════════════════════════════════════════════════════');
+    debugPrint('📤 PAYOUT REQUEST');
+    debugPrint('═══════════════════════════════════════════════════════════');
+    debugPrint('URL: $url');
+    debugPrint('Method: POST');
+    debugPrint('Headers: $_headers');
+    debugPrint('Request Body:');
+    debugPrint(const JsonEncoder.withIndent('  ').convert(requestBody));
+    debugPrint('═══════════════════════════════════════════════════════════');
+
+    try {
+      final response = await _post('/payout', body: requestBody);
+
+      // Debug: Log response
+      debugPrint('═══════════════════════════════════════════════════════════');
+      debugPrint('📥 PAYOUT RESPONSE');
+      debugPrint('═══════════════════════════════════════════════════════════');
+      debugPrint('Response Data:');
+      debugPrint(const JsonEncoder.withIndent('  ').convert(response));
+      debugPrint('═══════════════════════════════════════════════════════════');
+
+      final payoutResponse = PayoutResponse.fromJson(response);
+
+      // Debug: Log parsed response
+      debugPrint('Parsed PayoutResponse:');
+      debugPrint('  - payoutId: ${payoutResponse.payoutId}');
+      debugPrint('  - externalId: ${payoutResponse.externalId}');
+      debugPrint('  - status: ${payoutResponse.status}');
+      debugPrint('  - transferInitiated: ${payoutResponse.transferInitiated}');
+      debugPrint('  - amount: ${payoutResponse.amount}');
+      debugPrint('  - currency: ${payoutResponse.currency}');
+      debugPrint(
+        '  - availableBalanceAfter: ${payoutResponse.availableBalanceAfter}',
+      );
+      debugPrint('  - momoRefId: ${payoutResponse.momoRefId}');
+      debugPrint('═══════════════════════════════════════════════════════════');
+
+      return payoutResponse;
+    } catch (e) {
+      debugPrint('═══════════════════════════════════════════════════════════');
+      debugPrint('❌ PAYOUT ERROR');
+      debugPrint('═══════════════════════════════════════════════════════════');
+      debugPrint('Error: $e');
+      debugPrint('═══════════════════════════════════════════════════════════');
+      rethrow;
+    }
   }
 
   /// Fetch payouts for a specific cause
@@ -376,8 +524,47 @@ class ApiService {
 
   /// Check and sync payout status from MoMo
   Future<Payout> checkPayoutStatus(String id) async {
-    final response = await _get('/payouts/detail/$id/status');
-    return Payout.fromJson(response);
+    final url = _buildUri('/payouts/detail/$id/status');
+
+    // Debug: Log request
+    debugPrint('═══════════════════════════════════════════════════════════');
+    debugPrint('📤 CHECK PAYOUT STATUS REQUEST');
+    debugPrint('═══════════════════════════════════════════════════════════');
+    debugPrint('URL: $url');
+    debugPrint('Method: GET');
+    debugPrint('Payout ID: $id');
+    debugPrint('═══════════════════════════════════════════════════════════');
+
+    try {
+      final response = await _get('/payouts/detail/$id/status');
+
+      // Debug: Log response
+      debugPrint('═══════════════════════════════════════════════════════════');
+      debugPrint('📥 CHECK PAYOUT STATUS RESPONSE');
+      debugPrint('═══════════════════════════════════════════════════════════');
+      debugPrint('Response Data:');
+      debugPrint(const JsonEncoder.withIndent('  ').convert(response));
+      debugPrint('═══════════════════════════════════════════════════════════');
+
+      final payout = Payout.fromJson(response);
+
+      // Debug: Log parsed payout
+      debugPrint('Parsed Payout Status:');
+      debugPrint('  - id: ${payout.id}');
+      debugPrint('  - status: ${payout.status}');
+      debugPrint('  - momoRefId: ${payout.momoRefId}');
+      debugPrint('  - updatedAt: ${payout.updatedAt}');
+      debugPrint('═══════════════════════════════════════════════════════════');
+
+      return payout;
+    } catch (e) {
+      debugPrint('═══════════════════════════════════════════════════════════');
+      debugPrint('❌ CHECK PAYOUT STATUS ERROR');
+      debugPrint('═══════════════════════════════════════════════════════════');
+      debugPrint('Error: $e');
+      debugPrint('═══════════════════════════════════════════════════════════');
+      rethrow;
+    }
   }
 
   /// Dispose of the HTTP client

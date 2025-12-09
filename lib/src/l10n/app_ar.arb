@@ -108,6 +108,7 @@
   "donateAmountHint": "أدخل المبلغ",
   "donateAmountError": "الرجاء إدخال مبلغ صحيح",
   "donateAmountMin": "الحد الأدنى للتبرع هو {amount}",
+  "donateCurrency": "العملة",
   "donatePhone": "رقم هاتف MTN MoMo",
   "donatePhoneHint": "مثال: +237670000001",
   "donatePhoneError": "الرجاء إدخال رقم هاتف صحيح",

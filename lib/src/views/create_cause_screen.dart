@@ -4,7 +4,6 @@ import '../models/cause.dart';
 import '../services/api_service.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
-import '../utils/network_helper.dart';
 import '../utils/validators.dart';
 import '../widgets/widgets.dart';
 
@@ -31,6 +30,32 @@ class _CreateCauseScreenState extends State<CreateCauseScreen> {
     _phoneController.dispose();
     _apiService.dispose();
     super.dispose();
+  }
+
+  String _getErrorMessage(dynamic error, AppLocalizations l10n) {
+    if (error is ApiException) {
+      final message = error.message.toLowerCase();
+      if (message.contains('unable to connect') ||
+          message.contains('connection') ||
+          message.contains('connect to server')) {
+        return l10n.errorConnectionFailed;
+      }
+      if (message.contains('timeout') || message.contains('timed out')) {
+        return l10n.errorRequestTimeout;
+      }
+      if (message.contains('network error')) {
+        return l10n.errorNetworkError;
+      }
+      if (message.contains('an error occurred') ||
+          message.contains('error occurred')) {
+        return l10n.errorAnErrorOccurred;
+      }
+      return error.message;
+    }
+    if (error is String) {
+      return error;
+    }
+    return l10n.errorUnexpected;
   }
 
   Future<void> _createCause() async {
@@ -67,7 +92,7 @@ class _CreateCauseScreenState extends State<CreateCauseScreen> {
         final l10n = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(NetworkHelper.getErrorMessage(e, l10n)),
+            content: Text(_getErrorMessage(e, l10n)),
             backgroundColor: AppColors.error,
           ),
         );

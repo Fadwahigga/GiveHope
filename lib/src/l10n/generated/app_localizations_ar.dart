@@ -319,6 +319,9 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get donateCurrency => 'العملة';
+
+  @override
   String get donatePhone => 'رقم هاتف MTN MoMo';
 
   @override

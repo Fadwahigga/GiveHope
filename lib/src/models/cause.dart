@@ -36,22 +36,26 @@ class Cause {
   /// Creates a Cause from JSON map
   factory Cause.fromJson(Map<String, dynamic> json) {
     return Cause(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      description: json['description'] as String?,
-      ownerPhone: json['ownerPhone'] as String,
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      id: json['id']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      description: json['description']?.toString(),
+      ownerPhone: json['ownerPhone']?.toString() ?? '',
+      createdAt: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt'].toString())
+          : DateTime.now(),
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.parse(json['updatedAt'].toString())
+          : DateTime.now(),
       totalDonations: json['totalDonations'] != null 
-          ? (json['totalDonations'] as num).toDouble() 
+          ? (json['totalDonations'] as num?)?.toDouble()
           : null,
       totalPayouts: json['totalPayouts'] != null 
-          ? (json['totalPayouts'] as num).toDouble() 
+          ? (json['totalPayouts'] as num?)?.toDouble()
           : null,
       availableBalance: json['availableBalance'] != null 
-          ? (json['availableBalance'] as num).toDouble() 
+          ? (json['availableBalance'] as num?)?.toDouble()
           : null,
-      currency: json['currency'] as String?,
+      currency: json['currency']?.toString(),
     );
   }
 
@@ -149,10 +153,10 @@ class CauseSummary {
   factory CauseSummary.fromJson(Map<String, dynamic> json) {
     return CauseSummary(
       cause: Cause.fromJson(json['cause'] as Map<String, dynamic>),
-      totalDonations: (json['totalDonations'] as num).toDouble(),
-      totalPayouts: (json['totalPayouts'] as num).toDouble(),
-      availableBalance: (json['availableBalance'] as num).toDouble(),
-      currency: json['currency'] as String,
+      totalDonations: (json['totalDonations'] as num?)?.toDouble() ?? 0.0,
+      totalPayouts: (json['totalPayouts'] as num?)?.toDouble() ?? 0.0,
+      availableBalance: (json['availableBalance'] as num?)?.toDouble() ?? 0.0,
+      currency: json['currency']?.toString() ?? 'XAF',
     );
   }
 }

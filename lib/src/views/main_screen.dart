@@ -104,8 +104,10 @@ class _SplashScreenState extends State<SplashScreen>
 
     _controller.forward();
 
-    // Initialize auth and navigate
-    _initializeAndNavigate();
+    // Initialize auth and navigate after the build phase completes
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _initializeAndNavigate();
+    });
   }
 
   Future<void> _initializeAndNavigate() async {

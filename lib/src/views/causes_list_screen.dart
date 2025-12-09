@@ -8,7 +8,6 @@ import '../services/settings_provider.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../utils/formatters.dart';
-import '../utils/network_helper.dart';
 import '../widgets/widgets.dart';
 import 'cause_detail_screen.dart';
 import 'create_cause_screen.dart';
@@ -58,11 +57,9 @@ class _CausesListScreenState extends State<CausesListScreen> {
         _isNoInternet = false;
       });
     } catch (e) {
-      // COMMENTED OUT: Internet connection check disabled
-      // final isNoInternet = NetworkHelper.isNoInternetError(e);
       final l10n = AppLocalizations.of(context)!;
       setState(() {
-        _error = NetworkHelper.getErrorMessage(e, l10n);
+        _error = _getErrorMessage(e, l10n);
         _isLoading = false;
         _isNoInternet = false; // Always false - no internet check
       });
@@ -128,6 +125,32 @@ class _CausesListScreenState extends State<CausesListScreen> {
         ),
       ),
     );
+  }
+
+  String _getErrorMessage(dynamic error, AppLocalizations l10n) {
+    if (error is ApiException) {
+      final message = error.message.toLowerCase();
+      if (message.contains('unable to connect') ||
+          message.contains('connection') ||
+          message.contains('connect to server')) {
+        return l10n.errorConnectionFailed;
+      }
+      if (message.contains('timeout') || message.contains('timed out')) {
+        return l10n.errorRequestTimeout;
+      }
+      if (message.contains('network error')) {
+        return l10n.errorNetworkError;
+      }
+      if (message.contains('an error occurred') ||
+          message.contains('error occurred')) {
+        return l10n.errorAnErrorOccurred;
+      }
+      return error.message;
+    }
+    if (error is String) {
+      return error;
+    }
+    return l10n.errorUnexpected;
   }
 
   void _showThemeDialog() {
@@ -442,11 +465,24 @@ class _CauseListItem extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 2),
-                        Text(
-                          '${l10n.causeBy} ${Formatters.maskPhone(cause.ownerPhone)}',
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
-                          ),
+                        Row(
+                          children: [
+                            Text(
+                              '${l10n.causeBy} ',
+                              style: theme.textTheme.bodySmall?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                            Directionality(
+                              textDirection: TextDirection.ltr,
+                              child: Text(
+                                Formatters.maskPhone(cause.ownerPhone),
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: theme.colorScheme.onSurfaceVariant,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),

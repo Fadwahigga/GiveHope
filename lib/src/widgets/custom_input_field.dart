@@ -190,19 +190,23 @@ class PhoneInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomInputField(
-      controller: controller,
-      label: label,
-      hint: hint ?? 'Enter phone number',
-      errorText: errorText,
-      prefixIcon: Icons.phone_outlined,
-      keyboardType: TextInputType.phone,
-      inputFormatters: [
-        FilteringTextInputFormatter.allow(RegExp(r'[\d\s\-+()\.]')),
-      ],
-      validator: validator,
-      onChanged: onChanged,
-      focusNode: focusNode,
+    // Phone numbers should always be LTR regardless of app language
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: CustomInputField(
+        controller: controller,
+        label: label,
+        hint: hint ?? 'Enter phone number',
+        errorText: errorText,
+        prefixIcon: Icons.phone_outlined,
+        keyboardType: TextInputType.phone,
+        inputFormatters: [
+          FilteringTextInputFormatter.allow(RegExp(r'[\d\s\-+()\.]')),
+        ],
+        validator: validator,
+        onChanged: onChanged,
+        focusNode: focusNode,
+      ),
     );
   }
 }

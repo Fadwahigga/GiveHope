@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../l10n/generated/app_localizations.dart';
+import '../services/api_service.dart';
 import '../services/auth_service.dart';
 import '../services/settings_provider.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
-import '../utils/network_helper.dart';
 import '../utils/validators.dart';
 import '../widgets/widgets.dart';
 import 'register_screen.dart';
@@ -24,6 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -32,41 +33,90 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  String _getErrorMessage(dynamic error, AppLocalizations l10n) {
+    if (error is ApiException) {
+      final message = error.message.toLowerCase();
+      if (message.contains('unable to connect') ||
+          message.contains('connection') ||
+          message.contains('connect to server')) {
+        return l10n.errorConnectionFailed;
+      }
+      if (message.contains('timeout') || message.contains('timed out')) {
+        return l10n.errorRequestTimeout;
+      }
+      if (message.contains('network error')) {
+        return l10n.errorNetworkError;
+      }
+      if (message.contains('an error occurred') ||
+          message.contains('error occurred')) {
+        return l10n.errorAnErrorOccurred;
+      }
+      return error.message;
+    }
+    if (error is String) {
+      return error;
+    }
+    return l10n.errorUnexpected;
+  }
+
   Future<void> _login() async {
     if (!_formKey.currentState!.validate()) return;
 
-    final authService = context.read<AuthService>();
-    
-    final success = await authService.login(
-      email: _emailController.text.trim(),
-      password: _passwordController.text,
-    );
+    setState(() {
+      _isLoading = true;
+    });
 
-    if (success && mounted) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const MainScreen()),
+    final authService = context.read<AuthService>();
+    String? errorMessage;
+
+    try {
+      final success = await authService.login(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
       );
-    } else if (mounted && authService.error != null) {
-      final l10n = AppLocalizations.of(context)!;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(NetworkHelper.getErrorMessage(authService.error!, l10n)),
-          backgroundColor: AppColors.error,
-        ),
-      );
+
+      if (success && mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const MainScreen()),
+        );
+        return;
+      } else if (mounted && authService.error != null) {
+        errorMessage = authService.error;
+      }
+    } catch (e) {
+      if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
+        errorMessage = _getErrorMessage(e, l10n);
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+
+        if (errorMessage != null) {
+          final l10n = AppLocalizations.of(context)!;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(_getErrorMessage(errorMessage, l10n)),
+              backgroundColor: AppColors.error,
+            ),
+          );
+        }
+      }
     }
   }
 
   void _navigateToRegister() {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const RegisterScreen()),
-    );
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (_) => const RegisterScreen()));
   }
 
   void _continueAsGuest() {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => const MainScreen()),
-    );
+    Navigator.of(
+      context,
+    ).pushReplacement(MaterialPageRoute(builder: (_) => const MainScreen()));
   }
 
   void _showLanguageDialog() {
@@ -167,7 +217,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final l10n = AppLocalizations.of(context)!;
-    final authService = context.watch<AuthService>();
     final mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
@@ -197,7 +246,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(height: mediaQuery.size.height * 0.08),
+                SizedBox(height: mediaQuery.size.height * 0.005),
 
                 // Logo
                 Container(
@@ -261,8 +310,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   hint: l10n.authPasswordHint,
                   prefixIcon: Icons.lock_outlined,
                   obscureText: _obscurePassword,
-                  suffixIcon: _obscurePassword 
-                      ? Icons.visibility_outlined 
+                  suffixIcon: _obscurePassword
+                      ? Icons.visibility_outlined
                       : Icons.visibility_off_outlined,
                   onSuffixTap: () {
                     setState(() {
@@ -271,7 +320,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   textInputAction: TextInputAction.done,
                   validator: (value) => Validators.validateRequired(
-                    value, 
+                    value,
                     message: l10n.authRequired,
                   ),
                 ),
@@ -281,7 +330,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Login button
                 PrimaryButton(
                   text: l10n.authLogin,
-                  isLoading: authService.isLoading,
+                  isLoading: _isLoading,
                   onPressed: _login,
                 ),
 
@@ -291,10 +340,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      l10n.authNoAccount,
-                      style: theme.textTheme.bodyMedium,
-                    ),
+                    Text(l10n.authNoAccount, style: theme.textTheme.bodyMedium),
                     TextButton(
                       onPressed: _navigateToRegister,
                       child: Text(l10n.authSignUp),

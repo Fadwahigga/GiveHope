@@ -323,6 +323,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get donateCurrency => 'Currency';
+
+  @override
   String get donatePhone => 'MTN MoMo Phone Number';
 
   @override

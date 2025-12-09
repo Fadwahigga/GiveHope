@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../l10n/generated/app_localizations.dart';
+import '../services/api_service.dart';
 import '../services/auth_service.dart';
 import '../services/settings_provider.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../utils/constants.dart';
-import '../utils/network_helper.dart';
 import '../utils/validators.dart';
 import '../widgets/widgets.dart';
 import 'main_screen.dart';
@@ -28,6 +28,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _confirmPasswordController = TextEditingController();
   bool _obscurePassword = true;
   bool _obscureConfirmPassword = true;
+  bool _isLoading = false;
 
   @override
   void dispose() {
@@ -39,35 +40,84 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
+  String _getErrorMessage(dynamic error, AppLocalizations l10n) {
+    if (error is ApiException) {
+      final message = error.message.toLowerCase();
+      if (message.contains('unable to connect') ||
+          message.contains('connection') ||
+          message.contains('connect to server')) {
+        return l10n.errorConnectionFailed;
+      }
+      if (message.contains('timeout') || message.contains('timed out')) {
+        return l10n.errorRequestTimeout;
+      }
+      if (message.contains('network error')) {
+        return l10n.errorNetworkError;
+      }
+      if (message.contains('an error occurred') ||
+          message.contains('error occurred')) {
+        return l10n.errorAnErrorOccurred;
+      }
+      return error.message;
+    }
+    if (error is String) {
+      return error;
+    }
+    return l10n.errorUnexpected;
+  }
+
   Future<void> _register() async {
     if (!_formKey.currentState!.validate()) return;
 
-    final authService = context.read<AuthService>();
-    
-    final success = await authService.register(
-      email: _emailController.text.trim(),
-      password: _passwordController.text,
-      name: _nameController.text.trim().isNotEmpty 
-          ? _nameController.text.trim() 
-          : null,
-      phone: _phoneController.text.trim().isNotEmpty 
-          ? _phoneController.text.trim() 
-          : null,
-    );
+    setState(() {
+      _isLoading = true;
+    });
 
-    if (success && mounted) {
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => const MainScreen()),
-        (route) => false,
+    final authService = context.read<AuthService>();
+    String? errorMessage;
+
+    try {
+      final success = await authService.register(
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+        name: _nameController.text.trim().isNotEmpty 
+            ? _nameController.text.trim() 
+            : null,
+        phone: _phoneController.text.trim().isNotEmpty 
+            ? _phoneController.text.trim() 
+            : null,
       );
-    } else if (mounted && authService.error != null) {
-      final l10n = AppLocalizations.of(context)!;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(NetworkHelper.getErrorMessage(authService.error!, l10n)),
-          backgroundColor: AppColors.error,
-        ),
-      );
+
+      if (success && mounted) {
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => const MainScreen()),
+          (route) => false,
+        );
+        return;
+      } else if (mounted && authService.error != null) {
+        errorMessage = authService.error;
+      }
+    } catch (e) {
+      if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
+        errorMessage = _getErrorMessage(e, l10n);
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+
+        if (errorMessage != null) {
+          final l10n = AppLocalizations.of(context)!;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(_getErrorMessage(errorMessage, l10n)),
+              backgroundColor: AppColors.error,
+            ),
+          );
+        }
+      }
     }
   }
 

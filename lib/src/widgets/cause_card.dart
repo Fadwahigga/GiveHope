@@ -64,11 +64,19 @@ class CauseCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                         ),
                         const SizedBox(height: 2),
-                        Text(
-                          'by ${Formatters.maskPhone(cause.ownerPhone)}',
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
-                          ),
+                        Row(
+                          children: [
+                            const Text('by '),
+                            Directionality(
+                              textDirection: TextDirection.ltr,
+                              child: Text(
+                                Formatters.maskPhone(cause.ownerPhone),
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                  color: theme.colorScheme.onSurfaceVariant,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -208,11 +216,19 @@ class CauseCardCompact extends StatelessWidget {
                       const SizedBox(height: AppTheme.spaceXs),
                       
                       // Owner
-                      Text(
-                        'by ${Formatters.maskPhone(cause.ownerPhone)}',
-                        style: theme.textTheme.labelSmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
+                      Row(
+                        children: [
+                          const Text('by '),
+                          Directionality(
+                            textDirection: TextDirection.ltr,
+                            child: Text(
+                              Formatters.maskPhone(cause.ownerPhone),
+                              style: theme.textTheme.labelSmall?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

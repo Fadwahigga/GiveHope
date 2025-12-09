@@ -52,15 +52,19 @@ class Payout {
   /// Creates a Payout from JSON map
   factory Payout.fromJson(Map<String, dynamic> json) {
     return Payout(
-      id: json['id'] as String,
-      causeId: json['causeId'] as String,
-      amount: json['amount'].toString(),
-      currency: json['currency'] as String,
-      status: PayoutStatus.fromString(json['status'] as String? ?? 'pending'),
-      externalId: json['externalId'] as String?,
-      momoRefId: json['momoRefId'] as String?,
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      id: json['id']?.toString() ?? '',
+      causeId: json['causeId']?.toString() ?? '',
+      amount: json['amount']?.toString() ?? '0',
+      currency: json['currency']?.toString() ?? 'XAF',
+      status: PayoutStatus.fromString(json['status']?.toString() ?? 'pending'),
+      externalId: json['externalId']?.toString(),
+      momoRefId: json['momoRefId']?.toString(),
+      createdAt: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt'].toString())
+          : DateTime.now(),
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.parse(json['updatedAt'].toString())
+          : DateTime.now(),
       cause: json['cause'] != null 
           ? PayoutCause.fromJson(json['cause'] as Map<String, dynamic>) 
           : null,
@@ -144,12 +148,16 @@ class PayoutCause {
 
   factory PayoutCause.fromJson(Map<String, dynamic> json) {
     return PayoutCause(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      description: json['description'] as String?,
-      ownerPhone: json['ownerPhone'] as String,
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      id: json['id']?.toString() ?? '',
+      name: json['name']?.toString() ?? '',
+      description: json['description']?.toString(),
+      ownerPhone: json['ownerPhone']?.toString() ?? '',
+      createdAt: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt'].toString())
+          : DateTime.now(),
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.parse(json['updatedAt'].toString())
+          : DateTime.now(),
     );
   }
 }
@@ -201,17 +209,17 @@ class PayoutResponse {
 
   factory PayoutResponse.fromJson(Map<String, dynamic> json) {
     return PayoutResponse(
-      payoutId: json['payoutId'] as String,
-      externalId: json['externalId'] as String,
-      status: json['status'] as String,
-      momoRefId: json['momoRefId'] as String?,
-      transferInitiated: json['transferInitiated'] as bool,
-      amount: json['amount'].toString(),
-      currency: json['currency'] as String,
+      payoutId: json['payoutId']?.toString() ?? '',
+      externalId: json['externalId']?.toString() ?? '',
+      status: json['status']?.toString() ?? 'pending',
+      momoRefId: json['momoRefId']?.toString(),
+      transferInitiated: json['transferInitiated'] == true,
+      amount: json['amount']?.toString() ?? '0',
+      currency: json['currency']?.toString() ?? 'XAF',
       availableBalanceAfter: json['availableBalanceAfter'] != null 
-          ? (json['availableBalanceAfter'] as num).toDouble() 
+          ? (json['availableBalanceAfter'] as num?)?.toDouble()
           : null,
-      transferError: json['transferError'] as String?,
+      transferError: json['transferError']?.toString(),
     );
   }
 }

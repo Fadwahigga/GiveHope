@@ -60,18 +60,22 @@ class Donation {
   /// Creates a Donation from JSON map
   factory Donation.fromJson(Map<String, dynamic> json) {
     return Donation(
-      id: json['id'] as String,
-      causeId: json['causeId'] as String,
-      donorPhone: json['donorPhone'] as String,
-      amount: json['amount'].toString(),
-      currency: json['currency'] as String,
-      status: DonationStatus.fromString(json['status'] as String? ?? 'pending'),
-      externalId: json['externalId'] as String?,
-      momoRefId: json['momoRefId'] as String?,
-      payerMessage: json['payerMessage'] as String?,
-      payeeNote: json['payeeNote'] as String?,
-      createdAt: DateTime.parse(json['createdAt'] as String),
-      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      id: json['id']?.toString() ?? '',
+      causeId: json['causeId']?.toString() ?? '',
+      donorPhone: json['donorPhone']?.toString() ?? '',
+      amount: json['amount']?.toString() ?? '0',
+      currency: json['currency']?.toString() ?? 'XAF',
+      status: DonationStatus.fromString(json['status']?.toString() ?? 'pending'),
+      externalId: json['externalId']?.toString(),
+      momoRefId: json['momoRefId']?.toString(),
+      payerMessage: json['payerMessage']?.toString(),
+      payeeNote: json['payeeNote']?.toString(),
+      createdAt: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt'].toString())
+          : DateTime.now(),
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.parse(json['updatedAt'].toString())
+          : DateTime.now(),
       cause: json['cause'] != null 
           ? Cause.fromJson(json['cause'] as Map<String, dynamic>) 
           : null,
@@ -195,14 +199,14 @@ class DonationResponse {
 
   factory DonationResponse.fromJson(Map<String, dynamic> json) {
     return DonationResponse(
-      donationId: json['donationId'] as String,
-      externalId: json['externalId'] as String,
-      status: json['status'] as String,
-      momoRefId: json['momoRefId'] as String?,
-      paymentInitiated: json['paymentInitiated'] as bool,
-      amount: json['amount'].toString(),
-      currency: json['currency'] as String,
-      paymentError: json['paymentError'] as String?,
+      donationId: json['donationId']?.toString() ?? '',
+      externalId: json['externalId']?.toString() ?? '',
+      status: json['status']?.toString() ?? 'pending',
+      momoRefId: json['momoRefId']?.toString(),
+      paymentInitiated: json['paymentInitiated'] == true,
+      amount: json['amount']?.toString() ?? '0',
+      currency: json['currency']?.toString() ?? 'XAF',
+      paymentError: json['paymentError']?.toString(),
     );
   }
 }

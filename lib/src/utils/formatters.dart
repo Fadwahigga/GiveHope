@@ -164,15 +164,23 @@ class Formatters {
     return phone;
   }
 
-  /// Masks a phone number for privacy (e.g., ****1234)
+  /// Masks a phone number for privacy (e.g., +****1234 or ****1234)
   static String maskPhone(String phone, {int visibleDigits = 4}) {
+    // Check if phone starts with +
+    final hasPlus = phone.trim().startsWith('+');
+
+    // Remove all non-digit characters
     final digits = phone.replaceAll(RegExp(r'[^\d]'), '');
+
     if (digits.length <= visibleDigits) {
-      return '*' * digits.length;
+      return hasPlus ? '+${'*' * digits.length}' : '*' * digits.length;
     }
+
     final masked = '*' * (digits.length - visibleDigits);
     final visible = digits.substring(digits.length - visibleDigits);
-    return masked + visible;
+
+    // Preserve + at the beginning if it existed
+    return hasPlus ? '+$masked$visible' : '$masked$visible';
   }
 
   // ═══════════════════════════════════════════════════════════════

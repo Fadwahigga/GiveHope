@@ -62,13 +62,16 @@ class DonationListItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-                          child: Text(
-                            Formatters.maskPhone(donation.donorPhone),
-                            style: theme.textTheme.titleSmall?.copyWith(
-                              fontWeight: FontWeight.w600,
+                          child: Directionality(
+                            textDirection: TextDirection.ltr,
+                            child: Text(
+                              Formatters.maskPhone(donation.donorPhone),
+                              style: theme.textTheme.titleSmall?.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         Text(
@@ -210,13 +213,16 @@ class DonationListItemSimple extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  Formatters.maskPhone(donation.donorPhone),
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w500,
+                Directionality(
+                  textDirection: TextDirection.ltr,
+                  child: Text(
+                    Formatters.maskPhone(donation.donorPhone),
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w500,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                 ),
                 Text(
                   Formatters.formatRelativeTime(donation.createdAt),

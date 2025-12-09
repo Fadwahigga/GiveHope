@@ -698,6 +698,12 @@ abstract class AppLocalizations {
   /// **'Minimum donation is {amount}'**
   String donateAmountMin(String amount);
 
+  /// No description provided for @donateCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency'**
+  String get donateCurrency;
+
   /// No description provided for @donatePhone.
   ///
   /// In en, this message translates to:

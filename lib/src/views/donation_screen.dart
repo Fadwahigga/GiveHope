@@ -5,7 +5,6 @@ import '../services/api_service.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../utils/constants.dart';
-import '../utils/network_helper.dart';
 import '../utils/validators.dart';
 import '../widgets/widgets.dart';
 
@@ -33,6 +32,9 @@ class _DonationScreenState extends State<DonationScreen> {
   double? _selectedQuickAmount;
   bool _isLoading = false;
   bool _isPolling = false;
+  
+  // Sandbox only supports EUR
+  static const String _donationCurrency = 'EUR';
 
   @override
   void dispose() {
@@ -62,6 +64,32 @@ class _DonationScreenState extends State<DonationScreen> {
     });
   }
 
+  String _getErrorMessage(dynamic error, AppLocalizations l10n) {
+    if (error is ApiException) {
+      final message = error.message.toLowerCase();
+      if (message.contains('unable to connect') ||
+          message.contains('connection') ||
+          message.contains('connect to server')) {
+        return l10n.errorConnectionFailed;
+      }
+      if (message.contains('timeout') || message.contains('timed out')) {
+        return l10n.errorRequestTimeout;
+      }
+      if (message.contains('network error')) {
+        return l10n.errorNetworkError;
+      }
+      if (message.contains('an error occurred') ||
+          message.contains('error occurred')) {
+        return l10n.errorAnErrorOccurred;
+      }
+      return error.message;
+    }
+    if (error is String) {
+      return error;
+    }
+    return l10n.errorUnexpected;
+  }
+
   Future<void> _submitDonation() async {
     if (!_formKey.currentState!.validate()) return;
 
@@ -72,10 +100,28 @@ class _DonationScreenState extends State<DonationScreen> {
     });
 
     try {
+      // Clean amount - remove any formatting characters (spaces, commas, currency symbols)
+      final cleanAmount = _amountController.text
+          .trim()
+          .replaceAll(RegExp(r'[^\d.]'), '');
+      
+      if (cleanAmount.isEmpty) {
+        if (mounted) {
+          final l10n = AppLocalizations.of(context)!;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(l10n.validationAmountRequired),
+              backgroundColor: AppColors.error,
+            ),
+          );
+        }
+        return;
+      }
+
       final request = DonationRequest(
         causeId: widget.cause.id,
-        amount: _amountController.text.trim(),
-        currency: AppConstants.defaultCurrency,
+        amount: cleanAmount,
+        currency: _donationCurrency, // Sandbox only supports EUR
         donorPhone: _phoneController.text.trim(),
         payerMessage: _messageController.text.trim().isEmpty
             ? null
@@ -84,6 +130,15 @@ class _DonationScreenState extends State<DonationScreen> {
 
       final response = await _apiService.makeDonation(request);
 
+      // Check if there's a payment error - show it immediately
+      if (response.paymentError != null && response.paymentError!.isNotEmpty) {
+        if (mounted) {
+          _showErrorDialog(response.paymentError!, l10n);
+        }
+        return;
+      }
+
+      // Only proceed with payment flow if payment was successfully initiated
       if (response.paymentInitiated) {
         setState(() {
           _isPolling = true;
@@ -97,13 +152,17 @@ class _DonationScreenState extends State<DonationScreen> {
         // Start polling for status
         await _pollPaymentStatus(response.donationId, l10n);
       } else {
+        // Payment was not initiated - show error
         if (mounted) {
-          _showErrorDialog(response.paymentError ?? l10n.donateFailedDesc, l10n);
+          _showErrorDialog(
+            response.paymentError ?? l10n.donateFailedDesc,
+            l10n,
+          );
         }
       }
     } on ApiException catch (e) {
       if (mounted) {
-        _showErrorDialog(NetworkHelper.getErrorMessage(e, l10n), l10n);
+        _showErrorDialog(_getErrorMessage(e, l10n), l10n);
       }
     } catch (e) {
       if (mounted) {
@@ -252,7 +311,7 @@ class _DonationScreenState extends State<DonationScreen> {
               Text(
                 l10n.donateSuccessDesc(
                   _amountController.text,
-                  AppConstants.defaultCurrency,
+                  _donationCurrency,
                   widget.cause.name,
                 ),
                 style: theme.textTheme.bodyMedium?.copyWith(
@@ -454,7 +513,7 @@ class _DonationScreenState extends State<DonationScreen> {
 
               // Quick amounts
               Text(
-                l10n.donateQuickAmount(AppConstants.defaultCurrency),
+                l10n.donateQuickAmount(_donationCurrency),
                 style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -464,7 +523,7 @@ class _DonationScreenState extends State<DonationScreen> {
                 amounts: AppConstants.quickDonationAmounts,
                 selectedAmount: _selectedQuickAmount,
                 onSelected: _onQuickAmountSelected,
-                currencySymbol: '',
+                currencySymbol: AppConstants.getCurrencySymbol(_donationCurrency),
               ),
 
               const SizedBox(height: AppTheme.spaceLg),
@@ -472,7 +531,7 @@ class _DonationScreenState extends State<DonationScreen> {
               // Custom amount
               CustomInputField(
                 controller: _amountController,
-                label: '${l10n.donateAmount} (${AppConstants.defaultCurrency})',
+                label: '${l10n.donateAmount} ($_donationCurrency)',
                 hint: l10n.donateAmountHint,
                 prefixIcon: Icons.monetization_on_outlined,
                 keyboardType: TextInputType.number,
@@ -482,7 +541,7 @@ class _DonationScreenState extends State<DonationScreen> {
                   emptyMessage: l10n.validationAmountRequired,
                   invalidMessage: l10n.validationAmountInvalid,
                   minMessage: l10n.validationAmountMin(
-                    AppConstants.currencySymbol,
+                    AppConstants.getCurrencySymbol(_donationCurrency),
                     AppConstants.minDonationAmount.toStringAsFixed(0),
                   ),
                 ),

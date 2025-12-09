@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../l10n/generated/app_localizations.dart';
 import '../models/models.dart';
@@ -6,7 +7,6 @@ import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../utils/constants.dart';
 import '../utils/formatters.dart';
-import '../utils/network_helper.dart';
 import '../utils/validators.dart';
 import '../widgets/widgets.dart';
 
@@ -69,15 +69,75 @@ class _PayoutScreenState extends State<PayoutScreen> {
         _isNoInternet = false;
       });
     } catch (e) {
-      // COMMENTED OUT: Internet connection check disabled
-      // final isNoInternet = NetworkHelper.isNoInternetError(e);
       final l10n = AppLocalizations.of(context)!;
+      final errorMessage = _getErrorMessage(e, l10n);
+      debugPrint('═══════════════════════════════════════════════════════════');
+      debugPrint('❌ PAYOUT LOAD DATA ERROR');
+      debugPrint('═══════════════════════════════════════════════════════════');
+      debugPrint('Error type: ${e.runtimeType}');
+      debugPrint('Error: $e');
+      debugPrint('Error message: $errorMessage');
+      if (e is ApiException) {
+        debugPrint('API Error status code: ${e.statusCode}');
+        debugPrint('API Error data: ${e.data}');
+      }
+      debugPrint('═══════════════════════════════════════════════════════════');
       setState(() {
-        _error = NetworkHelper.getErrorMessage(e, l10n);
+        _error = errorMessage;
         _isLoading = false;
         _isNoInternet = false; // Always false - no internet check
       });
     }
+  }
+
+  String _getErrorMessage(dynamic error, AppLocalizations l10n) {
+    if (error is ApiException) {
+      // First, try to get the actual error message from the API response
+      final apiMessage = error.message;
+      if (apiMessage.isNotEmpty &&
+          !apiMessage.toLowerCase().contains('unexpected') &&
+          !apiMessage.toLowerCase().contains('something went wrong')) {
+        return apiMessage;
+      }
+
+      // Check error data for more specific error messages
+      if (error.data != null) {
+        if (error.data is Map<String, dynamic>) {
+          final errorData = error.data as Map<String, dynamic>;
+          if (errorData.containsKey('error') && errorData['error'] is String) {
+            final errorMsg = errorData['error'] as String;
+            if (errorMsg.isNotEmpty) {
+              return errorMsg;
+            }
+          }
+        }
+      }
+
+      // Fall back to localized messages for common errors
+      final message = apiMessage.toLowerCase();
+      if (message.contains('unable to connect') ||
+          message.contains('connection') ||
+          message.contains('connect to server')) {
+        return l10n.errorConnectionFailed;
+      }
+      if (message.contains('timeout') || message.contains('timed out')) {
+        return l10n.errorRequestTimeout;
+      }
+      if (message.contains('network error')) {
+        return l10n.errorNetworkError;
+      }
+      if (message.contains('an error occurred') ||
+          message.contains('error occurred')) {
+        return l10n.errorAnErrorOccurred;
+      }
+
+      // Return the API message if available, otherwise generic error
+      return apiMessage.isNotEmpty ? apiMessage : l10n.errorUnexpected;
+    }
+    if (error is String) {
+      return error;
+    }
+    return l10n.errorUnexpected;
   }
 
   void _showRequestPayoutDialog() {
@@ -126,9 +186,24 @@ class _PayoutScreenState extends State<PayoutScreen> {
     });
 
     try {
+      // Clean amount - remove any formatting characters
+      final cleanAmount = amountStr.replaceAll(RegExp(r'[^\d.]'), '');
+
+      if (cleanAmount.isEmpty) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(l10n.validationAmountRequired),
+              backgroundColor: AppColors.error,
+            ),
+          );
+        }
+        return;
+      }
+
       final request = PayoutRequest(
         causeId: widget.causeId,
-        amount: amountStr,
+        amount: cleanAmount,
         currency: _summary?.currency ?? AppConstants.defaultCurrency,
       );
 
@@ -137,6 +212,20 @@ class _PayoutScreenState extends State<PayoutScreen> {
       if (mounted) {
         Navigator.of(context).pop(); // Close bottom sheet
 
+        // Check if there's a transfer error - show it immediately
+        if (response.transferError != null &&
+            response.transferError!.isNotEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(response.transferError!),
+              backgroundColor: AppColors.error,
+            ),
+          );
+          _loadData(); // Refresh data to get updated balance
+          return;
+        }
+
+        // Only proceed if transfer was successfully initiated
         if (response.transferInitiated) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -148,7 +237,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(response.transferError ?? l10n.payoutFailedDesc),
+              content: Text(l10n.payoutFailedDesc),
               backgroundColor: AppColors.error,
             ),
           );
@@ -156,19 +245,38 @@ class _PayoutScreenState extends State<PayoutScreen> {
       }
     } on ApiException catch (e) {
       if (mounted) {
-        final l10n = AppLocalizations.of(context)!;
+        Navigator.of(context).pop(); // Close bottom sheet if still open
+        final errorMessage = _getErrorMessage(e, l10n);
+        debugPrint(
+          '═══════════════════════════════════════════════════════════',
+        );
+        debugPrint('❌ PAYOUT API EXCEPTION');
+        debugPrint(
+          '═══════════════════════════════════════════════════════════',
+        );
+        debugPrint('Status code: ${e.statusCode}');
+        debugPrint('Message: ${e.message}');
+        debugPrint('Data: ${e.data}');
+        debugPrint('Error message shown: $errorMessage');
+        debugPrint(
+          '═══════════════════════════════════════════════════════════',
+        );
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(NetworkHelper.getErrorMessage(e, l10n)),
+            content: Text(errorMessage),
             backgroundColor: AppColors.error,
+            duration: const Duration(seconds: 5),
           ),
         );
       }
     } catch (e) {
       if (mounted) {
+        Navigator.of(context).pop(); // Close bottom sheet if still open
+        final errorMessage = _getErrorMessage(e, l10n);
+        debugPrint('Payout error: $e');
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(l10n.payoutFailedDesc),
+            content: Text(errorMessage),
             backgroundColor: AppColors.error,
           ),
         );
@@ -617,10 +725,13 @@ class _PayoutRequestBottomSheet extends StatelessWidget {
                   ),
                   const SizedBox(width: AppTheme.spaceSm),
                   Expanded(
-                    child: Text(
-                      l10n.payoutMoMoInfo(summary.cause.ownerPhone),
-                      style: theme.textTheme.bodySmall?.copyWith(
-                        color: AppColors.info,
+                    child: Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Text(
+                        l10n.payoutMoMoInfo(summary.cause.ownerPhone),
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: AppColors.info,
+                        ),
                       ),
                     ),
                   ),
