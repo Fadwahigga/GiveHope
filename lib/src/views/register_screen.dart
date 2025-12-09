@@ -132,6 +132,59 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
+  void _showThemeDialog() {
+    final l10n = AppLocalizations.of(context)!;
+    final settingsProvider = context.read<SettingsProvider>();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.settingsChooseTheme),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              title: Text(l10n.settingsThemeLight),
+              leading: const Icon(Icons.light_mode),
+              selected: settingsProvider.themeMode == ThemeMode.light,
+              trailing: settingsProvider.themeMode == ThemeMode.light
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                settingsProvider.setThemeMode(ThemeMode.light);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(l10n.settingsThemeDark),
+              leading: const Icon(Icons.dark_mode),
+              selected: settingsProvider.themeMode == ThemeMode.dark,
+              trailing: settingsProvider.themeMode == ThemeMode.dark
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                settingsProvider.setThemeMode(ThemeMode.dark);
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(l10n.settingsThemeSystem),
+              leading: const Icon(Icons.settings_suggest),
+              selected: settingsProvider.themeMode == ThemeMode.system,
+              trailing: settingsProvider.themeMode == ThemeMode.system
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                settingsProvider.setThemeMode(ThemeMode.system);
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -146,6 +199,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
             icon: const Icon(Icons.language),
             onPressed: _showLanguageDialog,
             tooltip: l10n.settingsLanguage,
+          ),
+          IconButton(
+            icon: Icon(
+              theme.brightness == Brightness.dark
+                  ? Icons.light_mode
+                  : Icons.dark_mode,
+            ),
+            onPressed: _showThemeDialog,
+            tooltip: l10n.settingsTheme,
           ),
         ],
       ),
