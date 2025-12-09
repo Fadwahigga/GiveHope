@@ -52,7 +52,144 @@ class AppLocalizationsEn extends AppLocalizations {
       'There are no active causes at the moment. Check back later!';
 
   @override
+  String get homeNoCausesYet => 'No causes yet';
+
+  @override
+  String get homeNoCausesYetDesc => 'Be the first to create a cause!';
+
+  @override
+  String get homeCreateCause => 'Create Cause';
+
+  @override
   String get homeRefresh => 'Refresh';
+
+  @override
+  String get homeLoading => 'Loading causes...';
+
+  @override
+  String get bannerTitle1 => 'Make a Difference';
+
+  @override
+  String get bannerDesc1 =>
+      'Support causes that matter to you with secure MTN MoMo payments';
+
+  @override
+  String get bannerTitle2 => 'Easy & Fast';
+
+  @override
+  String get bannerDesc2 =>
+      'Donate in seconds with just a few taps. No hassle, no complications';
+
+  @override
+  String get bannerTitle3 => 'Transparent';
+
+  @override
+  String get bannerDesc3 =>
+      'Track your donations and see how your contributions make an impact';
+
+  @override
+  String get bannerTitle4 => 'Secure Payments';
+
+  @override
+  String get bannerDesc4 =>
+      'All transactions are processed securely through MTN Mobile Money';
+
+  @override
+  String get authLogin => 'Sign In';
+
+  @override
+  String get authLoginTitle => 'Welcome Back';
+
+  @override
+  String get authLoginSubtitle => 'Sign in to continue making a difference';
+
+  @override
+  String get authEmail => 'Email';
+
+  @override
+  String get authEmailHint => 'Enter your email';
+
+  @override
+  String get authPassword => 'Password';
+
+  @override
+  String get authPasswordHint => 'Enter your password';
+
+  @override
+  String get authNoAccount => 'Don\'t have an account? ';
+
+  @override
+  String get authSignUp => 'Sign Up';
+
+  @override
+  String get authOr => 'OR';
+
+  @override
+  String get authContinueGuest => 'Continue as Guest';
+
+  @override
+  String get authRegister => 'Create Account';
+
+  @override
+  String get authRegisterTitle => 'Join GiveHope';
+
+  @override
+  String get authRegisterSubtitle =>
+      'Create an account to start making donations';
+
+  @override
+  String get authName => 'Full Name (Optional)';
+
+  @override
+  String get authNameHint => 'Enter your name';
+
+  @override
+  String get authPhone => 'Phone Number (Optional)';
+
+  @override
+  String get authPhoneHint => 'e.g., +237670000001';
+
+  @override
+  String get authConfirmPassword => 'Confirm Password';
+
+  @override
+  String get authConfirmPasswordHint => 'Confirm your password';
+
+  @override
+  String get authPasswordMismatch => 'Passwords do not match';
+
+  @override
+  String authPasswordMin(int length) {
+    return 'Password must be at least $length characters';
+  }
+
+  @override
+  String get authAlreadyAccount => 'Already have an account? ';
+
+  @override
+  String get authSignIn => 'Sign In';
+
+  @override
+  String get authMoMoInfo =>
+      'Your phone number will be used for MTN MoMo payments';
+
+  @override
+  String get authRequired => 'This field is required';
+
+  @override
+  String get authInvalidEmail => 'Please enter a valid email address';
+
+  @override
+  String get authInvalidPassword => 'Invalid email or password';
+
+  @override
+  String get authUserExists => 'User with this email already exists';
+
+  @override
+  String get authRegistrationFailed => 'Registration failed. Please try again.';
+
+  @override
+  String get authLoginFailed => 'Login failed. Please try again.';
 
   @override
   String get causeDetailTitle => 'Cause Details';
@@ -100,7 +237,76 @@ class AppLocalizationsEn extends AppLocalizations {
   String get causeReport => 'Report';
 
   @override
+  String get causeTotalReceived => 'Total Received';
+
+  @override
+  String get causeAvailable => 'Available';
+
+  @override
+  String get causeBy => 'by';
+
+  @override
+  String get causeLoading => 'Loading cause details...';
+
+  @override
+  String get causeNotFound => 'Cause not found';
+
+  @override
+  String get causeNotFoundDesc =>
+      'The cause you\'re looking for doesn\'t exist.';
+
+  @override
+  String get causeGoBack => 'Go Back';
+
+  @override
+  String get causeManagePayouts => 'Manage Payouts';
+
+  @override
+  String get causeCreateTitle => 'Create Cause';
+
+  @override
+  String get causeCreateHeader => 'Start a Cause';
+
+  @override
+  String get causeCreateSubtitle => 'Create a cause to receive donations';
+
+  @override
+  String get causeCreateName => 'Cause Name';
+
+  @override
+  String get causeCreateNameHint => 'e.g., Help Build a School';
+
+  @override
+  String get causeCreateNameRequired => 'Cause name is required';
+
+  @override
+  String get causeCreateDescription => 'Description (Optional)';
+
+  @override
+  String get causeCreateDescriptionHint =>
+      'Describe your cause and how the funds will be used...';
+
+  @override
+  String get causeCreateOwnerPhone => 'Owner Phone Number';
+
+  @override
+  String get causeCreateOwnerPhoneHint => 'e.g., +237670000001';
+
+  @override
+  String get causeCreateMoMoWarning =>
+      'This phone number will receive payouts via MTN MoMo. Make sure it\'s an active MTN Mobile Money account.';
+
+  @override
+  String get causeCreateSuccess => 'Cause created successfully!';
+
+  @override
+  String get causeCreateFailed => 'Failed to create cause. Please try again.';
+
+  @override
   String get donateTitle => 'Make a Donation';
+
+  @override
+  String get donateDonatingTo => 'Donating to';
 
   @override
   String get donateAmount => 'Donation Amount';
@@ -117,13 +323,17 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get donatePhone => 'Phone Number';
+  String get donatePhone => 'MTN MoMo Phone Number';
 
   @override
-  String get donatePhoneHint => 'Enter your phone number';
+  String get donatePhoneHint => 'e.g., +237670000001';
 
   @override
   String get donatePhoneError => 'Please enter a valid phone number';
+
+  @override
+  String get donateMoMoInfo =>
+      'A payment request will be sent to this MTN MoMo number';
 
   @override
   String get donateName => 'Your Name (Optional)';
@@ -141,23 +351,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get donateAnonymous => 'Donate anonymously';
 
   @override
-  String get donateQuickAmount => 'Quick amounts';
+  String donateQuickAmount(String currency) {
+    return 'Quick amounts ($currency)';
+  }
 
   @override
   String get donateCustomAmount => 'Custom amount';
 
   @override
-  String get donateContinue => 'Continue to Payment';
+  String get donateContinue => 'Donate via MTN MoMo';
 
   @override
   String get donateProcessing => 'Processing...';
 
   @override
-  String get donateSuccess => 'Thank you for your donation!';
+  String get donateWaiting => 'Waiting for Payment';
 
   @override
-  String donateSuccessDesc(String amount, String cause) {
-    return 'Your donation of $amount to $cause has been processed successfully.';
+  String donateWaitingDesc(String amount, String currency) {
+    return 'A payment request has been sent to your phone.\n\nPlease approve the MTN MoMo payment of $amount $currency.';
+  }
+
+  @override
+  String get donateSuccess => 'Thank You!';
+
+  @override
+  String donateSuccessDesc(String amount, String currency, String cause) {
+    return 'Your donation of $amount $currency to \"$cause\" has been processed successfully.';
   }
 
   @override
@@ -168,10 +388,20 @@ class AppLocalizationsEn extends AppLocalizations {
       'We couldn\'t process your donation. Please try again.';
 
   @override
+  String get donatePending => 'Payment Pending';
+
+  @override
+  String get donatePendingDesc =>
+      'The payment is still pending. Please check your phone and approve the MTN MoMo payment request.\n\nIf you\'ve already approved, it may take a moment to process.';
+
+  @override
   String get donateRetry => 'Try Again';
 
   @override
   String get donateDone => 'Done';
+
+  @override
+  String get donateCancel => 'Cancel';
 
   @override
   String get historyTitle => 'Donation History';
@@ -184,10 +414,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Enter your phone number to view your donation history';
 
   @override
-  String get historyPhoneHint => 'Phone number';
+  String get historyPhoneHint => 'e.g., +237670000001';
 
   @override
-  String get historySearch => 'View History';
+  String get historySearch => 'Search';
+
+  @override
+  String get historyViewHistory => 'View History';
 
   @override
   String get historyNoResults => 'No donations found';
@@ -208,13 +441,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get historyStatusPending => 'Pending';
 
   @override
-  String get historyStatusCompleted => 'Completed';
+  String get historyStatusSuccess => 'Success';
 
   @override
   String get historyStatusFailed => 'Failed';
 
   @override
-  String get historyStatusRefunded => 'Refunded';
+  String get historyLoading => 'Loading history...';
+
+  @override
+  String get historyGetStarted => 'View your donation history';
+
+  @override
+  String get historyGetStartedDesc =>
+      'Enter your phone number above to get started';
 
   @override
   String get payoutTitle => 'Payout Management';
@@ -261,9 +501,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get payoutSuccess => 'Payout Requested';
 
   @override
-  String payoutSuccessDesc(String amount) {
-    return 'Your payout request of $amount has been submitted.';
-  }
+  String get payoutSuccessDesc => 'Payout request submitted successfully!';
 
   @override
   String get payoutFailed => 'Payout Failed';
@@ -279,6 +517,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get payoutNoHistory => 'No payouts yet';
 
   @override
+  String get payoutNoFunds =>
+      'No funds available for payout. Receive some donations first!';
+
+  @override
+  String payoutMoMoInfo(String phone) {
+    return 'Funds will be sent to the MTN MoMo account: $phone';
+  }
+
+  @override
   String get payoutStatusPending => 'Pending';
 
   @override
@@ -292,6 +539,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get payoutStatusCancelled => 'Cancelled';
+
+  @override
+  String get payoutLoading => 'Loading...';
 
   @override
   String get settingsTitle => 'Settings';
@@ -350,28 +600,46 @@ class AppLocalizationsEn extends AppLocalizations {
   String get settingsRate => 'Rate App';
 
   @override
-  String get categoryAll => 'All';
+  String get settingsChooseTheme => 'Choose Theme';
 
   @override
-  String get categoryHealth => 'Health';
+  String get settingsChooseLanguage => 'Choose Language';
 
   @override
-  String get categoryEducation => 'Education';
+  String get settingsAboutTitle => 'About GiveHope';
 
   @override
-  String get categoryEnvironment => 'Environment';
+  String get settingsAboutDesc =>
+      'GiveHope is a donation and micro-payments app designed to make charitable giving easy and accessible.';
 
   @override
-  String get categoryEmergency => 'Emergency';
+  String get settingsAboutMission =>
+      'Our mission is to connect generous donors with causes that matter, empowering communities one donation at a time.';
 
   @override
-  String get categoryCommunity => 'Community';
+  String get settingsPrivacyComingSoon => 'Privacy Policy coming soon';
 
   @override
-  String get categoryAnimal => 'Animals';
+  String get settingsTermsComingSoon => 'Terms of Service coming soon';
 
   @override
-  String get categoryGeneral => 'General';
+  String get settingsHelpComingSoon => 'Help & FAQ coming soon';
+
+  @override
+  String get settingsContactComingSoon => 'Contact form coming soon';
+
+  @override
+  String get settingsRateComingSoon => 'App store rating coming soon';
+
+  @override
+  String get settingsLogout => 'Logout';
+
+  @override
+  String get settingsLogoutConfirm => 'Are you sure you want to logout?';
+
+  @override
+  String get settingsLogoutConfirmDesc =>
+      'You will need to login again to access your account.';
 
   @override
   String get commonLoading => 'Loading...';
@@ -419,11 +687,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get commonSeeAll => 'See All';
 
   @override
-  String get commonNoInternet => 'No internet connection';
+  String get commonNoInternet => 'No Internet Connection';
 
   @override
   String get commonNoInternetDesc =>
-      'Please check your connection and try again.';
+      'It looks like you\'re offline. Please check your internet connection and try again.';
+
+  @override
+  String get noInternetTip1 => 'Check your Wi-Fi or mobile data';
+
+  @override
+  String get noInternetTip2 => 'Make sure airplane mode is turned off';
+
+  @override
+  String get noInternetTip3 => 'Try moving to an area with better signal';
 
   @override
   String get commonServerError => 'Server error';
@@ -440,10 +717,22 @@ class AppLocalizationsEn extends AppLocalizations {
       'An unexpected error occurred. Please try again.';
 
   @override
-  String get currencySymbol => '\$';
+  String get commonCreated => 'Created';
 
   @override
-  String get currencyCode => 'USD';
+  String get commonRaised => 'raised';
+
+  @override
+  String get commonDonations => 'donations';
+
+  @override
+  String get commonWelcome => 'Welcome';
+
+  @override
+  String get currencySymbol => 'FCFA';
+
+  @override
+  String get currencyCode => 'XAF';
 
   @override
   String get dateFormat => 'MMM d, yyyy';

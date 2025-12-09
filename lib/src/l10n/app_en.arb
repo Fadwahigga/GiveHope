@@ -1,6 +1,6 @@
 {
   "@@locale": "en",
-  "@@last_modified": "2024-01-01T00:00:00.000Z",
+  "@@last_modified": "2024-01-15T00:00:00.000Z",
   
   "appName": "GiveHope",
   "@appName": {
@@ -24,7 +24,58 @@
   "homeCategories": "Categories",
   "homeNoCauses": "No causes found",
   "homeNoCausesDesc": "There are no active causes at the moment. Check back later!",
+  "homeNoCausesYet": "No causes yet",
+  "homeNoCausesYetDesc": "Be the first to create a cause!",
+  "homeCreateCause": "Create Cause",
   "homeRefresh": "Refresh",
+  "homeLoading": "Loading causes...",
+  "bannerTitle1": "Make a Difference",
+  "bannerDesc1": "Support causes that matter to you with secure MTN MoMo payments",
+  "bannerTitle2": "Easy & Fast",
+  "bannerDesc2": "Donate in seconds with just a few taps. No hassle, no complications",
+  "bannerTitle3": "Transparent",
+  "bannerDesc3": "Track your donations and see how your contributions make an impact",
+  "bannerTitle4": "Secure Payments",
+  "bannerDesc4": "All transactions are processed securely through MTN Mobile Money",
+
+  "authLogin": "Sign In",
+  "authLoginTitle": "Welcome Back",
+  "authLoginSubtitle": "Sign in to continue making a difference",
+  "authEmail": "Email",
+  "authEmailHint": "Enter your email",
+  "authPassword": "Password",
+  "authPasswordHint": "Enter your password",
+  "authNoAccount": "Don't have an account? ",
+  "authSignUp": "Sign Up",
+  "authOr": "OR",
+  "authContinueGuest": "Continue as Guest",
+  "authRegister": "Create Account",
+  "authRegisterTitle": "Join GiveHope",
+  "authRegisterSubtitle": "Create an account to start making donations",
+  "authName": "Full Name (Optional)",
+  "authNameHint": "Enter your name",
+  "authPhone": "Phone Number (Optional)",
+  "authPhoneHint": "e.g., +237670000001",
+  "authConfirmPassword": "Confirm Password",
+  "authConfirmPasswordHint": "Confirm your password",
+  "authPasswordMismatch": "Passwords do not match",
+  "authPasswordMin": "Password must be at least {length} characters",
+  "@authPasswordMin": {
+    "placeholders": {
+      "length": {
+        "type": "int"
+      }
+    }
+  },
+  "authAlreadyAccount": "Already have an account? ",
+  "authSignIn": "Sign In",
+  "authMoMoInfo": "Your phone number will be used for MTN MoMo payments",
+  "authRequired": "This field is required",
+  "authInvalidEmail": "Please enter a valid email address",
+  "authInvalidPassword": "Invalid email or password",
+  "authUserExists": "User with this email already exists",
+  "authRegistrationFailed": "Registration failed. Please try again.",
+  "authLoginFailed": "Login failed. Please try again.",
 
   "causeDetailTitle": "Cause Details",
   "causeRaised": "Raised",
@@ -41,8 +92,31 @@
   "causeBeFirst": "Be the first to donate!",
   "causeShare": "Share",
   "causeReport": "Report",
+  "causeTotalReceived": "Total Received",
+  "causeAvailable": "Available",
+  "causeBy": "by",
+  "causeLoading": "Loading cause details...",
+  "causeNotFound": "Cause not found",
+  "causeNotFoundDesc": "The cause you're looking for doesn't exist.",
+  "causeGoBack": "Go Back",
+  "causeManagePayouts": "Manage Payouts",
+
+  "causeCreateTitle": "Create Cause",
+  "causeCreateHeader": "Start a Cause",
+  "causeCreateSubtitle": "Create a cause to receive donations",
+  "causeCreateName": "Cause Name",
+  "causeCreateNameHint": "e.g., Help Build a School",
+  "causeCreateNameRequired": "Cause name is required",
+  "causeCreateDescription": "Description (Optional)",
+  "causeCreateDescriptionHint": "Describe your cause and how the funds will be used...",
+  "causeCreateOwnerPhone": "Owner Phone Number",
+  "causeCreateOwnerPhoneHint": "e.g., +237670000001",
+  "causeCreateMoMoWarning": "This phone number will receive payouts via MTN MoMo. Make sure it's an active MTN Mobile Money account.",
+  "causeCreateSuccess": "Cause created successfully!",
+  "causeCreateFailed": "Failed to create cause. Please try again.",
 
   "donateTitle": "Make a Donation",
+  "donateDonatingTo": "Donating to",
   "donateAmount": "Donation Amount",
   "donateAmountHint": "Enter amount",
   "donateAmountError": "Please enter a valid amount",
@@ -54,23 +128,46 @@
       }
     }
   },
-  "donatePhone": "Phone Number",
-  "donatePhoneHint": "Enter your phone number",
+  "donatePhone": "MTN MoMo Phone Number",
+  "donatePhoneHint": "e.g., +237670000001",
   "donatePhoneError": "Please enter a valid phone number",
+  "donateMoMoInfo": "A payment request will be sent to this MTN MoMo number",
   "donateName": "Your Name (Optional)",
   "donateNameHint": "Enter your name",
   "donateMessage": "Leave a Message (Optional)",
   "donateMessageHint": "Write a message of support...",
   "donateAnonymous": "Donate anonymously",
-  "donateQuickAmount": "Quick amounts",
+  "donateQuickAmount": "Quick amounts ({currency})",
+  "@donateQuickAmount": {
+    "placeholders": {
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
   "donateCustomAmount": "Custom amount",
-  "donateContinue": "Continue to Payment",
+  "donateContinue": "Donate via MTN MoMo",
   "donateProcessing": "Processing...",
-  "donateSuccess": "Thank you for your donation!",
-  "donateSuccessDesc": "Your donation of {amount} to {cause} has been processed successfully.",
+  "donateWaiting": "Waiting for Payment",
+  "donateWaitingDesc": "A payment request has been sent to your phone.\n\nPlease approve the MTN MoMo payment of {amount} {currency}.",
+  "@donateWaitingDesc": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "currency": {
+        "type": "String"
+      }
+    }
+  },
+  "donateSuccess": "Thank You!",
+  "donateSuccessDesc": "Your donation of {amount} {currency} to \"{cause}\" has been processed successfully.",
   "@donateSuccessDesc": {
     "placeholders": {
       "amount": {
+        "type": "String"
+      },
+      "currency": {
         "type": "String"
       },
       "cause": {
@@ -80,14 +177,18 @@
   },
   "donateFailed": "Donation Failed",
   "donateFailedDesc": "We couldn't process your donation. Please try again.",
+  "donatePending": "Payment Pending",
+  "donatePendingDesc": "The payment is still pending. Please check your phone and approve the MTN MoMo payment request.\n\nIf you've already approved, it may take a moment to process.",
   "donateRetry": "Try Again",
   "donateDone": "Done",
+  "donateCancel": "Cancel",
 
   "historyTitle": "Donation History",
   "historySubtitle": "View your past donations",
   "historyEnterPhone": "Enter your phone number to view your donation history",
-  "historyPhoneHint": "Phone number",
-  "historySearch": "View History",
+  "historyPhoneHint": "e.g., +237670000001",
+  "historySearch": "Search",
+  "historyViewHistory": "View History",
   "historyNoResults": "No donations found",
   "historyNoResultsDesc": "You haven't made any donations yet. Start giving today!",
   "historyTotal": "Total Donated",
@@ -100,9 +201,11 @@
     }
   },
   "historyStatusPending": "Pending",
-  "historyStatusCompleted": "Completed",
+  "historyStatusSuccess": "Success",
   "historyStatusFailed": "Failed",
-  "historyStatusRefunded": "Refunded",
+  "historyLoading": "Loading history...",
+  "historyGetStarted": "View your donation history",
+  "historyGetStartedDesc": "Enter your phone number above to get started",
 
   "payoutTitle": "Payout Management",
   "payoutSubtitle": "Manage your cause's funds",
@@ -125,23 +228,26 @@
   "payoutSubmit": "Submit Request",
   "payoutProcessing": "Processing...",
   "payoutSuccess": "Payout Requested",
-  "payoutSuccessDesc": "Your payout request of {amount} has been submitted.",
-  "@payoutSuccessDesc": {
-    "placeholders": {
-      "amount": {
-        "type": "String"
-      }
-    }
-  },
+  "payoutSuccessDesc": "Payout request submitted successfully!",
   "payoutFailed": "Payout Failed",
   "payoutFailedDesc": "We couldn't process your payout request. Please try again.",
   "payoutHistory": "Payout History",
   "payoutNoHistory": "No payouts yet",
+  "payoutNoFunds": "No funds available for payout. Receive some donations first!",
+  "payoutMoMoInfo": "Funds will be sent to the MTN MoMo account: {phone}",
+  "@payoutMoMoInfo": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
   "payoutStatusPending": "Pending",
   "payoutStatusProcessing": "Processing",
   "payoutStatusCompleted": "Completed",
   "payoutStatusFailed": "Failed",
   "payoutStatusCancelled": "Cancelled",
+  "payoutLoading": "Loading...",
 
   "settingsTitle": "Settings",
   "settingsAppearance": "Appearance",
@@ -168,15 +274,19 @@
   },
   "settingsContact": "Contact Us",
   "settingsRate": "Rate App",
-
-  "categoryAll": "All",
-  "categoryHealth": "Health",
-  "categoryEducation": "Education",
-  "categoryEnvironment": "Environment",
-  "categoryEmergency": "Emergency",
-  "categoryCommunity": "Community",
-  "categoryAnimal": "Animals",
-  "categoryGeneral": "General",
+  "settingsChooseTheme": "Choose Theme",
+  "settingsChooseLanguage": "Choose Language",
+  "settingsAboutTitle": "About GiveHope",
+  "settingsAboutDesc": "GiveHope is a donation and micro-payments app designed to make charitable giving easy and accessible.",
+  "settingsAboutMission": "Our mission is to connect generous donors with causes that matter, empowering communities one donation at a time.",
+  "settingsPrivacyComingSoon": "Privacy Policy coming soon",
+  "settingsTermsComingSoon": "Terms of Service coming soon",
+  "settingsHelpComingSoon": "Help & FAQ coming soon",
+  "settingsContactComingSoon": "Contact form coming soon",
+  "settingsRateComingSoon": "App store rating coming soon",
+  "settingsLogout": "Logout",
+  "settingsLogoutConfirm": "Are you sure you want to logout?",
+  "settingsLogoutConfirmDesc": "You will need to login again to access your account.",
 
   "commonLoading": "Loading...",
   "commonError": "Something went wrong",
@@ -193,16 +303,22 @@
   "commonNo": "No",
   "commonSearch": "Search",
   "commonSeeAll": "See All",
-  "commonNoInternet": "No internet connection",
-  "commonNoInternetDesc": "Please check your connection and try again.",
+  "commonNoInternet": "No Internet Connection",
+  "commonNoInternetDesc": "It looks like you're offline. Please check your internet connection and try again.",
+  "noInternetTip1": "Check your Wi-Fi or mobile data",
+  "noInternetTip2": "Make sure airplane mode is turned off",
+  "noInternetTip3": "Try moving to an area with better signal",
   "commonServerError": "Server error",
   "commonServerErrorDesc": "Something went wrong on our end. Please try again later.",
   "commonUnknownError": "Unknown error",
   "commonUnknownErrorDesc": "An unexpected error occurred. Please try again.",
+  "commonCreated": "Created",
+  "commonRaised": "raised",
+  "commonDonations": "donations",
+  "commonWelcome": "Welcome",
 
-  "currencySymbol": "$",
-  "currencyCode": "USD",
+  "currencySymbol": "FCFA",
+  "currencyCode": "XAF",
   "dateFormat": "MMM d, yyyy",
   "timeFormat": "h:mm a"
 }
-

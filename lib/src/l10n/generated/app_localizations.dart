@@ -182,11 +182,269 @@ abstract class AppLocalizations {
   /// **'There are no active causes at the moment. Check back later!'**
   String get homeNoCausesDesc;
 
+  /// No description provided for @homeNoCausesYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No causes yet'**
+  String get homeNoCausesYet;
+
+  /// No description provided for @homeNoCausesYetDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Be the first to create a cause!'**
+  String get homeNoCausesYetDesc;
+
+  /// No description provided for @homeCreateCause.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Cause'**
+  String get homeCreateCause;
+
   /// No description provided for @homeRefresh.
   ///
   /// In en, this message translates to:
   /// **'Refresh'**
   String get homeRefresh;
+
+  /// No description provided for @homeLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading causes...'**
+  String get homeLoading;
+
+  /// No description provided for @bannerTitle1.
+  ///
+  /// In en, this message translates to:
+  /// **'Make a Difference'**
+  String get bannerTitle1;
+
+  /// No description provided for @bannerDesc1.
+  ///
+  /// In en, this message translates to:
+  /// **'Support causes that matter to you with secure MTN MoMo payments'**
+  String get bannerDesc1;
+
+  /// No description provided for @bannerTitle2.
+  ///
+  /// In en, this message translates to:
+  /// **'Easy & Fast'**
+  String get bannerTitle2;
+
+  /// No description provided for @bannerDesc2.
+  ///
+  /// In en, this message translates to:
+  /// **'Donate in seconds with just a few taps. No hassle, no complications'**
+  String get bannerDesc2;
+
+  /// No description provided for @bannerTitle3.
+  ///
+  /// In en, this message translates to:
+  /// **'Transparent'**
+  String get bannerTitle3;
+
+  /// No description provided for @bannerDesc3.
+  ///
+  /// In en, this message translates to:
+  /// **'Track your donations and see how your contributions make an impact'**
+  String get bannerDesc3;
+
+  /// No description provided for @bannerTitle4.
+  ///
+  /// In en, this message translates to:
+  /// **'Secure Payments'**
+  String get bannerTitle4;
+
+  /// No description provided for @bannerDesc4.
+  ///
+  /// In en, this message translates to:
+  /// **'All transactions are processed securely through MTN Mobile Money'**
+  String get bannerDesc4;
+
+  /// No description provided for @authLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get authLogin;
+
+  /// No description provided for @authLoginTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome Back'**
+  String get authLoginTitle;
+
+  /// No description provided for @authLoginSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to continue making a difference'**
+  String get authLoginSubtitle;
+
+  /// No description provided for @authEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get authEmail;
+
+  /// No description provided for @authEmailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email'**
+  String get authEmailHint;
+
+  /// No description provided for @authPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get authPassword;
+
+  /// No description provided for @authPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your password'**
+  String get authPasswordHint;
+
+  /// No description provided for @authNoAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t have an account? '**
+  String get authNoAccount;
+
+  /// No description provided for @authSignUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign Up'**
+  String get authSignUp;
+
+  /// No description provided for @authOr.
+  ///
+  /// In en, this message translates to:
+  /// **'OR'**
+  String get authOr;
+
+  /// No description provided for @authContinueGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue as Guest'**
+  String get authContinueGuest;
+
+  /// No description provided for @authRegister.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Account'**
+  String get authRegister;
+
+  /// No description provided for @authRegisterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Join GiveHope'**
+  String get authRegisterTitle;
+
+  /// No description provided for @authRegisterSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create an account to start making donations'**
+  String get authRegisterSubtitle;
+
+  /// No description provided for @authName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full Name (Optional)'**
+  String get authName;
+
+  /// No description provided for @authNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your name'**
+  String get authNameHint;
+
+  /// No description provided for @authPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Number (Optional)'**
+  String get authPhone;
+
+  /// No description provided for @authPhoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., +237670000001'**
+  String get authPhoneHint;
+
+  /// No description provided for @authConfirmPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get authConfirmPassword;
+
+  /// No description provided for @authConfirmPasswordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm your password'**
+  String get authConfirmPasswordHint;
+
+  /// No description provided for @authPasswordMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords do not match'**
+  String get authPasswordMismatch;
+
+  /// No description provided for @authPasswordMin.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least {length} characters'**
+  String authPasswordMin(int length);
+
+  /// No description provided for @authAlreadyAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account? '**
+  String get authAlreadyAccount;
+
+  /// No description provided for @authSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign In'**
+  String get authSignIn;
+
+  /// No description provided for @authMoMoInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Your phone number will be used for MTN MoMo payments'**
+  String get authMoMoInfo;
+
+  /// No description provided for @authRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'This field is required'**
+  String get authRequired;
+
+  /// No description provided for @authInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address'**
+  String get authInvalidEmail;
+
+  /// No description provided for @authInvalidPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email or password'**
+  String get authInvalidPassword;
+
+  /// No description provided for @authUserExists.
+  ///
+  /// In en, this message translates to:
+  /// **'User with this email already exists'**
+  String get authUserExists;
+
+  /// No description provided for @authRegistrationFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Registration failed. Please try again.'**
+  String get authRegistrationFailed;
+
+  /// No description provided for @authLoginFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Login failed. Please try again.'**
+  String get authLoginFailed;
 
   /// No description provided for @causeDetailTitle.
   ///
@@ -278,11 +536,143 @@ abstract class AppLocalizations {
   /// **'Report'**
   String get causeReport;
 
+  /// No description provided for @causeTotalReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Received'**
+  String get causeTotalReceived;
+
+  /// No description provided for @causeAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Available'**
+  String get causeAvailable;
+
+  /// No description provided for @causeBy.
+  ///
+  /// In en, this message translates to:
+  /// **'by'**
+  String get causeBy;
+
+  /// No description provided for @causeLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading cause details...'**
+  String get causeLoading;
+
+  /// No description provided for @causeNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Cause not found'**
+  String get causeNotFound;
+
+  /// No description provided for @causeNotFoundDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'The cause you\'re looking for doesn\'t exist.'**
+  String get causeNotFoundDesc;
+
+  /// No description provided for @causeGoBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Go Back'**
+  String get causeGoBack;
+
+  /// No description provided for @causeManagePayouts.
+  ///
+  /// In en, this message translates to:
+  /// **'Manage Payouts'**
+  String get causeManagePayouts;
+
+  /// No description provided for @causeCreateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Cause'**
+  String get causeCreateTitle;
+
+  /// No description provided for @causeCreateHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Start a Cause'**
+  String get causeCreateHeader;
+
+  /// No description provided for @causeCreateSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a cause to receive donations'**
+  String get causeCreateSubtitle;
+
+  /// No description provided for @causeCreateName.
+  ///
+  /// In en, this message translates to:
+  /// **'Cause Name'**
+  String get causeCreateName;
+
+  /// No description provided for @causeCreateNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., Help Build a School'**
+  String get causeCreateNameHint;
+
+  /// No description provided for @causeCreateNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Cause name is required'**
+  String get causeCreateNameRequired;
+
+  /// No description provided for @causeCreateDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Description (Optional)'**
+  String get causeCreateDescription;
+
+  /// No description provided for @causeCreateDescriptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Describe your cause and how the funds will be used...'**
+  String get causeCreateDescriptionHint;
+
+  /// No description provided for @causeCreateOwnerPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Owner Phone Number'**
+  String get causeCreateOwnerPhone;
+
+  /// No description provided for @causeCreateOwnerPhoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., +237670000001'**
+  String get causeCreateOwnerPhoneHint;
+
+  /// No description provided for @causeCreateMoMoWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'This phone number will receive payouts via MTN MoMo. Make sure it\'s an active MTN Mobile Money account.'**
+  String get causeCreateMoMoWarning;
+
+  /// No description provided for @causeCreateSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Cause created successfully!'**
+  String get causeCreateSuccess;
+
+  /// No description provided for @causeCreateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create cause. Please try again.'**
+  String get causeCreateFailed;
+
   /// No description provided for @donateTitle.
   ///
   /// In en, this message translates to:
   /// **'Make a Donation'**
   String get donateTitle;
+
+  /// No description provided for @donateDonatingTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Donating to'**
+  String get donateDonatingTo;
 
   /// No description provided for @donateAmount.
   ///
@@ -311,13 +701,13 @@ abstract class AppLocalizations {
   /// No description provided for @donatePhone.
   ///
   /// In en, this message translates to:
-  /// **'Phone Number'**
+  /// **'MTN MoMo Phone Number'**
   String get donatePhone;
 
   /// No description provided for @donatePhoneHint.
   ///
   /// In en, this message translates to:
-  /// **'Enter your phone number'**
+  /// **'e.g., +237670000001'**
   String get donatePhoneHint;
 
   /// No description provided for @donatePhoneError.
@@ -325,6 +715,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please enter a valid phone number'**
   String get donatePhoneError;
+
+  /// No description provided for @donateMoMoInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'A payment request will be sent to this MTN MoMo number'**
+  String get donateMoMoInfo;
 
   /// No description provided for @donateName.
   ///
@@ -359,8 +755,8 @@ abstract class AppLocalizations {
   /// No description provided for @donateQuickAmount.
   ///
   /// In en, this message translates to:
-  /// **'Quick amounts'**
-  String get donateQuickAmount;
+  /// **'Quick amounts ({currency})'**
+  String donateQuickAmount(String currency);
 
   /// No description provided for @donateCustomAmount.
   ///
@@ -371,7 +767,7 @@ abstract class AppLocalizations {
   /// No description provided for @donateContinue.
   ///
   /// In en, this message translates to:
-  /// **'Continue to Payment'**
+  /// **'Donate via MTN MoMo'**
   String get donateContinue;
 
   /// No description provided for @donateProcessing.
@@ -380,17 +776,29 @@ abstract class AppLocalizations {
   /// **'Processing...'**
   String get donateProcessing;
 
+  /// No description provided for @donateWaiting.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for Payment'**
+  String get donateWaiting;
+
+  /// No description provided for @donateWaitingDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'A payment request has been sent to your phone.\n\nPlease approve the MTN MoMo payment of {amount} {currency}.'**
+  String donateWaitingDesc(String amount, String currency);
+
   /// No description provided for @donateSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Thank you for your donation!'**
+  /// **'Thank You!'**
   String get donateSuccess;
 
   /// No description provided for @donateSuccessDesc.
   ///
   /// In en, this message translates to:
-  /// **'Your donation of {amount} to {cause} has been processed successfully.'**
-  String donateSuccessDesc(String amount, String cause);
+  /// **'Your donation of {amount} {currency} to \"{cause}\" has been processed successfully.'**
+  String donateSuccessDesc(String amount, String currency, String cause);
 
   /// No description provided for @donateFailed.
   ///
@@ -404,6 +812,18 @@ abstract class AppLocalizations {
   /// **'We couldn\'t process your donation. Please try again.'**
   String get donateFailedDesc;
 
+  /// No description provided for @donatePending.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment Pending'**
+  String get donatePending;
+
+  /// No description provided for @donatePendingDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'The payment is still pending. Please check your phone and approve the MTN MoMo payment request.\n\nIf you\'ve already approved, it may take a moment to process.'**
+  String get donatePendingDesc;
+
   /// No description provided for @donateRetry.
   ///
   /// In en, this message translates to:
@@ -415,6 +835,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Done'**
   String get donateDone;
+
+  /// No description provided for @donateCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get donateCancel;
 
   /// No description provided for @historyTitle.
   ///
@@ -437,14 +863,20 @@ abstract class AppLocalizations {
   /// No description provided for @historyPhoneHint.
   ///
   /// In en, this message translates to:
-  /// **'Phone number'**
+  /// **'e.g., +237670000001'**
   String get historyPhoneHint;
 
   /// No description provided for @historySearch.
   ///
   /// In en, this message translates to:
-  /// **'View History'**
+  /// **'Search'**
   String get historySearch;
+
+  /// No description provided for @historyViewHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'View History'**
+  String get historyViewHistory;
 
   /// No description provided for @historyNoResults.
   ///
@@ -476,11 +908,11 @@ abstract class AppLocalizations {
   /// **'Pending'**
   String get historyStatusPending;
 
-  /// No description provided for @historyStatusCompleted.
+  /// No description provided for @historyStatusSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Completed'**
-  String get historyStatusCompleted;
+  /// **'Success'**
+  String get historyStatusSuccess;
 
   /// No description provided for @historyStatusFailed.
   ///
@@ -488,11 +920,23 @@ abstract class AppLocalizations {
   /// **'Failed'**
   String get historyStatusFailed;
 
-  /// No description provided for @historyStatusRefunded.
+  /// No description provided for @historyLoading.
   ///
   /// In en, this message translates to:
-  /// **'Refunded'**
-  String get historyStatusRefunded;
+  /// **'Loading history...'**
+  String get historyLoading;
+
+  /// No description provided for @historyGetStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'View your donation history'**
+  String get historyGetStarted;
+
+  /// No description provided for @historyGetStartedDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your phone number above to get started'**
+  String get historyGetStartedDesc;
 
   /// No description provided for @payoutTitle.
   ///
@@ -581,8 +1025,8 @@ abstract class AppLocalizations {
   /// No description provided for @payoutSuccessDesc.
   ///
   /// In en, this message translates to:
-  /// **'Your payout request of {amount} has been submitted.'**
-  String payoutSuccessDesc(String amount);
+  /// **'Payout request submitted successfully!'**
+  String get payoutSuccessDesc;
 
   /// No description provided for @payoutFailed.
   ///
@@ -607,6 +1051,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No payouts yet'**
   String get payoutNoHistory;
+
+  /// No description provided for @payoutNoFunds.
+  ///
+  /// In en, this message translates to:
+  /// **'No funds available for payout. Receive some donations first!'**
+  String get payoutNoFunds;
+
+  /// No description provided for @payoutMoMoInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Funds will be sent to the MTN MoMo account: {phone}'**
+  String payoutMoMoInfo(String phone);
 
   /// No description provided for @payoutStatusPending.
   ///
@@ -637,6 +1093,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancelled'**
   String get payoutStatusCancelled;
+
+  /// No description provided for @payoutLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get payoutLoading;
 
   /// No description provided for @settingsTitle.
   ///
@@ -746,53 +1208,83 @@ abstract class AppLocalizations {
   /// **'Rate App'**
   String get settingsRate;
 
-  /// No description provided for @categoryAll.
+  /// No description provided for @settingsChooseTheme.
   ///
   /// In en, this message translates to:
-  /// **'All'**
-  String get categoryAll;
+  /// **'Choose Theme'**
+  String get settingsChooseTheme;
 
-  /// No description provided for @categoryHealth.
+  /// No description provided for @settingsChooseLanguage.
   ///
   /// In en, this message translates to:
-  /// **'Health'**
-  String get categoryHealth;
+  /// **'Choose Language'**
+  String get settingsChooseLanguage;
 
-  /// No description provided for @categoryEducation.
+  /// No description provided for @settingsAboutTitle.
   ///
   /// In en, this message translates to:
-  /// **'Education'**
-  String get categoryEducation;
+  /// **'About GiveHope'**
+  String get settingsAboutTitle;
 
-  /// No description provided for @categoryEnvironment.
+  /// No description provided for @settingsAboutDesc.
   ///
   /// In en, this message translates to:
-  /// **'Environment'**
-  String get categoryEnvironment;
+  /// **'GiveHope is a donation and micro-payments app designed to make charitable giving easy and accessible.'**
+  String get settingsAboutDesc;
 
-  /// No description provided for @categoryEmergency.
+  /// No description provided for @settingsAboutMission.
   ///
   /// In en, this message translates to:
-  /// **'Emergency'**
-  String get categoryEmergency;
+  /// **'Our mission is to connect generous donors with causes that matter, empowering communities one donation at a time.'**
+  String get settingsAboutMission;
 
-  /// No description provided for @categoryCommunity.
+  /// No description provided for @settingsPrivacyComingSoon.
   ///
   /// In en, this message translates to:
-  /// **'Community'**
-  String get categoryCommunity;
+  /// **'Privacy Policy coming soon'**
+  String get settingsPrivacyComingSoon;
 
-  /// No description provided for @categoryAnimal.
+  /// No description provided for @settingsTermsComingSoon.
   ///
   /// In en, this message translates to:
-  /// **'Animals'**
-  String get categoryAnimal;
+  /// **'Terms of Service coming soon'**
+  String get settingsTermsComingSoon;
 
-  /// No description provided for @categoryGeneral.
+  /// No description provided for @settingsHelpComingSoon.
   ///
   /// In en, this message translates to:
-  /// **'General'**
-  String get categoryGeneral;
+  /// **'Help & FAQ coming soon'**
+  String get settingsHelpComingSoon;
+
+  /// No description provided for @settingsContactComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact form coming soon'**
+  String get settingsContactComingSoon;
+
+  /// No description provided for @settingsRateComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'App store rating coming soon'**
+  String get settingsRateComingSoon;
+
+  /// No description provided for @settingsLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get settingsLogout;
+
+  /// No description provided for @settingsLogoutConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to logout?'**
+  String get settingsLogoutConfirm;
+
+  /// No description provided for @settingsLogoutConfirmDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'You will need to login again to access your account.'**
+  String get settingsLogoutConfirmDesc;
 
   /// No description provided for @commonLoading.
   ///
@@ -887,14 +1379,32 @@ abstract class AppLocalizations {
   /// No description provided for @commonNoInternet.
   ///
   /// In en, this message translates to:
-  /// **'No internet connection'**
+  /// **'No Internet Connection'**
   String get commonNoInternet;
 
   /// No description provided for @commonNoInternetDesc.
   ///
   /// In en, this message translates to:
-  /// **'Please check your connection and try again.'**
+  /// **'It looks like you\'re offline. Please check your internet connection and try again.'**
   String get commonNoInternetDesc;
+
+  /// No description provided for @noInternetTip1.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your Wi-Fi or mobile data'**
+  String get noInternetTip1;
+
+  /// No description provided for @noInternetTip2.
+  ///
+  /// In en, this message translates to:
+  /// **'Make sure airplane mode is turned off'**
+  String get noInternetTip2;
+
+  /// No description provided for @noInternetTip3.
+  ///
+  /// In en, this message translates to:
+  /// **'Try moving to an area with better signal'**
+  String get noInternetTip3;
 
   /// No description provided for @commonServerError.
   ///
@@ -920,16 +1430,40 @@ abstract class AppLocalizations {
   /// **'An unexpected error occurred. Please try again.'**
   String get commonUnknownErrorDesc;
 
+  /// No description provided for @commonCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get commonCreated;
+
+  /// No description provided for @commonRaised.
+  ///
+  /// In en, this message translates to:
+  /// **'raised'**
+  String get commonRaised;
+
+  /// No description provided for @commonDonations.
+  ///
+  /// In en, this message translates to:
+  /// **'donations'**
+  String get commonDonations;
+
+  /// No description provided for @commonWelcome.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome'**
+  String get commonWelcome;
+
   /// No description provided for @currencySymbol.
   ///
   /// In en, this message translates to:
-  /// **'\$'**
+  /// **'FCFA'**
   String get currencySymbol;
 
   /// No description provided for @currencyCode.
   ///
   /// In en, this message translates to:
-  /// **'USD'**
+  /// **'XAF'**
   String get currencyCode;
 
   /// No description provided for @dateFormat.
