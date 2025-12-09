@@ -1,50 +1,64 @@
-import 'dart:io';
+import 'dart:async';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:http/http.dart' as http;
 
 /// Service for checking internet connectivity
 class ConnectivityService {
   final Connectivity _connectivity = Connectivity();
+  final http.Client _httpClient = http.Client();
 
   /// Check if device has internet connection
   /// Returns true if connected, false otherwise
-  /// Uses multiple fallback servers and longer timeout for mobile networks
+  /// Optimized for mobile networks with faster checks
   Future<bool> hasInternetConnection() async {
     try {
       final connectivityResults = await _connectivity.checkConnectivity();
-      
-      // If no connectivity at all, return false
-      if (connectivityResults.isEmpty || 
+
+      // If no connectivity at all, return false immediately
+      if (connectivityResults.isEmpty ||
           connectivityResults.contains(ConnectivityResult.none)) {
         return false;
       }
 
-      // Check if we can actually reach the internet
-      // Try multiple reliable servers with longer timeout for mobile networks
-      final servers = [
-        'google.com',
-        '8.8.8.8', // Google DNS
-        'cloudflare.com',
-      ];
+      // For mobile networks, we'll do a quick check
+      // Use a lightweight HTTP HEAD request with shorter timeout
+      // This is faster and more reliable than DNS lookup on mobile
+      try {
+        // Try Google first (most reliable)
+        final response = await _httpClient
+            .head(Uri.parse('https://www.google.com'))
+            .timeout(const Duration(seconds: 5));
 
-      // Use longer timeout for mobile networks (10 seconds)
-      const timeout = Duration(seconds: 10);
-
-      for (final server in servers) {
+        // Any response means we have internet
+        return response.statusCode >= 100;
+      } catch (e) {
+        // If Google fails, try Cloudflare (backup)
         try {
-          final result = await InternetAddress.lookup(server).timeout(timeout);
-          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-            return true;
-          }
+          final response = await _httpClient
+              .head(Uri.parse('https://1.1.1.1'))
+              .timeout(const Duration(seconds: 5));
+
+          return response.statusCode >= 100;
         } catch (_) {
-          // Try next server
-          continue;
+          // If both fail, but we have connectivity type, assume we have internet
+          // The actual API calls will determine if there's real internet
+          // This prevents false negatives on slow mobile networks
+          return connectivityResults.contains(ConnectivityResult.mobile) ||
+              connectivityResults.contains(ConnectivityResult.wifi) ||
+              connectivityResults.contains(ConnectivityResult.ethernet);
         }
       }
-
-      // If all servers failed, return false
-      return false;
     } catch (_) {
-      return false;
+      // On any error, check if we have a connectivity type
+      // This is a fallback for slow networks
+      try {
+        final connectivityResults = await _connectivity.checkConnectivity();
+        return connectivityResults.contains(ConnectivityResult.mobile) ||
+            connectivityResults.contains(ConnectivityResult.wifi) ||
+            connectivityResults.contains(ConnectivityResult.ethernet);
+      } catch (_) {
+        return false;
+      }
     }
   }
 
@@ -57,4 +71,3 @@ class ConnectivityService {
     return await _connectivity.checkConnectivity();
   }
 }
-
