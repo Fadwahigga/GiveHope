@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/generated/app_localizations.dart';
 import '../models/cause.dart';
 import '../services/api_service.dart';
 import '../theme/app_colors.dart';
@@ -34,6 +35,8 @@ class _CreateCauseScreenState extends State<CreateCauseScreen> {
   Future<void> _createCause() async {
     if (!_formKey.currentState!.validate()) return;
 
+    final l10n = AppLocalizations.of(context)!;
+
     setState(() {
       _isLoading = true;
     });
@@ -51,8 +54,8 @@ class _CreateCauseScreenState extends State<CreateCauseScreen> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Cause created successfully!'),
+          SnackBar(
+            content: Text(l10n.causeCreateSuccess),
             backgroundColor: AppColors.success,
           ),
         );
@@ -70,8 +73,8 @@ class _CreateCauseScreenState extends State<CreateCauseScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Failed to create cause. Please try again.'),
+          SnackBar(
+            content: Text(l10n.causeCreateFailed),
             backgroundColor: AppColors.error,
           ),
         );
@@ -88,10 +91,11 @@ class _CreateCauseScreenState extends State<CreateCauseScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Cause'),
+        title: Text(l10n.causeCreateTitle),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppTheme.spaceMd),
@@ -127,13 +131,13 @@ class _CreateCauseScreenState extends State<CreateCauseScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Start a Cause',
+                            l10n.causeCreateHeader,
                             style: theme.textTheme.titleMedium?.copyWith(
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           Text(
-                            'Create a cause to receive donations',
+                            l10n.causeCreateSubtitle,
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: theme.colorScheme.onSurfaceVariant,
                             ),
@@ -150,13 +154,13 @@ class _CreateCauseScreenState extends State<CreateCauseScreen> {
               // Name field
               CustomInputField(
                 controller: _nameController,
-                label: 'Cause Name',
-                hint: 'e.g., Help Build a School',
+                label: l10n.causeCreateName,
+                hint: l10n.causeCreateNameHint,
                 prefixIcon: Icons.title,
                 textCapitalization: TextCapitalization.words,
                 validator: (value) => Validators.validateRequired(
                   value,
-                  message: 'Cause name is required',
+                  message: l10n.causeCreateNameRequired,
                 ),
               ),
 
@@ -165,8 +169,8 @@ class _CreateCauseScreenState extends State<CreateCauseScreen> {
               // Description field
               CustomInputField(
                 controller: _descriptionController,
-                label: 'Description (Optional)',
-                hint: 'Describe your cause and how the funds will be used...',
+                label: l10n.causeCreateDescription,
+                hint: l10n.causeCreateDescriptionHint,
                 prefixIcon: Icons.description_outlined,
                 maxLines: 4,
                 maxLength: 500,
@@ -178,8 +182,8 @@ class _CreateCauseScreenState extends State<CreateCauseScreen> {
               // Phone field
               PhoneInputField(
                 controller: _phoneController,
-                label: 'Owner Phone Number',
-                hint: 'e.g., +237670000001',
+                label: l10n.causeCreateOwnerPhone,
+                hint: l10n.causeCreateOwnerPhoneHint,
                 validator: Validators.validatePhone,
               ),
 
@@ -205,7 +209,7 @@ class _CreateCauseScreenState extends State<CreateCauseScreen> {
                     const SizedBox(width: AppTheme.spaceSm),
                     Expanded(
                       child: Text(
-                        'This phone number will receive payouts via MTN MoMo. Make sure it\'s an active MTN Mobile Money account.',
+                        l10n.causeCreateMoMoWarning,
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: AppColors.warningDark,
                         ),
@@ -219,7 +223,7 @@ class _CreateCauseScreenState extends State<CreateCauseScreen> {
 
               // Create button
               PrimaryButton(
-                text: 'Create Cause',
+                text: l10n.causeCreateTitle,
                 icon: Icons.add,
                 isLoading: _isLoading,
                 onPressed: _createCause,
@@ -233,4 +237,3 @@ class _CreateCauseScreenState extends State<CreateCauseScreen> {
     );
   }
 }
-

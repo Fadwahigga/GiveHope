@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/generated/app_localizations.dart';
 import '../models/models.dart';
 import '../services/api_service.dart';
 import '../theme/app_colors.dart';
@@ -63,6 +64,8 @@ class _DonationScreenState extends State<DonationScreen> {
   Future<void> _submitDonation() async {
     if (!_formKey.currentState!.validate()) return;
 
+    final l10n = AppLocalizations.of(context)!;
+
     setState(() {
       _isLoading = true;
     });
@@ -87,23 +90,23 @@ class _DonationScreenState extends State<DonationScreen> {
         
         // Show waiting dialog
         if (mounted) {
-          _showPaymentPendingDialog(response);
+          _showPaymentPendingDialog(response, l10n);
         }
         
         // Start polling for status
-        await _pollPaymentStatus(response.donationId);
+        await _pollPaymentStatus(response.donationId, l10n);
       } else {
         if (mounted) {
-          _showErrorDialog(response.paymentError ?? 'Payment initiation failed');
+          _showErrorDialog(response.paymentError ?? l10n.donateFailedDesc, l10n);
         }
       }
     } on ApiException catch (e) {
       if (mounted) {
-        _showErrorDialog(e.message);
+        _showErrorDialog(e.message, l10n);
       }
     } catch (e) {
       if (mounted) {
-        _showErrorDialog('An unexpected error occurred. Please try again.');
+        _showErrorDialog(l10n.commonUnknownErrorDesc, l10n);
       }
     } finally {
       if (mounted) {
@@ -114,7 +117,7 @@ class _DonationScreenState extends State<DonationScreen> {
     }
   }
 
-  Future<void> _pollPaymentStatus(String donationId) async {
+  Future<void> _pollPaymentStatus(String donationId, AppLocalizations l10n) async {
     int polls = 0;
     
     while (polls < AppConstants.paymentStatusMaxPolls && _isPolling) {
@@ -133,7 +136,7 @@ class _DonationScreenState extends State<DonationScreen> {
           });
           if (mounted) {
             Navigator.of(context).pop(); // Close pending dialog
-            _showSuccessDialog();
+            _showSuccessDialog(l10n);
           }
           return;
         } else if (donation.status == DonationStatus.failed) {
@@ -142,7 +145,7 @@ class _DonationScreenState extends State<DonationScreen> {
           });
           if (mounted) {
             Navigator.of(context).pop(); // Close pending dialog
-            _showErrorDialog('Payment was declined or failed. Please try again.');
+            _showErrorDialog(l10n.donateFailedDesc, l10n);
           }
           return;
         }
@@ -159,11 +162,11 @@ class _DonationScreenState extends State<DonationScreen> {
         _isPolling = false;
       });
       Navigator.of(context).pop(); // Close pending dialog
-      _showTimeoutDialog();
+      _showTimeoutDialog(l10n);
     }
   }
 
-  void _showPaymentPendingDialog(DonationResponse response) {
+  void _showPaymentPendingDialog(DonationResponse response, AppLocalizations l10n) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -179,14 +182,14 @@ class _DonationScreenState extends State<DonationScreen> {
               const CircularProgressIndicator(),
               const SizedBox(height: AppTheme.spaceLg),
               Text(
-                'Waiting for Payment',
+                l10n.donateWaiting,
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
               ),
               const SizedBox(height: AppTheme.spaceSm),
               Text(
-                'A payment request has been sent to your phone.\n\nPlease approve the MTN MoMo payment of ${response.amount} ${response.currency}.',
+                l10n.donateWaitingDesc(response.amount, response.currency),
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
@@ -200,7 +203,7 @@ class _DonationScreenState extends State<DonationScreen> {
                   });
                   Navigator.of(context).pop();
                 },
-                child: const Text('Cancel'),
+                child: Text(l10n.donateCancel),
               ),
             ],
           ),
@@ -209,7 +212,7 @@ class _DonationScreenState extends State<DonationScreen> {
     );
   }
 
-  void _showSuccessDialog() {
+  void _showSuccessDialog(AppLocalizations l10n) {
     final theme = Theme.of(context);
 
     showDialog(
@@ -239,14 +242,18 @@ class _DonationScreenState extends State<DonationScreen> {
               ),
               const SizedBox(height: AppTheme.spaceMd),
               Text(
-                'Thank You!',
+                l10n.donateSuccess,
                 style: theme.textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.w700,
                 ),
               ),
               const SizedBox(height: AppTheme.spaceSm),
               Text(
-                'Your donation of ${_amountController.text} ${AppConstants.defaultCurrency} to "${widget.cause.name}" has been processed successfully.',
+                l10n.donateSuccessDesc(
+                  _amountController.text,
+                  AppConstants.defaultCurrency,
+                  widget.cause.name,
+                ),
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
@@ -254,7 +261,7 @@ class _DonationScreenState extends State<DonationScreen> {
               ),
               const SizedBox(height: AppTheme.spaceLg),
               PrimaryButton(
-                text: 'Done',
+                text: l10n.donateDone,
                 onPressed: () {
                   Navigator.of(context).pop(); // Close dialog
                   Navigator.of(context).pop(); // Go back to cause detail
@@ -267,7 +274,7 @@ class _DonationScreenState extends State<DonationScreen> {
     );
   }
 
-  void _showErrorDialog(String message) {
+  void _showErrorDialog(String message, AppLocalizations l10n) {
     final theme = Theme.of(context);
 
     showDialog(
@@ -296,7 +303,7 @@ class _DonationScreenState extends State<DonationScreen> {
               ),
               const SizedBox(height: AppTheme.spaceMd),
               Text(
-                'Payment Failed',
+                l10n.donateFailed,
                 style: theme.textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.w700,
                 ),
@@ -311,7 +318,7 @@ class _DonationScreenState extends State<DonationScreen> {
               ),
               const SizedBox(height: AppTheme.spaceLg),
               PrimaryButton(
-                text: 'Try Again',
+                text: l10n.donateRetry,
                 onPressed: () => Navigator.of(context).pop(),
               ),
             ],
@@ -321,7 +328,7 @@ class _DonationScreenState extends State<DonationScreen> {
     );
   }
 
-  void _showTimeoutDialog() {
+  void _showTimeoutDialog(AppLocalizations l10n) {
     final theme = Theme.of(context);
 
     showDialog(
@@ -350,14 +357,14 @@ class _DonationScreenState extends State<DonationScreen> {
               ),
               const SizedBox(height: AppTheme.spaceMd),
               Text(
-                'Payment Pending',
+                l10n.donatePending,
                 style: theme.textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.w700,
                 ),
               ),
               const SizedBox(height: AppTheme.spaceSm),
               Text(
-                'The payment is still pending. Please check your phone and approve the MTN MoMo payment request.\n\nIf you\'ve already approved, it may take a moment to process.',
+                l10n.donatePendingDesc,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: theme.colorScheme.onSurfaceVariant,
                 ),
@@ -365,7 +372,7 @@ class _DonationScreenState extends State<DonationScreen> {
               ),
               const SizedBox(height: AppTheme.spaceLg),
               PrimaryButton(
-                text: 'OK',
+                text: l10n.commonOk,
                 onPressed: () {
                   Navigator.of(context).pop(); // Close dialog
                   Navigator.of(context).pop(); // Go back
@@ -381,11 +388,12 @@ class _DonationScreenState extends State<DonationScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final mediaQuery = MediaQuery.of(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Make a Donation'),
+        title: Text(l10n.donateTitle),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppTheme.spaceMd),
@@ -421,7 +429,7 @@ class _DonationScreenState extends State<DonationScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Donating to',
+                            l10n.donateDonatingTo,
                             style: theme.textTheme.labelMedium?.copyWith(
                               color: theme.colorScheme.onSurfaceVariant,
                             ),
@@ -445,7 +453,7 @@ class _DonationScreenState extends State<DonationScreen> {
 
               // Quick amounts
               Text(
-                'Quick amounts (${AppConstants.defaultCurrency})',
+                l10n.donateQuickAmount(AppConstants.defaultCurrency),
                 style: theme.textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -463,14 +471,14 @@ class _DonationScreenState extends State<DonationScreen> {
               // Custom amount
               CustomInputField(
                 controller: _amountController,
-                label: 'Amount (${AppConstants.defaultCurrency})',
-                hint: 'Enter amount',
+                label: '${l10n.donateAmount} (${AppConstants.defaultCurrency})',
+                hint: l10n.donateAmountHint,
                 prefixIcon: Icons.monetization_on_outlined,
                 keyboardType: TextInputType.number,
                 validator: (value) => Validators.validateAmount(
                   value,
                   min: AppConstants.minDonationAmount,
-                  minMessage: 'Minimum donation is ${AppConstants.minDonationAmount.toStringAsFixed(0)} ${AppConstants.defaultCurrency}',
+                  minMessage: l10n.donateAmountMin('${AppConstants.minDonationAmount.toStringAsFixed(0)} ${AppConstants.defaultCurrency}'),
                 ),
                 onChanged: _onAmountChanged,
               ),
@@ -480,8 +488,8 @@ class _DonationScreenState extends State<DonationScreen> {
               // Phone number
               PhoneInputField(
                 controller: _phoneController,
-                label: 'MTN MoMo Phone Number',
-                hint: 'e.g., +237670000001',
+                label: l10n.donatePhone,
+                hint: l10n.donatePhoneHint,
                 validator: Validators.validatePhone,
               ),
 
@@ -507,7 +515,7 @@ class _DonationScreenState extends State<DonationScreen> {
                     const SizedBox(width: AppTheme.spaceSm),
                     Expanded(
                       child: Text(
-                        'A payment request will be sent to this MTN MoMo number',
+                        l10n.donateMoMoInfo,
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: AppColors.info,
                         ),
@@ -522,8 +530,8 @@ class _DonationScreenState extends State<DonationScreen> {
               // Message
               CustomInputField(
                 controller: _messageController,
-                label: 'Message (Optional)',
-                hint: 'Write a message of support...',
+                label: l10n.donateMessage,
+                hint: l10n.donateMessageHint,
                 prefixIcon: Icons.message_outlined,
                 maxLines: 3,
                 maxLength: AppConstants.maxMessageLength,
@@ -534,7 +542,7 @@ class _DonationScreenState extends State<DonationScreen> {
 
               // Submit button
               PrimaryButton(
-                text: 'Donate via MTN MoMo',
+                text: l10n.donateContinue,
                 icon: Icons.payment,
                 isLoading: _isLoading,
                 onPressed: _submitDonation,
