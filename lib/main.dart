@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
+import 'src/l10n/generated/app_localizations.dart';
 import 'src/services/auth_service.dart';
+import 'src/services/settings_provider.dart';
 import 'src/theme/app_theme.dart';
 import 'src/theme/app_text_styles.dart';
 import 'src/views/main_screen.dart';
-import 'src/views/settings_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Set preferred orientations
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  
+
   runApp(const GiveHopeApp());
 }
 
@@ -29,7 +29,9 @@ class GiveHopeApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => SettingsProvider()..loadSettings()),
+        ChangeNotifierProvider(
+          create: (_) => SettingsProvider()..loadSettings(),
+        ),
         ChangeNotifierProvider(create: (_) => AuthService()),
       ],
       child: const _GiveHopeAppContent(),
@@ -50,27 +52,20 @@ class _GiveHopeAppContent extends StatelessWidget {
       // App Info
       title: 'GiveHope',
       debugShowCheckedModeBanner: false,
-      
+
       // Theming
       theme: AppTheme.lightTheme(fontFamily),
       darkTheme: AppTheme.darkTheme(fontFamily),
       themeMode: settingsProvider.themeMode,
-      
+
       // Localization
       locale: locale,
-      supportedLocales: const [
-        Locale('en'), // English
-        Locale('ar'), // Arabic
-      ],
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+
       // Home screen
       home: const SplashScreen(),
-      
+
       // Error handling
       builder: (context, child) {
         // Apply system UI overlay style based on theme
@@ -78,14 +73,16 @@ class _GiveHopeAppContent extends StatelessWidget {
         SystemChrome.setSystemUIOverlayStyle(
           SystemUiOverlayStyle(
             statusBarColor: Colors.transparent,
-            statusBarIconBrightness:
-                brightness == Brightness.dark ? Brightness.light : Brightness.dark,
+            statusBarIconBrightness: brightness == Brightness.dark
+                ? Brightness.light
+                : Brightness.dark,
             systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
-            systemNavigationBarIconBrightness:
-                brightness == Brightness.dark ? Brightness.light : Brightness.dark,
+            systemNavigationBarIconBrightness: brightness == Brightness.dark
+                ? Brightness.light
+                : Brightness.dark,
           ),
         );
-        
+
         return MediaQuery(
           // Prevent text scaling from breaking layouts
           data: MediaQuery.of(context).copyWith(
