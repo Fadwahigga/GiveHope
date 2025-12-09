@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../l10n/generated/app_localizations.dart';
 import '../services/auth_service.dart';
+import '../services/settings_provider.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../utils/constants.dart';
@@ -68,33 +70,84 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   String? _validateConfirmPassword(String? value) {
+    final l10n = AppLocalizations.of(context)!;
     if (value == null || value.isEmpty) {
-      return 'Please confirm your password';
+      return l10n.authRequired;
     }
     if (value != _passwordController.text) {
-      return 'Passwords do not match';
+      return l10n.authPasswordMismatch;
     }
     return null;
   }
 
   String? _validatePassword(String? value) {
+    final l10n = AppLocalizations.of(context)!;
     if (value == null || value.isEmpty) {
-      return 'Password is required';
+      return l10n.authRequired;
     }
     if (value.length < AppConstants.minPasswordLength) {
-      return 'Password must be at least ${AppConstants.minPasswordLength} characters';
+      return l10n.authPasswordMin(AppConstants.minPasswordLength);
     }
     return null;
+  }
+
+  void _showLanguageDialog() {
+    final l10n = AppLocalizations.of(context)!;
+    final settingsProvider = context.read<SettingsProvider>();
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.settingsChooseLanguage),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              title: Text(l10n.settingsLanguageEn),
+              leading: const Icon(Icons.language),
+              selected: settingsProvider.locale.languageCode == 'en',
+              trailing: settingsProvider.locale.languageCode == 'en'
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                settingsProvider.setLocale(const Locale('en'));
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text(l10n.settingsLanguageAr),
+              leading: const Icon(Icons.language),
+              selected: settingsProvider.locale.languageCode == 'ar',
+              trailing: settingsProvider.locale.languageCode == 'ar'
+                  ? const Icon(Icons.check, color: AppColors.primary)
+                  : null,
+              onTap: () {
+                settingsProvider.setLocale(const Locale('ar'));
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final authService = context.watch<AuthService>();
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Account'),
+        title: Text(l10n.authRegister),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.language),
+            onPressed: _showLanguageDialog,
+            tooltip: l10n.settingsLanguage,
+          ),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -106,7 +159,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               children: [
                 // Header
                 Text(
-                  'Join GiveHope',
+                  l10n.authRegisterTitle,
                   style: theme.textTheme.headlineSmall?.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
@@ -115,7 +168,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 const SizedBox(height: AppTheme.spaceSm),
 
                 Text(
-                  'Create an account to start making donations',
+                  l10n.authRegisterSubtitle,
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: theme.colorScheme.onSurfaceVariant,
                   ),
@@ -126,8 +179,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 // Name field (optional)
                 CustomInputField(
                   controller: _nameController,
-                  label: 'Full Name (Optional)',
-                  hint: 'Enter your name',
+                  label: l10n.authName,
+                  hint: l10n.authNameHint,
                   prefixIcon: Icons.person_outlined,
                   textCapitalization: TextCapitalization.words,
                   textInputAction: TextInputAction.next,
@@ -139,12 +192,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 // Email field
                 CustomInputField(
                   controller: _emailController,
-                  label: 'Email',
-                  hint: 'Enter your email',
+                  label: l10n.authEmail,
+                  hint: l10n.authEmailHint,
                   prefixIcon: Icons.email_outlined,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
-                  validator: Validators.validateEmail,
+                  validator: (value) => Validators.validateEmail(
+                    value,
+                    emptyMessage: l10n.authRequired,
+                    invalidMessage: l10n.authInvalidEmail,
+                  ),
                 ),
 
                 const SizedBox(height: AppTheme.spaceMd),
@@ -152,8 +209,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 // Phone field (optional)
                 PhoneInputField(
                   controller: _phoneController,
-                  label: 'Phone Number (Optional)',
-                  hint: 'e.g., +237670000001',
+                  label: l10n.authPhone,
+                  hint: l10n.authPhoneHint,
                 ),
 
                 const SizedBox(height: AppTheme.spaceMd),
@@ -161,8 +218,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 // Password field
                 CustomInputField(
                   controller: _passwordController,
-                  label: 'Password',
-                  hint: 'Create a password',
+                  label: l10n.authPassword,
+                  hint: l10n.authPasswordHint,
                   prefixIcon: Icons.lock_outlined,
                   obscureText: _obscurePassword,
                   suffixIcon: _obscurePassword 
@@ -182,8 +239,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 // Confirm Password field
                 CustomInputField(
                   controller: _confirmPasswordController,
-                  label: 'Confirm Password',
-                  hint: 'Confirm your password',
+                  label: l10n.authConfirmPassword,
+                  hint: l10n.authConfirmPasswordHint,
                   prefixIcon: Icons.lock_outlined,
                   obscureText: _obscureConfirmPassword,
                   suffixIcon: _obscureConfirmPassword 
@@ -220,7 +277,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       const SizedBox(width: AppTheme.spaceSm),
                       Expanded(
                         child: Text(
-                          'Your phone number will be used for MTN MoMo payments',
+                          l10n.authMoMoInfo,
                           style: theme.textTheme.bodySmall?.copyWith(
                             color: AppColors.info,
                           ),
@@ -234,7 +291,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                 // Register button
                 PrimaryButton(
-                  text: 'Create Account',
+                  text: l10n.authRegister,
                   isLoading: authService.isLoading,
                   onPressed: _register,
                 ),
@@ -246,12 +303,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Already have an account? ',
+                      l10n.authAlreadyAccount,
                       style: theme.textTheme.bodyMedium,
                     ),
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(),
-                      child: const Text('Sign In'),
+                      child: Text(l10n.authSignIn),
                     ),
                   ],
                 ),
@@ -265,4 +322,3 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 }
-

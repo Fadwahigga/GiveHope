@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import '../l10n/generated/app_localizations.dart';
 import '../models/models.dart';
 import '../services/api_service.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../utils/constants.dart';
 import '../utils/formatters.dart';
+import '../utils/network_helper.dart';
 import '../utils/validators.dart';
 import '../widgets/widgets.dart';
 
@@ -32,6 +34,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
   bool _isLoading = true;
   bool _isSubmitting = false;
   String? _error;
+  bool _isNoInternet = false;
 
   @override
   void initState() {
@@ -50,6 +53,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
     setState(() {
       _isLoading = true;
       _error = null;
+      _isNoInternet = false;
     });
 
     try {
@@ -62,11 +66,14 @@ class _PayoutScreenState extends State<PayoutScreen> {
         _summary = results[0] as CauseSummary;
         _payouts = results[1] as List<Payout>;
         _isLoading = false;
+        _isNoInternet = false;
       });
     } catch (e) {
+      final isNoInternet = NetworkHelper.isNoInternetError(e);
       setState(() {
-        _error = e.toString();
+        _error = NetworkHelper.getErrorMessage(e);
         _isLoading = false;
+        _isNoInternet = isNoInternet;
       });
     }
   }
@@ -88,12 +95,13 @@ class _PayoutScreenState extends State<PayoutScreen> {
   }
 
   Future<void> _submitPayoutRequest() async {
+    final l10n = AppLocalizations.of(context)!;
     final amountStr = _amountController.text.trim();
     final amount = double.tryParse(amountStr);
     
     if (amount == null || amount <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a valid amount')),
+        SnackBar(content: Text(l10n.payoutAmountError)),
       );
       return;
     }
@@ -101,7 +109,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
     if (_summary != null && amount > _summary!.availableBalance) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Amount exceeds available balance (${_summary!.availableBalance.toStringAsFixed(0)} ${_summary!.currency})'),
+          content: Text(l10n.payoutAmountMax('${_summary!.availableBalance.toStringAsFixed(0)} ${_summary!.currency}')),
         ),
       );
       return;
@@ -125,8 +133,8 @@ class _PayoutScreenState extends State<PayoutScreen> {
         
         if (response.transferInitiated) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Payout request submitted successfully!'),
+            SnackBar(
+              content: Text(l10n.payoutSuccessDesc),
               backgroundColor: AppColors.success,
             ),
           );
@@ -134,7 +142,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(response.transferError ?? 'Payout transfer failed'),
+              content: Text(response.transferError ?? l10n.payoutFailedDesc),
               backgroundColor: AppColors.error,
             ),
           );
@@ -152,8 +160,8 @@ class _PayoutScreenState extends State<PayoutScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Failed to submit payout request'),
+          SnackBar(
+            content: Text(l10n.payoutFailedDesc),
             backgroundColor: AppColors.error,
           ),
         );
@@ -170,17 +178,18 @@ class _PayoutScreenState extends State<PayoutScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
 
     if (_isLoading) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Payout Management')),
-        body: const LoadingState(message: 'Loading...'),
+        appBar: AppBar(title: Text(l10n.payoutTitle)),
+        body: LoadingState(message: l10n.payoutLoading),
       );
     }
 
     if (_error != null) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Payout Management')),
+        appBar: AppBar(title: Text(l10n.payoutTitle)),
         body: EmptyState.error(
           description: _error,
           onAction: _loadData,
@@ -190,7 +199,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Payout Management'),
+        title: Text(l10n.payoutTitle),
       ),
       body: RefreshIndicator(
         onRefresh: _loadData,
@@ -215,7 +224,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
                   children: [
                     Expanded(
                       child: _BalanceCard(
-                        title: 'Total Received',
+                        title: l10n.causeTotalReceived,
                         amount: _summary!.totalDonations,
                         currency: _summary!.currency,
                         color: AppColors.success,
@@ -225,7 +234,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
                     const SizedBox(width: AppTheme.spaceMd),
                     Expanded(
                       child: _BalanceCard(
-                        title: 'Available',
+                        title: l10n.causeAvailable,
                         amount: _summary!.availableBalance,
                         currency: _summary!.currency,
                         color: AppColors.primary,
@@ -240,7 +249,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
                 // Request payout button
                 if (_summary!.availableBalance > 0)
                   PrimaryButton(
-                    text: 'Request Payout',
+                    text: l10n.payoutRequest,
                     icon: Icons.payments_outlined,
                     onPressed: _showRequestPayoutDialog,
                   )
@@ -261,7 +270,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
                         const SizedBox(width: AppTheme.spaceSm),
                         Expanded(
                           child: Text(
-                            'No funds available for payout. Receive some donations first!',
+                            l10n.payoutNoFunds,
                             style: theme.textTheme.bodySmall?.copyWith(
                               color: theme.colorScheme.onSurfaceVariant,
                             ),
@@ -276,7 +285,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
 
               // Payout history
               Text(
-                'Payout History',
+                l10n.payoutHistory,
                 style: theme.textTheme.titleMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -301,7 +310,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
                         ),
                         const SizedBox(height: AppTheme.spaceSm),
                         Text(
-                          'No payouts yet',
+                          l10n.payoutNoHistory,
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,
                           ),
@@ -391,6 +400,7 @@ class _PayoutListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final statusColor = _getStatusColor(payout.status);
 
     return Card(
@@ -447,7 +457,7 @@ class _PayoutListItem extends StatelessWidget {
                 borderRadius: BorderRadius.circular(AppTheme.radiusRound),
               ),
               child: Text(
-                _getStatusText(payout.status),
+                _getStatusText(payout.status, l10n),
                 style: theme.textTheme.labelSmall?.copyWith(
                   color: statusColor,
                   fontWeight: FontWeight.w600,
@@ -471,14 +481,14 @@ class _PayoutListItem extends StatelessWidget {
     }
   }
 
-  String _getStatusText(PayoutStatus status) {
+  String _getStatusText(PayoutStatus status, AppLocalizations l10n) {
     switch (status) {
       case PayoutStatus.completed:
-        return 'Completed';
+        return l10n.payoutStatusCompleted;
       case PayoutStatus.pending:
-        return 'Pending';
+        return l10n.payoutStatusPending;
       case PayoutStatus.failed:
-        return 'Failed';
+        return l10n.payoutStatusFailed;
     }
   }
 }
@@ -499,6 +509,7 @@ class _PayoutRequestBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final mediaQuery = MediaQuery.of(context);
 
     return Container(
@@ -535,7 +546,7 @@ class _PayoutRequestBottomSheet extends StatelessWidget {
 
             // Title
             Text(
-              'Request Payout',
+              l10n.payoutRequest,
               style: theme.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -544,7 +555,7 @@ class _PayoutRequestBottomSheet extends StatelessWidget {
             const SizedBox(height: AppTheme.spaceSm),
 
             Text(
-              'Maximum available: ${summary.availableBalance.toStringAsFixed(0)} ${summary.currency}',
+              l10n.payoutAmountMax('${summary.availableBalance.toStringAsFixed(0)} ${summary.currency}'),
               style: theme.textTheme.bodyMedium?.copyWith(
                 color: theme.colorScheme.onSurfaceVariant,
               ),
@@ -555,14 +566,14 @@ class _PayoutRequestBottomSheet extends StatelessWidget {
             // Amount field
             CustomInputField(
               controller: amountController,
-              label: 'Payout Amount (${summary.currency})',
-              hint: 'Enter amount to withdraw',
+              label: '${l10n.payoutAmount} (${summary.currency})',
+              hint: l10n.payoutAmountHint,
               prefixIcon: Icons.monetization_on_outlined,
               keyboardType: TextInputType.number,
               validator: (value) => Validators.validateAmount(
                 value,
                 max: summary.availableBalance,
-                maxMessage: 'Amount exceeds available balance',
+                maxMessage: l10n.payoutAmountError,
               ),
             ),
 
@@ -588,7 +599,7 @@ class _PayoutRequestBottomSheet extends StatelessWidget {
                   const SizedBox(width: AppTheme.spaceSm),
                   Expanded(
                     child: Text(
-                      'Funds will be sent to the MTN MoMo account: ${summary.cause.ownerPhone}',
+                      l10n.payoutMoMoInfo(summary.cause.ownerPhone),
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: AppColors.info,
                       ),
@@ -602,7 +613,7 @@ class _PayoutRequestBottomSheet extends StatelessWidget {
 
             // Submit button
             PrimaryButton(
-              text: 'Submit Request',
+              text: l10n.payoutSubmit,
               isLoading: isSubmitting,
               onPressed: onSubmit,
             ),

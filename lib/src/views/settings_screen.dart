@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../l10n/generated/app_localizations.dart';
+import '../services/auth_service.dart';
+import '../services/settings_provider.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_theme.dart';
 import '../utils/constants.dart';
+import 'login_screen.dart';
 
 /// Settings screen for app preferences
 class SettingsScreen extends StatelessWidget {
@@ -10,64 +14,64 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final settingsProvider = context.watch<SettingsProvider>();
+    final authService = context.watch<AuthService>();
+    final isLoggedIn = authService.isAuthenticated;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: Text(l10n.settingsTitle),
       ),
       body: ListView(
         children: [
           // Appearance section
-          _SectionHeader(title: 'Appearance'),
+          _SectionHeader(title: l10n.settingsAppearance),
 
           // Theme setting
           _SettingsTile(
             icon: Icons.palette_outlined,
-            title: 'Theme',
-            subtitle: _getThemeName(settingsProvider.themeMode),
-            onTap: () => _showThemeDialog(context, settingsProvider),
+            title: l10n.settingsTheme,
+            subtitle: _getThemeName(settingsProvider.themeMode, l10n),
+            onTap: () => _showThemeDialog(context, settingsProvider, l10n),
           ),
 
           // Language setting
           _SettingsTile(
             icon: Icons.language,
-            title: 'Language',
-            subtitle: _getLanguageName(settingsProvider.locale),
-            onTap: () => _showLanguageDialog(context, settingsProvider),
+            title: l10n.settingsLanguage,
+            subtitle: _getLanguageName(settingsProvider.locale, l10n),
+            onTap: () => _showLanguageDialog(context, settingsProvider, l10n),
           ),
 
           const Divider(height: 32),
 
           // About section
-          _SectionHeader(title: 'About'),
+          _SectionHeader(title: l10n.settingsAbout),
 
           _SettingsTile(
             icon: Icons.info_outline,
-            title: 'About GiveHope',
-            subtitle: 'Learn more about our mission',
-            onTap: () => _showAboutDialog(context),
+            title: l10n.settingsAboutTitle,
+            subtitle: l10n.settingsAboutDesc,
+            onTap: () => _showAboutDialog(context, l10n),
           ),
 
           _SettingsTile(
             icon: Icons.privacy_tip_outlined,
-            title: 'Privacy Policy',
+            title: l10n.settingsPrivacy,
             onTap: () {
-              // TODO: Navigate to privacy policy
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Privacy Policy coming soon')),
+                SnackBar(content: Text(l10n.settingsPrivacyComingSoon)),
               );
             },
           ),
 
           _SettingsTile(
             icon: Icons.description_outlined,
-            title: 'Terms of Service',
+            title: l10n.settingsTerms,
             onTap: () {
-              // TODO: Navigate to terms of service
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Terms of Service coming soon')),
+                SnackBar(content: Text(l10n.settingsTermsComingSoon)),
               );
             },
           ),
@@ -75,65 +79,81 @@ class SettingsScreen extends StatelessWidget {
           const Divider(height: 32),
 
           // Support section
-          _SectionHeader(title: 'Support'),
+          _SectionHeader(title: l10n.settingsContact),
 
           _SettingsTile(
             icon: Icons.help_outline,
-            title: 'Help & FAQ',
+            title: l10n.settingsContact,
             onTap: () {
-              // TODO: Navigate to help
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Help & FAQ coming soon')),
+                SnackBar(content: Text(l10n.settingsHelpComingSoon)),
               );
             },
           ),
 
           _SettingsTile(
             icon: Icons.email_outlined,
-            title: 'Contact Us',
+            title: l10n.settingsContact,
             subtitle: 'support@givehope.example.com',
             onTap: () {
-              // TODO: Open email or contact form
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Contact form coming soon')),
+                SnackBar(content: Text(l10n.settingsContactComingSoon)),
               );
             },
           ),
 
           _SettingsTile(
             icon: Icons.star_outline,
-            title: 'Rate App',
-            subtitle: 'Love GiveHope? Rate us!',
+            title: l10n.settingsRate,
+            subtitle: l10n.settingsAboutDesc,
             onTap: () {
-              // TODO: Open app store
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('App store rating coming soon')),
+                SnackBar(content: Text(l10n.settingsRateComingSoon)),
               );
             },
           ),
 
+          const Divider(height: 32),
+
+          // Account section (only if logged in)
+          if (isLoggedIn) ...[
+            _SectionHeader(title: l10n.settingsProfile),
+            _SettingsTile(
+              icon: Icons.logout,
+              title: l10n.settingsLogout,
+              titleColor: AppColors.error,
+              onTap: () => _showLogoutDialog(context, l10n),
+            ),
+            const SizedBox(height: AppTheme.spaceLg),
+          ],
+
           const SizedBox(height: AppTheme.spaceLg),
 
           // Version info
-          Center(
-            child: Column(
-              children: [
-                Text(
-                  'GiveHope',
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.w600,
-                  ),
+          Builder(
+            builder: (context) {
+              final theme = Theme.of(context);
+              return Center(
+                child: Column(
+                  children: [
+                    Text(
+                      l10n.appName,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: AppTheme.spaceXs),
+                    Text(
+                      l10n.settingsVersion(AppConstants.appVersion),
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: theme.colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
                 ),
-                const SizedBox(height: AppTheme.spaceXs),
-                Text(
-                  'Version ${AppConstants.appVersion}',
-                  style: theme.textTheme.bodySmall?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                ),
-              ],
-            ),
+              );
+            },
           ),
 
           const SizedBox(height: AppTheme.spaceXxl),
@@ -142,37 +162,37 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  String _getThemeName(ThemeMode mode) {
+  String _getThemeName(ThemeMode mode, AppLocalizations l10n) {
     switch (mode) {
       case ThemeMode.light:
-        return 'Light';
+        return l10n.settingsThemeLight;
       case ThemeMode.dark:
-        return 'Dark';
+        return l10n.settingsThemeDark;
       case ThemeMode.system:
-        return 'System';
+        return l10n.settingsThemeSystem;
     }
   }
 
-  String _getLanguageName(Locale locale) {
+  String _getLanguageName(Locale locale, AppLocalizations l10n) {
     switch (locale.languageCode) {
       case 'ar':
-        return 'العربية';
+        return l10n.settingsLanguageAr;
       case 'en':
       default:
-        return 'English';
+        return l10n.settingsLanguageEn;
     }
   }
 
-  void _showThemeDialog(BuildContext context, SettingsProvider provider) {
+  void _showThemeDialog(BuildContext context, SettingsProvider provider, AppLocalizations l10n) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Choose Theme'),
+        title: Text(l10n.settingsChooseTheme),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             _ThemeOption(
-              title: 'Light',
+              title: l10n.settingsThemeLight,
               icon: Icons.light_mode,
               isSelected: provider.themeMode == ThemeMode.light,
               onTap: () {
@@ -181,7 +201,7 @@ class SettingsScreen extends StatelessWidget {
               },
             ),
             _ThemeOption(
-              title: 'Dark',
+              title: l10n.settingsThemeDark,
               icon: Icons.dark_mode,
               isSelected: provider.themeMode == ThemeMode.dark,
               onTap: () {
@@ -190,7 +210,7 @@ class SettingsScreen extends StatelessWidget {
               },
             ),
             _ThemeOption(
-              title: 'System',
+              title: l10n.settingsThemeSystem,
               icon: Icons.settings_suggest,
               isSelected: provider.themeMode == ThemeMode.system,
               onTap: () {
@@ -204,16 +224,16 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  void _showLanguageDialog(BuildContext context, SettingsProvider provider) {
+  void _showLanguageDialog(BuildContext context, SettingsProvider provider, AppLocalizations l10n) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Choose Language'),
+        title: Text(l10n.settingsChooseLanguage),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             _LanguageOption(
-              title: 'English',
+              title: l10n.settingsLanguageEn,
               isSelected: provider.locale.languageCode == 'en',
               onTap: () {
                 provider.setLocale(const Locale('en'));
@@ -221,7 +241,7 @@ class SettingsScreen extends StatelessWidget {
               },
             ),
             _LanguageOption(
-              title: 'العربية',
+              title: l10n.settingsLanguageAr,
               isSelected: provider.locale.languageCode == 'ar',
               onTap: () {
                 provider.setLocale(const Locale('ar'));
@@ -234,17 +254,17 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  void _showAboutDialog(BuildContext context) {
+  void _showAboutDialog(BuildContext context, AppLocalizations l10n) {
     showDialog(
       context: context,
       builder: (context) => AboutDialog(
-        applicationName: 'GiveHope',
+        applicationName: l10n.appName,
         applicationVersion: AppConstants.appVersion,
         applicationIcon: Container(
           width: 64,
           height: 64,
           decoration: BoxDecoration(
-            color: AppColors.primary.withOpacity(0.1),
+            color: AppColors.primary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(AppTheme.radiusMd),
           ),
           child: const Icon(
@@ -254,16 +274,94 @@ class SettingsScreen extends StatelessWidget {
           ),
         ),
         children: [
-          const Text(
-            'GiveHope is a donation and micro-payments app designed to make charitable giving easy and accessible.',
-          ),
+          Text(l10n.settingsAboutDesc),
           const SizedBox(height: AppTheme.spaceMd),
-          const Text(
-            'Our mission is to connect generous donors with causes that matter, empowering communities one donation at a time.',
+          Text(l10n.settingsAboutMission),
+        ],
+      ),
+    );
+  }
+
+  void _showLogoutDialog(BuildContext context, AppLocalizations l10n) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppTheme.radiusLg),
+        ),
+        title: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: AppColors.error.withValues(alpha: 0.1),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.logout,
+                color: AppColors.error,
+                size: 20,
+              ),
+            ),
+            const SizedBox(width: AppTheme.spaceMd),
+            Expanded(
+              child: Text(
+                l10n.settingsLogout,
+                style: const TextStyle(
+                  color: AppColors.error,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(l10n.settingsLogoutConfirm),
+            const SizedBox(height: AppTheme.spaceSm),
+            Text(
+              l10n.settingsLogoutConfirmDesc,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(l10n.commonCancel),
+          ),
+          FilledButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+              await _handleLogout(context);
+            },
+            style: FilledButton.styleFrom(
+              backgroundColor: AppColors.error,
+              foregroundColor: Colors.white,
+            ),
+            child: Text(l10n.settingsLogout),
           ),
         ],
       ),
     );
+  }
+
+  Future<void> _handleLogout(BuildContext context) async {
+    final authService = context.read<AuthService>();
+    await authService.logout();
+
+    if (context.mounted) {
+      // Navigate to login screen and clear navigation stack
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (_) => const LoginScreen()),
+        (route) => false,
+      );
+    }
   }
 }
 
@@ -275,7 +373,6 @@ class _SectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         AppTheme.spaceMd,
@@ -298,19 +395,20 @@ class _SettingsTile extends StatelessWidget {
   final IconData icon;
   final String title;
   final String? subtitle;
+  final Color? titleColor;
   final VoidCallback? onTap;
 
   const _SettingsTile({
     required this.icon,
     required this.title,
     this.subtitle,
+    this.titleColor,
     this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
     return ListTile(
       leading: Container(
         width: 40,
@@ -319,9 +417,18 @@ class _SettingsTile extends StatelessWidget {
           color: theme.colorScheme.surfaceContainerHighest,
           borderRadius: BorderRadius.circular(AppTheme.radiusSm),
         ),
-        child: Icon(icon, color: theme.colorScheme.onSurfaceVariant, size: 20),
+        child: Icon(
+          icon,
+          color: titleColor ?? theme.colorScheme.onSurfaceVariant,
+          size: 20,
+        ),
       ),
-      title: Text(title),
+      title: Text(
+        title,
+        style: titleColor != null
+            ? TextStyle(color: titleColor, fontWeight: FontWeight.w600)
+            : null,
+      ),
       subtitle: subtitle != null ? Text(subtitle!) : null,
       trailing: const Icon(Icons.chevron_right),
       onTap: onTap,
@@ -394,36 +501,3 @@ class _LanguageOption extends StatelessWidget {
     );
   }
 }
-
-/// Provider for managing app settings (theme, locale)
-class SettingsProvider extends ChangeNotifier {
-  ThemeMode _themeMode = ThemeMode.system;
-  Locale _locale = const Locale('en');
-
-  ThemeMode get themeMode => _themeMode;
-  Locale get locale => _locale;
-
-  void setThemeMode(ThemeMode mode) {
-    _themeMode = mode;
-    notifyListeners();
-    // TODO: Persist to SharedPreferences
-  }
-
-  void setLocale(Locale locale) {
-    _locale = locale;
-    notifyListeners();
-    // TODO: Persist to SharedPreferences
-  }
-
-  /// Load settings from SharedPreferences
-  Future<void> loadSettings() async {
-    // TODO: Load from SharedPreferences
-    // final prefs = await SharedPreferences.getInstance();
-    // final themeModeIndex = prefs.getInt(AppConstants.keyThemeMode) ?? 0;
-    // final localeCode = prefs.getString(AppConstants.keyLocale) ?? 'en';
-    // _themeMode = ThemeMode.values[themeModeIndex];
-    // _locale = Locale(localeCode);
-    notifyListeners();
-  }
-}
-
