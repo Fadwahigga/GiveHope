@@ -118,9 +118,28 @@ class AuthService extends ChangeNotifier {
   }
 
   /// Logout user
+  /// 
+  /// JWT is stateless, so logout is primarily client-side:
+  /// 1. Calls logout endpoint for validation/logging purposes
+  /// 2. Removes token from local storage (SharedPreferences)
+  /// 3. Clears all local auth state
   Future<void> logout() async {
-    await _clearAuth();
+    _isLoading = true;
     notifyListeners();
+
+    try {
+      // Call API logout endpoint (for validation/logging - JWT is stateless)
+      await _apiService.logout();
+    } catch (_) {
+      // Continue with logout even if API call fails
+      // The actual logout happens by removing the token from storage
+    } finally {
+      // Clear local auth data - this is the actual logout
+      // Removes token from SharedPreferences and clears memory
+      await _clearAuth();
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 
   /// Refresh current user data
@@ -148,11 +167,15 @@ class AuthService extends ChangeNotifier {
   }
 
   /// Clear auth data
+  /// 
+  /// Removes token from SharedPreferences (local storage) and clears memory.
+  /// This is the actual logout action for stateless JWT tokens.
   Future<void> _clearAuth() async {
     _token = null;
     _currentUser = null;
     _apiService.setAuthToken(null);
     
+    // Remove token from local storage - this is the actual logout
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(AppConstants.keyAuthToken);
   }

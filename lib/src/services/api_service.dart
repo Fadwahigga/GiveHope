@@ -197,9 +197,24 @@ class ApiService {
     return User.fromJson(response);
   }
 
-  /// Logout (clear token)
-  void logout() {
-    _authToken = null;
+  /// Logout user (call API endpoint)
+  /// 
+  /// Note: JWT is stateless, so logout is primarily client-side.
+  /// This endpoint validates the token and logs the action for auditing.
+  /// The actual logout happens by removing the token from storage.
+  Future<void> logout() async {
+    if (_authToken == null) return;
+    
+    try {
+      // Call logout endpoint for validation/logging (JWT is stateless)
+      await _post('/auth/logout');
+    } catch (_) {
+      // Continue with logout even if API call fails
+      // The actual logout happens by removing the token
+    } finally {
+      // Remove token from memory (storage removal happens in AuthService)
+      _authToken = null;
+    }
   }
 
   // ═══════════════════════════════════════════════════════════════
