@@ -1,0 +1,208 @@
+{
+  "@@locale": "en",
+  "@@last_modified": "2024-01-01T00:00:00.000Z",
+  
+  "appName": "GiveHope",
+  "@appName": {
+    "description": "The name of the application"
+  },
+  "appTagline": "Making a difference, one donation at a time",
+  "@appTagline": {
+    "description": "App tagline shown on splash screen"
+  },
+
+  "navHome": "Home",
+  "navExplore": "Explore",
+  "navHistory": "History",
+  "navSettings": "Settings",
+
+  "homeTitle": "Discover Causes",
+  "homeSubtitle": "Support causes that matter to you",
+  "homeSearchPlaceholder": "Search causes...",
+  "homeFeatured": "Featured",
+  "homeAllCauses": "All Causes",
+  "homeCategories": "Categories",
+  "homeNoCauses": "No causes found",
+  "homeNoCausesDesc": "There are no active causes at the moment. Check back later!",
+  "homeRefresh": "Refresh",
+
+  "causeDetailTitle": "Cause Details",
+  "causeRaised": "Raised",
+  "causeGoal": "Goal",
+  "causeProgress": "Progress",
+  "causeDonors": "Donors",
+  "causeDonations": "Donations",
+  "causeDaysLeft": "days left",
+  "causeEnded": "Campaign ended",
+  "causeAbout": "About this cause",
+  "causeOrganizer": "Organizer",
+  "causeRecentDonations": "Recent Donations",
+  "causeNoDonations": "No donations yet",
+  "causeBeFirst": "Be the first to donate!",
+  "causeShare": "Share",
+  "causeReport": "Report",
+
+  "donateTitle": "Make a Donation",
+  "donateAmount": "Donation Amount",
+  "donateAmountHint": "Enter amount",
+  "donateAmountError": "Please enter a valid amount",
+  "donateAmountMin": "Minimum donation is {amount}",
+  "@donateAmountMin": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "donatePhone": "Phone Number",
+  "donatePhoneHint": "Enter your phone number",
+  "donatePhoneError": "Please enter a valid phone number",
+  "donateName": "Your Name (Optional)",
+  "donateNameHint": "Enter your name",
+  "donateMessage": "Leave a Message (Optional)",
+  "donateMessageHint": "Write a message of support...",
+  "donateAnonymous": "Donate anonymously",
+  "donateQuickAmount": "Quick amounts",
+  "donateCustomAmount": "Custom amount",
+  "donateContinue": "Continue to Payment",
+  "donateProcessing": "Processing...",
+  "donateSuccess": "Thank you for your donation!",
+  "donateSuccessDesc": "Your donation of {amount} to {cause} has been processed successfully.",
+  "@donateSuccessDesc": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "cause": {
+        "type": "String"
+      }
+    }
+  },
+  "donateFailed": "Donation Failed",
+  "donateFailedDesc": "We couldn't process your donation. Please try again.",
+  "donateRetry": "Try Again",
+  "donateDone": "Done",
+
+  "historyTitle": "Donation History",
+  "historySubtitle": "View your past donations",
+  "historyEnterPhone": "Enter your phone number to view your donation history",
+  "historyPhoneHint": "Phone number",
+  "historySearch": "View History",
+  "historyNoResults": "No donations found",
+  "historyNoResultsDesc": "You haven't made any donations yet. Start giving today!",
+  "historyTotal": "Total Donated",
+  "historyCount": "{count} donations",
+  "@historyCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "historyStatusPending": "Pending",
+  "historyStatusCompleted": "Completed",
+  "historyStatusFailed": "Failed",
+  "historyStatusRefunded": "Refunded",
+
+  "payoutTitle": "Payout Management",
+  "payoutSubtitle": "Manage your cause's funds",
+  "payoutAvailable": "Available for Payout",
+  "payoutTotal": "Total Received",
+  "payoutRequest": "Request Payout",
+  "payoutAmount": "Payout Amount",
+  "payoutAmountHint": "Enter amount to withdraw",
+  "payoutAmountError": "Please enter a valid amount",
+  "payoutAmountMax": "Maximum available: {amount}",
+  "@payoutAmountMax": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutNotes": "Notes (Optional)",
+  "payoutNotesHint": "Add any notes...",
+  "payoutSubmit": "Submit Request",
+  "payoutProcessing": "Processing...",
+  "payoutSuccess": "Payout Requested",
+  "payoutSuccessDesc": "Your payout request of {amount} has been submitted.",
+  "@payoutSuccessDesc": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutFailed": "Payout Failed",
+  "payoutFailedDesc": "We couldn't process your payout request. Please try again.",
+  "payoutHistory": "Payout History",
+  "payoutNoHistory": "No payouts yet",
+  "payoutStatusPending": "Pending",
+  "payoutStatusProcessing": "Processing",
+  "payoutStatusCompleted": "Completed",
+  "payoutStatusFailed": "Failed",
+  "payoutStatusCancelled": "Cancelled",
+
+  "settingsTitle": "Settings",
+  "settingsAppearance": "Appearance",
+  "settingsTheme": "Theme",
+  "settingsThemeLight": "Light",
+  "settingsThemeDark": "Dark",
+  "settingsThemeSystem": "System",
+  "settingsLanguage": "Language",
+  "settingsLanguageEn": "English",
+  "settingsLanguageAr": "العربية",
+  "settingsProfile": "Profile",
+  "settingsEditProfile": "Edit Profile",
+  "settingsNotifications": "Notifications",
+  "settingsAbout": "About",
+  "settingsPrivacy": "Privacy Policy",
+  "settingsTerms": "Terms of Service",
+  "settingsVersion": "Version {version}",
+  "@settingsVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsContact": "Contact Us",
+  "settingsRate": "Rate App",
+
+  "categoryAll": "All",
+  "categoryHealth": "Health",
+  "categoryEducation": "Education",
+  "categoryEnvironment": "Environment",
+  "categoryEmergency": "Emergency",
+  "categoryCommunity": "Community",
+  "categoryAnimal": "Animals",
+  "categoryGeneral": "General",
+
+  "commonLoading": "Loading...",
+  "commonError": "Something went wrong",
+  "commonRetry": "Retry",
+  "commonCancel": "Cancel",
+  "commonConfirm": "Confirm",
+  "commonSave": "Save",
+  "commonClose": "Close",
+  "commonBack": "Back",
+  "commonNext": "Next",
+  "commonDone": "Done",
+  "commonOk": "OK",
+  "commonYes": "Yes",
+  "commonNo": "No",
+  "commonSearch": "Search",
+  "commonSeeAll": "See All",
+  "commonNoInternet": "No internet connection",
+  "commonNoInternetDesc": "Please check your connection and try again.",
+  "commonServerError": "Server error",
+  "commonServerErrorDesc": "Something went wrong on our end. Please try again later.",
+  "commonUnknownError": "Unknown error",
+  "commonUnknownErrorDesc": "An unexpected error occurred. Please try again.",
+
+  "currencySymbol": "$",
+  "currencyCode": "USD",
+  "dateFormat": "MMM d, yyyy",
+  "timeFormat": "h:mm a"
+}
+

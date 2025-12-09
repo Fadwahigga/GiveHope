@@ -1,0 +1,71 @@
+name: give_hope
+description: "GiveHope - A donation and micro-payments mobile app for supporting charitable causes."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  
+  # Icons
+  cupertino_icons: ^1.0.8
+  
+  # HTTP client for API calls
+  http: ^1.2.2
+  
+  # State management
+  provider: ^6.1.2
+  
+  # Internationalization
+  intl: ^0.20.2
+  
+  # Local storage for preferences
+  shared_preferences: ^2.3.3
+  
+  # Image caching
+  cached_network_image: ^3.4.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  generate: true
+  
+  assets:
+    - assets/
+    - assets/images/
+    - assets/icons/
+
+  # NOTE: Uncomment the fonts section below after adding the font files to assets/fonts/
+  # Download fonts from Google Fonts:
+  # - Poppins: https://fonts.google.com/specimen/Poppins
+  # - Cairo: https://fonts.google.com/specimen/Cairo
+  #
+  # fonts:
+  #   - family: Poppins
+  #     fonts:
+  #       - asset: assets/fonts/Poppins-Regular.ttf
+  #       - asset: assets/fonts/Poppins-Medium.ttf
+  #         weight: 500
+  #       - asset: assets/fonts/Poppins-SemiBold.ttf
+  #         weight: 600
+  #       - asset: assets/fonts/Poppins-Bold.ttf
+  #         weight: 700
+  #   - family: Cairo
+  #     fonts:
+  #       - asset: assets/fonts/Cairo-Regular.ttf
+  #       - asset: assets/fonts/Cairo-Medium.ttf
+  #         weight: 500
+  #       - asset: assets/fonts/Cairo-SemiBold.ttf
+  #         weight: 600
+  #       - asset: assets/fonts/Cairo-Bold.ttf
+  #         weight: 700
