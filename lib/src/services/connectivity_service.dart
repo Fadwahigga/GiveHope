@@ -7,6 +7,7 @@ class ConnectivityService {
 
   /// Check if device has internet connection
   /// Returns true if connected, false otherwise
+  /// Uses multiple fallback servers and longer timeout for mobile networks
   Future<bool> hasInternetConnection() async {
     try {
       final connectivityResults = await _connectivity.checkConnectivity();
@@ -18,14 +19,30 @@ class ConnectivityService {
       }
 
       // Check if we can actually reach the internet
-      // by trying to connect to a reliable server
-      try {
-        final result = await InternetAddress.lookup('google.com')
-            .timeout(const Duration(seconds: 3));
-        return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
-      } catch (_) {
-        return false;
+      // Try multiple reliable servers with longer timeout for mobile networks
+      final servers = [
+        'google.com',
+        '8.8.8.8', // Google DNS
+        'cloudflare.com',
+      ];
+
+      // Use longer timeout for mobile networks (10 seconds)
+      const timeout = Duration(seconds: 10);
+
+      for (final server in servers) {
+        try {
+          final result = await InternetAddress.lookup(server).timeout(timeout);
+          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+            return true;
+          }
+        } catch (_) {
+          // Try next server
+          continue;
+        }
       }
+
+      // If all servers failed, return false
+      return false;
     } catch (_) {
       return false;
     }
