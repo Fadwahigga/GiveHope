@@ -1238,35 +1238,11 @@ abstract class AppLocalizations {
   /// **'Our mission is to connect generous donors with causes that matter, empowering communities one donation at a time.'**
   String get settingsAboutMission;
 
-  /// No description provided for @settingsPrivacyComingSoon.
+  /// No description provided for @settingsHelp.
   ///
   /// In en, this message translates to:
-  /// **'Privacy Policy coming soon'**
-  String get settingsPrivacyComingSoon;
-
-  /// No description provided for @settingsTermsComingSoon.
-  ///
-  /// In en, this message translates to:
-  /// **'Terms of Service coming soon'**
-  String get settingsTermsComingSoon;
-
-  /// No description provided for @settingsHelpComingSoon.
-  ///
-  /// In en, this message translates to:
-  /// **'Help & FAQ coming soon'**
-  String get settingsHelpComingSoon;
-
-  /// No description provided for @settingsContactComingSoon.
-  ///
-  /// In en, this message translates to:
-  /// **'Contact form coming soon'**
-  String get settingsContactComingSoon;
-
-  /// No description provided for @settingsRateComingSoon.
-  ///
-  /// In en, this message translates to:
-  /// **'App store rating coming soon'**
-  String get settingsRateComingSoon;
+  /// **'Help & FAQ'**
+  String get settingsHelp;
 
   /// No description provided for @settingsLogout.
   ///
@@ -1477,6 +1453,576 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'h:mm a'**
   String get timeFormat;
+
+  /// No description provided for @privacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get privacyTitle;
+
+  /// No description provided for @privacyLastUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Last updated: January 2024'**
+  String get privacyLastUpdated;
+
+  /// No description provided for @privacyIntroduction.
+  ///
+  /// In en, this message translates to:
+  /// **'Introduction'**
+  String get privacyIntroduction;
+
+  /// No description provided for @privacyIntroductionDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'At GiveHope, we are committed to protecting your privacy and personal information. This Privacy Policy explains how we collect, use, and safeguard your data when you use our donation and micro-payments mobile application.'**
+  String get privacyIntroductionDesc;
+
+  /// No description provided for @privacyInformationWeCollect.
+  ///
+  /// In en, this message translates to:
+  /// **'Information We Collect'**
+  String get privacyInformationWeCollect;
+
+  /// No description provided for @privacyInformationWeCollectDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'We collect information that you provide directly to us, including your name, email address, phone number, and payment information when you create an account, make donations, or create causes. We also collect usage data and device information to improve our services.'**
+  String get privacyInformationWeCollectDesc;
+
+  /// No description provided for @privacyHowWeUse.
+  ///
+  /// In en, this message translates to:
+  /// **'How We Use Your Information'**
+  String get privacyHowWeUse;
+
+  /// No description provided for @privacyHowWeUseDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'We use your information to process donations, manage your account, communicate with you about your transactions, improve our services, and comply with legal obligations. We do not sell your personal information to third parties.'**
+  String get privacyHowWeUseDesc;
+
+  /// No description provided for @privacyDataSecurity.
+  ///
+  /// In en, this message translates to:
+  /// **'Data Security'**
+  String get privacyDataSecurity;
+
+  /// No description provided for @privacyDataSecurityDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'We implement industry-standard security measures to protect your personal information, including encryption, secure authentication, and regular security audits. However, no method of transmission over the internet is 100% secure.'**
+  String get privacyDataSecurityDesc;
+
+  /// No description provided for @privacyThirdParty.
+  ///
+  /// In en, this message translates to:
+  /// **'Third-Party Services'**
+  String get privacyThirdParty;
+
+  /// No description provided for @privacyThirdPartyDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'We use MTN Mobile Money (MoMo) for payment processing. When you make a donation, your payment information is processed securely through MTN\'s payment gateway. Please review MTN\'s privacy policy for information about how they handle your data.'**
+  String get privacyThirdPartyDesc;
+
+  /// No description provided for @privacyYourRights.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Rights'**
+  String get privacyYourRights;
+
+  /// No description provided for @privacyYourRightsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'You have the right to access, update, or delete your personal information at any time. You can also opt-out of certain communications. To exercise these rights, please contact us using the information provided below.'**
+  String get privacyYourRightsDesc;
+
+  /// No description provided for @privacyChildren.
+  ///
+  /// In en, this message translates to:
+  /// **'Children\'s Privacy'**
+  String get privacyChildren;
+
+  /// No description provided for @privacyChildrenDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Our services are not intended for children under the age of 18. We do not knowingly collect personal information from children. If you believe we have collected information from a child, please contact us immediately.'**
+  String get privacyChildrenDesc;
+
+  /// No description provided for @privacyChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes to Privacy Policy'**
+  String get privacyChanges;
+
+  /// No description provided for @privacyChangesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the \"Last updated\" date. You are advised to review this Privacy Policy periodically.'**
+  String get privacyChangesDesc;
+
+  /// No description provided for @privacyContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Us'**
+  String get privacyContact;
+
+  /// No description provided for @privacyContactDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'If you have any questions about this Privacy Policy, please contact us:'**
+  String get privacyContactDesc;
+
+  /// No description provided for @privacyContactEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'fadwa.ali20@gmail.com'**
+  String get privacyContactEmail;
+
+  /// No description provided for @privacyContactUs.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Us'**
+  String get privacyContactUs;
+
+  /// No description provided for @termsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of Service'**
+  String get termsTitle;
+
+  /// No description provided for @termsLastUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Last updated: January 2024'**
+  String get termsLastUpdated;
+
+  /// No description provided for @termsIntroduction.
+  ///
+  /// In en, this message translates to:
+  /// **'Introduction'**
+  String get termsIntroduction;
+
+  /// No description provided for @termsIntroductionDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to GiveHope. These Terms of Service govern your use of our donation and micro-payments mobile application. By using our app, you agree to be bound by these terms. Please read them carefully.'**
+  String get termsIntroductionDesc;
+
+  /// No description provided for @termsAcceptance.
+  ///
+  /// In en, this message translates to:
+  /// **'Acceptance of Terms'**
+  String get termsAcceptance;
+
+  /// No description provided for @termsAcceptanceDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'By accessing or using GiveHope, you agree to comply with and be bound by these Terms of Service. If you do not agree with any part of these terms, you may not use our services.'**
+  String get termsAcceptanceDesc;
+
+  /// No description provided for @termsUseOfService.
+  ///
+  /// In en, this message translates to:
+  /// **'Use of Service'**
+  String get termsUseOfService;
+
+  /// No description provided for @termsUseOfServiceDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'You may use GiveHope to browse causes, make donations, and create causes. You agree to use the service only for lawful purposes and in accordance with these terms. You are responsible for maintaining the confidentiality of your account credentials.'**
+  String get termsUseOfServiceDesc;
+
+  /// No description provided for @termsUserAccounts.
+  ///
+  /// In en, this message translates to:
+  /// **'User Accounts'**
+  String get termsUserAccounts;
+
+  /// No description provided for @termsUserAccountsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'To use certain features, you must create an account. You are responsible for providing accurate information and maintaining the security of your account. You must notify us immediately of any unauthorized use of your account.'**
+  String get termsUserAccountsDesc;
+
+  /// No description provided for @termsDonations.
+  ///
+  /// In en, this message translates to:
+  /// **'Donations and Payments'**
+  String get termsDonations;
+
+  /// No description provided for @termsDonationsDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'All donations are processed through MTN Mobile Money (MoMo). Donations are final and non-refundable unless required by law. We are not responsible for the actions of cause creators or the use of donated funds. Please verify cause information before donating.'**
+  String get termsDonationsDesc;
+
+  /// No description provided for @termsProhibited.
+  ///
+  /// In en, this message translates to:
+  /// **'Prohibited Activities'**
+  String get termsProhibited;
+
+  /// No description provided for @termsProhibitedDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'You agree not to use GiveHope for any illegal activities, fraud, money laundering, or to create false causes. You may not interfere with the operation of the service or attempt to gain unauthorized access to our systems.'**
+  String get termsProhibitedDesc;
+
+  /// No description provided for @termsIntellectual.
+  ///
+  /// In en, this message translates to:
+  /// **'Intellectual Property'**
+  String get termsIntellectual;
+
+  /// No description provided for @termsIntellectualDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'All content, features, and functionality of GiveHope are owned by us and are protected by copyright, trademark, and other intellectual property laws. You may not reproduce, distribute, or create derivative works without our permission.'**
+  String get termsIntellectualDesc;
+
+  /// No description provided for @termsLiability.
+  ///
+  /// In en, this message translates to:
+  /// **'Limitation of Liability'**
+  String get termsLiability;
+
+  /// No description provided for @termsLiabilityDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'GiveHope is provided \"as is\" without warranties of any kind. We are not liable for any damages arising from your use of the service, including but not limited to donation disputes, payment processing issues, or cause-related matters.'**
+  String get termsLiabilityDesc;
+
+  /// No description provided for @termsTermination.
+  ///
+  /// In en, this message translates to:
+  /// **'Termination'**
+  String get termsTermination;
+
+  /// No description provided for @termsTerminationDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'We reserve the right to suspend or terminate your account at any time for violation of these terms or for any other reason we deem necessary. You may also terminate your account at any time by contacting us.'**
+  String get termsTerminationDesc;
+
+  /// No description provided for @termsChanges.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes to Terms'**
+  String get termsChanges;
+
+  /// No description provided for @termsChangesDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'We may modify these Terms of Service at any time. We will notify you of significant changes by posting the updated terms in the app. Your continued use of the service after changes constitutes acceptance of the new terms.'**
+  String get termsChangesDesc;
+
+  /// No description provided for @termsContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Us'**
+  String get termsContact;
+
+  /// No description provided for @termsContactDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'If you have any questions about these Terms of Service, please contact us:'**
+  String get termsContactDesc;
+
+  /// No description provided for @termsContactEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'fadwa.ali20@gmail.com'**
+  String get termsContactEmail;
+
+  /// No description provided for @termsContactUs.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Us'**
+  String get termsContactUs;
+
+  /// No description provided for @faqTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Frequently Asked Questions'**
+  String get faqTitle;
+
+  /// No description provided for @faqSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Find answers to common questions'**
+  String get faqSubtitle;
+
+  /// No description provided for @faqQuestion1.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I make a donation?'**
+  String get faqQuestion1;
+
+  /// No description provided for @faqAnswer1.
+  ///
+  /// In en, this message translates to:
+  /// **'To make a donation, browse the causes on the home screen, select a cause you\'d like to support, and tap the \"Donate\" button. Enter the amount and your MTN MoMo phone number. A payment request will be sent to your phone for approval.'**
+  String get faqAnswer1;
+
+  /// No description provided for @faqQuestion2.
+  ///
+  /// In en, this message translates to:
+  /// **'Is my payment secure?'**
+  String get faqQuestion2;
+
+  /// No description provided for @faqAnswer2.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, all payments are processed securely through MTN Mobile Money (MoMo), a trusted payment gateway. We do not store your payment credentials, and all transactions are encrypted.'**
+  String get faqAnswer2;
+
+  /// No description provided for @faqQuestion3.
+  ///
+  /// In en, this message translates to:
+  /// **'Can I get a refund?'**
+  String get faqQuestion3;
+
+  /// No description provided for @faqAnswer3.
+  ///
+  /// In en, this message translates to:
+  /// **'Donations are generally final and non-refundable. However, if you believe there has been an error or fraud, please contact us immediately at fadwa.ali20@gmail.com with details of your transaction.'**
+  String get faqAnswer3;
+
+  /// No description provided for @faqQuestion4.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I create a cause?'**
+  String get faqQuestion4;
+
+  /// No description provided for @faqAnswer4.
+  ///
+  /// In en, this message translates to:
+  /// **'To create a cause, you need to be logged in. Tap the \"Create Cause\" button, fill in the cause details including name, description, and your MTN MoMo phone number (where you\'ll receive payouts). Submit the form to create your cause.'**
+  String get faqAnswer4;
+
+  /// No description provided for @faqQuestion5.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I receive payouts?'**
+  String get faqQuestion5;
+
+  /// No description provided for @faqAnswer5.
+  ///
+  /// In en, this message translates to:
+  /// **'As a cause owner, you can request payouts from the Payout Management screen. Enter the amount you want to withdraw, and the funds will be transferred to your registered MTN MoMo account. Payouts may take a few minutes to process.'**
+  String get faqAnswer5;
+
+  /// No description provided for @faqQuestion6.
+  ///
+  /// In en, this message translates to:
+  /// **'What if my payment is pending?'**
+  String get faqQuestion6;
+
+  /// No description provided for @faqAnswer6.
+  ///
+  /// In en, this message translates to:
+  /// **'If your payment is pending, check your phone for the MTN MoMo payment request and approve it. If you\'ve already approved but it\'s still pending, wait a few moments as processing can take time. You can also check the donation status in the app.'**
+  String get faqAnswer6;
+
+  /// No description provided for @faqQuestion7.
+  ///
+  /// In en, this message translates to:
+  /// **'How do I view my donation history?'**
+  String get faqQuestion7;
+
+  /// No description provided for @faqAnswer7.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to the History tab and enter your phone number. You\'ll see all your past donations, including the amount, cause, date, and status of each donation.'**
+  String get faqAnswer7;
+
+  /// No description provided for @faqQuestion8.
+  ///
+  /// In en, this message translates to:
+  /// **'Is my personal information safe?'**
+  String get faqQuestion8;
+
+  /// No description provided for @faqAnswer8.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, we take your privacy seriously. We use industry-standard security measures to protect your data. We do not sell your personal information to third parties. For more details, please read our Privacy Policy.'**
+  String get faqAnswer8;
+
+  /// No description provided for @faqStillHaveQuestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Still have questions?'**
+  String get faqStillHaveQuestions;
+
+  /// No description provided for @faqContactUs.
+  ///
+  /// In en, this message translates to:
+  /// **'Feel free to reach out to us via email or use the contact form above.'**
+  String get faqContactUs;
+
+  /// No description provided for @contactTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Us'**
+  String get contactTitle;
+
+  /// No description provided for @contactSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'re here to help. Get in touch with us!'**
+  String get contactSubtitle;
+
+  /// No description provided for @contactEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email Address'**
+  String get contactEmailLabel;
+
+  /// No description provided for @contactEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'fadwa.ali20@gmail.com'**
+  String get contactEmail;
+
+  /// No description provided for @contactCopyEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy email address'**
+  String get contactCopyEmail;
+
+  /// No description provided for @contactEmailCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Email address copied to clipboard'**
+  String get contactEmailCopied;
+
+  /// No description provided for @contactOpenEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Email App'**
+  String get contactOpenEmail;
+
+  /// No description provided for @contactFormTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Send us a Message'**
+  String get contactFormTitle;
+
+  /// No description provided for @contactFormName.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Name'**
+  String get contactFormName;
+
+  /// No description provided for @contactFormNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your full name'**
+  String get contactFormNameHint;
+
+  /// No description provided for @contactFormNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Name is required'**
+  String get contactFormNameRequired;
+
+  /// No description provided for @contactFormEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Email'**
+  String get contactFormEmail;
+
+  /// No description provided for @contactFormEmailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email address'**
+  String get contactFormEmailHint;
+
+  /// No description provided for @contactFormEmailRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Email is required'**
+  String get contactFormEmailRequired;
+
+  /// No description provided for @contactFormEmailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a valid email address'**
+  String get contactFormEmailInvalid;
+
+  /// No description provided for @contactFormSubject.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject'**
+  String get contactFormSubject;
+
+  /// No description provided for @contactFormSubjectHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What is this regarding?'**
+  String get contactFormSubjectHint;
+
+  /// No description provided for @contactFormSubjectRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Subject is required'**
+  String get contactFormSubjectRequired;
+
+  /// No description provided for @contactFormMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get contactFormMessage;
+
+  /// No description provided for @contactFormMessageHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us how we can help...'**
+  String get contactFormMessageHint;
+
+  /// No description provided for @contactFormMessageRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Message is required'**
+  String get contactFormMessageRequired;
+
+  /// No description provided for @contactFormMessageMinLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Message must be at least 10 characters'**
+  String get contactFormMessageMinLength;
+
+  /// No description provided for @contactFormSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Send Message'**
+  String get contactFormSubmit;
+
+  /// No description provided for @contactFormSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Email app opened successfully! Please send your message.'**
+  String get contactFormSuccess;
+
+  /// No description provided for @contactFormError.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open email app. Please try again or email us directly at fadwa.ali20@gmail.com'**
+  String get contactFormError;
+
+  /// No description provided for @contactStillHaveQuestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Still have questions?'**
+  String get contactStillHaveQuestions;
+
+  /// No description provided for @contactContactUs.
+  ///
+  /// In en, this message translates to:
+  /// **'Feel free to reach out to us via email or use the contact form above.'**
+  String get contactContactUs;
 }
 
 class _AppLocalizationsDelegate
