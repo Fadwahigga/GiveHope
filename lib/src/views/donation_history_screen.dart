@@ -62,11 +62,12 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
         _isNoInternet = false;
       });
     } catch (e) {
-      final isNoInternet = NetworkHelper.isNoInternetError(e);
+      // COMMENTED OUT: Internet connection check disabled
+      // final isNoInternet = NetworkHelper.isNoInternetError(e);
       setState(() {
         _error = NetworkHelper.getErrorMessage(e);
         _isLoading = false;
-        _isNoInternet = isNoInternet;
+        _isNoInternet = false; // Always false - no internet check
       });
     }
   }
@@ -179,9 +180,10 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
       return LoadingState(message: l10n.historyLoading);
     }
 
-    if (_isNoInternet) {
-      return NoInternetScreen(onRetry: _searchHistory);
-    }
+    // COMMENTED OUT: No internet screen disabled
+    // if (_isNoInternet) {
+    //   return NoInternetScreen(onRetry: _searchHistory);
+    // }
 
     if (_error != null) {
       return EmptyState.error(

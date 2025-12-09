@@ -73,11 +73,12 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
         _isNoInternet = false;
       });
     } catch (e) {
-      final isNoInternet = NetworkHelper.isNoInternetError(e);
+      // COMMENTED OUT: Internet connection check disabled
+      // final isNoInternet = NetworkHelper.isNoInternetError(e);
       setState(() {
         _error = NetworkHelper.getErrorMessage(e);
         _isLoading = false;
-        _isNoInternet = isNoInternet;
+        _isNoInternet = false; // Always false - no internet check
       });
     }
   }
@@ -118,12 +119,13 @@ class _CauseDetailScreenState extends State<CauseDetailScreen> {
       );
     }
 
-    if (_isNoInternet) {
-      return Scaffold(
-        appBar: AppBar(),
-        body: NoInternetScreen(onRetry: _loadData),
-      );
-    }
+    // COMMENTED OUT: No internet screen disabled
+    // if (_isNoInternet) {
+    //   return Scaffold(
+    //     appBar: AppBar(),
+    //     body: NoInternetScreen(onRetry: _loadData),
+    //   );
+    // }
 
     if (_error != null) {
       return Scaffold(

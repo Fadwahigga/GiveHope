@@ -58,11 +58,12 @@ class _CausesListScreenState extends State<CausesListScreen> {
         _isNoInternet = false;
       });
     } catch (e) {
-      final isNoInternet = NetworkHelper.isNoInternetError(e);
+      // COMMENTED OUT: Internet connection check disabled
+      // final isNoInternet = NetworkHelper.isNoInternetError(e);
       setState(() {
         _error = NetworkHelper.getErrorMessage(e);
         _isLoading = false;
-        _isNoInternet = isNoInternet;
+        _isNoInternet = false; // Always false - no internet check
       });
     }
   }
@@ -261,10 +262,11 @@ class _CausesListScreenState extends State<CausesListScreen> {
                 SliverFillRemaining(
                   child: LoadingState(message: l10n.homeLoading),
                 )
-              else if (_isNoInternet)
-                SliverFillRemaining(
-                  child: NoInternetScreen(onRetry: _loadCauses),
-                )
+              // COMMENTED OUT: No internet screen disabled
+              // else if (_isNoInternet)
+              //   SliverFillRemaining(
+              //     child: NoInternetScreen(onRetry: _loadCauses),
+              //   )
               else if (_error != null)
                 SliverFillRemaining(
                   child: EmptyState.error(

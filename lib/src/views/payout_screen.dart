@@ -69,11 +69,12 @@ class _PayoutScreenState extends State<PayoutScreen> {
         _isNoInternet = false;
       });
     } catch (e) {
-      final isNoInternet = NetworkHelper.isNoInternetError(e);
+      // COMMENTED OUT: Internet connection check disabled
+      // final isNoInternet = NetworkHelper.isNoInternetError(e);
       setState(() {
         _error = NetworkHelper.getErrorMessage(e);
         _isLoading = false;
-        _isNoInternet = isNoInternet;
+        _isNoInternet = false; // Always false - no internet check
       });
     }
   }
@@ -188,12 +189,13 @@ class _PayoutScreenState extends State<PayoutScreen> {
       );
     }
 
-    if (_isNoInternet) {
-      return Scaffold(
-        appBar: AppBar(title: Text(l10n.payoutTitle)),
-        body: NoInternetScreen(onRetry: _loadData),
-      );
-    }
+    // COMMENTED OUT: No internet screen disabled
+    // if (_isNoInternet) {
+    //   return Scaffold(
+    //     appBar: AppBar(title: Text(l10n.payoutTitle)),
+    //     body: NoInternetScreen(onRetry: _loadData),
+    //   );
+    // }
 
     if (_error != null) {
       return Scaffold(
